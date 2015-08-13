@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    {% for course in courses %}
+	<div class="row">
+	    <div class="large-12 columns">
+		<div class="panel">
+		    <div class="row">
+			<div class="large-10 columns">
+			    <h2>{{ course[0] }}</h2>
+			</div>
+			<div class="large-2 columns text-right">
+			    {% if course[2] == course[3] %}
+				<a href="#" class="button tiny round green">View Grades</a>
+			    {% else %}
+				<a href="#" class="button tiny round">Continue</a>
+			    {% endif %}
+			</div>
+		    </div>
+		    <div class="row">
+			<div class="large-8 large-offset-2 columns">
+			    <p>{{ course[1] }}</p>
+			</div>
+		    </div>
+		    <div class="progress large-10 large-offset-1 round">
+			<span class="meter" style="width: {{ (course[2] / course[3]) * 100}}%">
+			    <p>{{ course[2] }} / {{ course[3] }}</p>
+			</span>
+		    </div>
+		</div>
+	    </div>
+	</div>
+    {% endfor %}
+</div>
+{% endblock %}

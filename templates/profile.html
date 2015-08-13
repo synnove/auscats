@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+	<div class="large-5 large-offset-1 columns">
+	    <div class="panel profilepic text-center">
+		<img src="nova.jpg">
+	    </div>
+	</div>
+	<div class="large-5 columns end">
+	    <div class="panel">
+		<h2>About Me</h2>
+		<p>
+		<b>Name:</b> {{ user['name'] }}<br>
+		<b>OrgUnit:</b> {{ user['orgunit'] }}<br>
+		<b>Favourite Cat:</b> {{ user['cat'] }}<br>
+		<b>Blah:</b> {{ user['bleh'] }}<br>
+		</p>
+		<div class="profile text-right">
+		    <a href="#" class="button tiny round">Edit Profile 
+			<i class="fi-pencil"></i></a> 
+		</div>
+	    </div>
+	</div>
+</div>
+{% endblock %}

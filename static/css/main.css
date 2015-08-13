@@ -1,52 +1,74 @@
 body {
     background-color: #f0f0f0;
     height: 100%;
-    overflow-y: hidden;
     font-family: 'Ubuntu', 'Roboto', sans-serif;
 }
 
-.title-area img {
-    max-height: 45px;
+h1, h2, h3, h4, h5, h6 {
+    color: #555555 !important;
+    font-weight: bolder;
 }
 
-.side-nav {
-    position: fixed;
-    background: #272930;
-    height: 100%;
-    width: 14.5%;
-    font-weight: bold;
+.red {
+    background-color: #e3798e !important;
 }
 
-.side-nav li.divider {
-    border-top-color: #404060;
+.green {
+    background-color: #569f3f !important;
 }
 
-.container {
-    margin: 2% 2% 2% 15%;
+.yellow {
+    background-color: #f4e482 !important;
 }
 
 .panel {
-    background: #ffffff;
-    padding: 1.111rem 0 0 0;
+    background-color: #ffffff;
 }
 
-.panel h1, h2 {
-    margin-left: 1.111rem;
-    font-size: 1.5em;
-    color: #666666;
-    font-weight: normal;
-    font-family: 'Ubuntu', 'Roboto', sans-serif;
+.container {
+    padding: 2rem;
 }
 
-.panel h2 {
-    font-size: 1em;
-    color: #999999;
-    font-family: 'Ubuntu', 'Roboto', sans-serif;
+.pricing-table .title {
+    font-weight: bold;
+    padding: 0.3rem 1rem;
 }
 
-.colorbar {
-    background: #222222;
-    padding : 0.4rem 1.111rem;
+.pricing-table .price {
+    font-weight: bold;
+    color: #888888;
+    background-color: #ffffff;
+    padding: 1rem;
+    padding-bottom: 2rem;
+}
+
+.fi-pencil, .fi-torso, .fi-widget {
+    opacity: 0.7;
     color: #ffffff;
-    font-size: 1em;
+    font-size: 2em;
+}
+
+.progress {
+    background-color: #CCCCCC;
+}
+
+.progress p {
+    color: #ffffff;
+    font-weight: bolder;
+    font-size: 0.8em;
+    padding: 0 0.5rem;
+}
+
+.profilepic img {
+    width: 15rem;
+    height: 15rem;
+}
+
+.profile .button {
+    margin-bottom: 0 !important;
+}
+
+.profile .button .fi-pencil {
+    font-size: 1.2em;
+    padding-left: 0.5rem;
 }

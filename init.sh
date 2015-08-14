@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#source - m-emerson
+
 function init {
     uwsgi-2.7 --module app --callable app --ini uwsgi.ini
 }

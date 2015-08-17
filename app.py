@@ -13,20 +13,6 @@ def frontPage():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     return render_template('index.html', name=user_info['name'])
 
-@app.route("/crystal")
-def ME():
-    user_info = json.loads(request.headers.get('X-KVD-Payload'))
-    return render_template('crystal.html', name=user_info['name'],
-	    THINGS = "RABBITS")
-
-@app.route("/profile")
-def profilePage():
-    user = {'name': 'Crystal',
-	    'orgunit': 'ITS',
-	    'cat': 'Synnove',
-	    'bleh': 'meh'}
-    return render_template('profile.html', user=user)
-
 @app.route("/course")
 def courseDefault():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
@@ -37,8 +23,14 @@ def courseDefault():
     return render_template('course.html', courses = courselist, name=user_info['name'])
 
 @app.route("/course/<courseid>", methods=['GET', 'POST'])
-def coursePage():
-    return render_template('course.html')
+def coursePage(courseid):
+    user_info = json.loads(request.headers.get('X-KVD-Payload'))
+    slides = [{'title' : 'Nova', 
+	'contents' : ['Norwegian Forest Cat', '7 months old']}, 
+	{'title' : 'Pretzel',
+	    'contents' : ['Domestic Shorthair', '5 months old']} ]
+    return render_template('module.html', name = user_info['name'],
+	    coursetitle = courseid, slides = slides)
 
 @app.route("/project")
 def login():

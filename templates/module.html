@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+<link rel="stylesheet" href="../static/css/reveal.css">
+<link rel="stylesheet" href="../static/css/theme/black.css" id="theme">
+{% endblock %}
+
+{% block content %}
+	<div class="text-center">
+	    <h2>{{ coursetitle }}</h2>
+	</div>
+    <div class="reveal">
+	<div class="slides">
+	    {% for slide in slides %}
+		<section>
+		<h2>{{ slide['title'] }}</h2>
+		{% for line in slide['contents'] %}
+		    <p>{{ line }}</p>
+		{% endfor %}
+		</section>
+		<section>
+		    <section>
+			test
+		    </section>
+		    <section>
+			test
+		    </section>
+		</section>
+	    {% endfor %}
+	</div>
+    </div>
+    <script src="../static/lib/js/head.min.js"></script>
+    <script src="../static/js/reveal.js"></script>
+    <script>                                                        
+	Reveal.initialize({                                     
+	    width: 800,
+	    height: 1200,
+	    minScale: 0.5,
+	    maxScale: 2.5,
+	    controls: true,                                 
+	    progress: true,                                 
+	    history: true,                                  
+	    center: true,                                   
+	    loop: true,
+	    embedded: true
+	});
+    </script>    
+</div>
+{% endblock %}

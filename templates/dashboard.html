@@ -2,11 +2,11 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
-	<div class="large-4 small-12 columns text-center">
+    <div class="row" data-equalizer>
+	<div class="large-8 small-12 columns text-center">
 	    <ul class="pricing-table">
-		<li class="price text-left">Courses</li>
-		<a href="/course">
+		<li class="price text-left" data-equalizer-watch>View/ Edit Courses</li>
+		<a href="/edit">
 		    <li class="title text-right">
 		    <i class="fi-pencil"></i></li>
 		</a>
@@ -14,17 +14,8 @@
 	</div>
 	<div class="large-4 small-12 columns text-center">
 	    <ul class="pricing-table">
-		<li class="price text-left">Profile</li>
-		<a href="/profile">
-		    <li class="title text-right red">
-		    <i class="fi-torso"></i></li>
-		</a>
-	    </ul>
-	</div>
-	<div class="large-4 small-12 columns text-center">
-	    <ul class="pricing-table">
-		<li class="price text-left">Settings</li>
-		<a href="#">
+		<li class="price text-left" data-equalizer-watch>Manage Users</li>
+		<a href="/admin">
 		    <li class="title text-right green">
 		    <i class="fi-widget"></i></li>
 		</a>
@@ -33,9 +24,12 @@
     </div>
     <div class="row">
 	<div class="large-12 small-12 columns text-center">
-	    <div class="panel">
-		//
-	    </div>
+	    <ul class="pricing-table">
+		<li class="title text-right red">
+		<i class="fi-magnifying-glass"></i></li>
+		<li class="price text-left" data-equalizer-watch>Filter By:
+		</li>
+	    </ul>
 	</div>
     </div>
 </div>

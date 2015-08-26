@@ -1,16 +1,25 @@
 import MySQLdb.cursors
 import hashlib
 
-db = None
-
 def get_course_info():
     courses = list()
-    db = do_mysql_connect()
-    cur = db.cursor()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
     cur.execute("SELECT * FROM COURSES")
     for row in cur.fetchall():
 	courses.append(row)
+    conn.close()
     return courses
+
+def get_admin_user_list():
+    admin = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT userid FROM ADMIN")
+    for row in cur.fetchall():
+	admin.append(row['userid'])
+    conn.close()
+    return admin
 
 def read_mysql_password():
     f = open('mysql.passwd', 'r')
@@ -19,9 +28,7 @@ def read_mysql_password():
     return passwd.rstrip()
 
 def do_mysql_connect():
-    global db
-    if db == None:
-	db = MySQLdb.connect(db='auscats', host='localhost', port=3306, 
-		user='root', passwd=read_mysql_password(), 
-		cursorclass=MySQLdb.cursors.DictCursor)
-    return db
+    conn = MySQLdb.connect(db='auscats', host='localhost', port=3306, 
+	    user='root', passwd=read_mysql_password(), 
+	    cursorclass=MySQLdb.cursors.DictCursor)
+    return conn

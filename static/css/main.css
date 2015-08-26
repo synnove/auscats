@@ -1,6 +1,11 @@
+/* OVERWRITING DEFAULT TAGS */
 body {
     background-color: #f0f0f0;
     height: 100%;
+    font-family: 'Ubuntu', 'Roboto', sans-serif;
+}
+
+p {
     font-family: 'Ubuntu', 'Roboto', sans-serif;
 }
 
@@ -9,6 +14,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bolder;
 }
 
+/* DEFINING COLOURS */
 .red {
     background-color: #e3798e !important;
 }
@@ -25,6 +31,18 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #ffffff;
 }
 
+/* ICONS */
+.fi-pencil, .fi-torso, .fi-widget, .fi-magnifying-glass {
+    opacity: 0.7;
+    color: #ffffff;
+    font-size: 2em;
+}
+
+.fi-alert {
+    color: #ff0000;
+    font-size: 3em;
+}
+
 .container {
     padding: 2rem;
 }
@@ -35,17 +53,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .pricing-table .price {
-    font-weight: bold;
     color: #888888;
     background-color: #ffffff;
     padding: 1rem;
     padding-bottom: 2rem;
-}
-
-.fi-pencil, .fi-torso, .fi-widget {
-    opacity: 0.7;
-    color: #ffffff;
-    font-size: 2em;
 }
 
 .progress {
@@ -57,23 +68,4 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bolder;
     font-size: 0.8em;
     padding: 0 0.5rem;
-}
-
-.profilepic img {
-    width: 15rem;
-    height: 15rem;
-}
-
-.profile .button {
-    margin-bottom: 0 !important;
-}
-
-.profile .button .fi-pencil {
-    font-size: 1.2em;
-    padding-left: 0.5rem;
-}
-
-.module-content {
-    height: 25rem;
-    padding: 0 !important;
 }

@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row" data-equalizer>
+	<div class="large-7 small-12 columns text-center">
+	    <ul class="pricing-table">
+		<li class="price text-left">View/ Edit Courses</li>
+		<li class="description text-left" data-equalizer-watch>
+		<ul class="accordion" data-accordion>
+		    <li class="accordion-navigation">
+			<a href="#recent_mods"><p><b>Recently Updated Modules</b></p></a>
+			<div id="recent_mods" class="content active">
+			    <table>
+				<thead>
+				    <tr>
+					<th width="200">Module Title</th>
+					<th width="100">Edited By</th>
+					<th width="200">Last Edited</th>
+				    </tr>
+				</thead>
+				<tbody>
+				<tr>
+				    <td>All About Cats</td>
+				    <td>Crystal</td>
+				    <td>1 Sep 2015 14:20</td>
+				</tr>
+				</tbody>
+			    </table>
+			</div>
+		    </li>
+		    <li class="accordion-navigation">
+			<a href="#req_mods"><p><b>Modules Requiring Update</b></p></a>
+			<div id="req_mods" class="content">
+			    <table>
+				<thead>
+				    <tr>
+					<th width="200">Module Title</th>
+					<th width="100">Edited By</th>
+					<th width="200">Last Edited</th>
+				    </tr>
+				</thead>
+				<tbody>
+				<tr>
+				    <td>All About Cats</td>
+				    <td>Crystal</td>
+				    <td>1 Sep 2015 14:20</td>
+				</tr>
+				</tbody>
+			    </table>
+			</div>
+		    </li>
+		</ul>
+		</li>
+		<a href="/edit">
+		    <li class="title text-right blue">
+		    <span class="t-align">More Options&emsp;</span>
+		    <i class="fi-pencil"></i></li>
+		</a>
+	    </ul>
+	</div>
+	<div class="large-5 small-12 columns text-center">
+	    <ul class="pricing-table">
+		<li class="price text-left">Manage Administrators</li>
+		<li class="description text-left" data-equalizer-watch>
+		<form>
+		    <div class="row">
+			<div class="large-12 columns">
+			    <label><b>Add new Administrator</b>
+				<input type="text" placeholder="Enter UQ ID" />
+			    </label>
+			</div>
+		    </div>
+		    <div class="row">
+			<div class="large-12 columns">
+			<label><b>Select Permissions</b></label>
+			<input id="checkbox1" type="checkbox">
+			<label for="checkbox1">Write access to modules</label>
+			<br>
+			<input id="checkbox2" type="checkbox">
+			<label for="checkbox2">Read access to data</label>
+			</div>
+		    </div>
+		    <div class="row">
+			<div class="large-12 columns text-right">
+			    <input type="submit" class="tiny round green button" value="Submit" />
+			</div>
+		    </div>
+		</form>
+		</li>
+		<a href="/admin">
+		    <li class="title text-right blue">
+		    <span class="t-align">More Options&emsp;</span>
+		    <i class="fi-wrench"></i>
+		    </li>
+		</a>
+	    </ul>
+	</div>
+    </div>
+    <div class="row">
+	<div class="large-12 small-12 columns text-center">
+	    <ul class="pricing-table">
+		<li class="title text-right blue">
+		<i class="fi-magnifying-glass"></i></li>
+		<li class="price text-left" data-equalizer-watch>Filter By:
+		</li>
+	    </ul>
+	</div>
+    </div>
+</div>
+{% endblock %}

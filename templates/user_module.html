@@ -26,6 +26,7 @@
 		</div>
 	
 	<div class="slides">
+	    <!-- LECTURE SEGMENT -->
 	    {% for slide in slides %}
 		<section>
 		<h1>{{ slide['title'] }}</h1>
@@ -34,6 +35,7 @@
 		{% endfor %}
 		</section>
 	    {% endfor %}
+	    <!-- QUIZ SEGMENT -->
 	    <section>
 		<h3> Which is your favourite cat? </h3>
 		<form id = "bestKitty">

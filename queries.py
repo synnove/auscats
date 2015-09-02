@@ -5,7 +5,7 @@ def get_course_info():
     courses = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM COURSES")
+    cur.execute("SELECT * FROM MODULES")
     for row in cur.fetchall():
 	courses.append(row)
     conn.close()

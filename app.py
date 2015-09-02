@@ -1,4 +1,3 @@
-from KV import KV
 from flask import Flask
 from flask import render_template, request, redirect, send_file, url_for
 import io
@@ -17,9 +16,10 @@ def frontPage():
 
     courses = db.get_course_info()
     if user_info['user'] in admin_list:
-	return render_template('dashboard.html', name = user_info['name'], 
+	return render_template('admin_dashboard.html', 
+		name = user_info['name'], 
 		is_admin = True)
-    return render_template('course.html', name=user_info['name'],
+    return render_template('user_course.html', name=user_info['name'],
 	    courses = courses, is_admin = False)
 
 # USER PAGES
@@ -30,7 +30,7 @@ def courseDefault():
 
     courses = db.get_course_info()
     if user_info['user'] not in admin_list:
-	return render_template('course.html', name=user_info['name'],
+	return render_template('user_course.html', name=user_info['name'],
 		courses = courses, is_admin = False)
     return redirect(url_for('dashboard'))
 
@@ -48,7 +48,7 @@ def coursePage(courseid):
 	{'title' : 'Kitty',
 	    'contents' : ['Turkish Van', '0 months old']} ]
     if user_info['user'] not in admin_list:
-	return render_template('module.html', name = user_info['name'],
+	return render_template('user_module.html', name = user_info['name'],
 		coursetitle = courseid, slides = slides, is_admin = False)
     return redirect(url_for('dashboard'))
 
@@ -58,7 +58,8 @@ def dashboard():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list();
     if user_info['user'] in admin_list:
-	return render_template('dashboard.html', name = user_info['name'],
+	return render_template('admin_dashboard.html', 
+		name = user_info['name'],
 		is_admin = True)
     return render_template('unauthorized.html', name=user_info['name'], 
 	    is_admin = False)
@@ -68,7 +69,7 @@ def admin():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list();
     if user_info['user'] in admin_list:
-	return render_template('dashboard.html', name = user_info['name'],
+	return render_template('admin_dashboard.html', name = user_info['name'],
 		is_admin = True)
     return render_template('unauthorized.html', name=user_info['name'],
 	    is_admin = False)
@@ -78,7 +79,7 @@ def modcourse():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list();
     if user_info['user'] in admin_list:
-	return render_template('dashboard.html', name = user_info['name'],
+	return render_template('admin_dashboard.html', name = user_info['name'],
 		is_admin = True)
     return render_template('unauthorized.html', name=user_info['name'],
 	    is_admin = False)

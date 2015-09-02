@@ -17,7 +17,7 @@
 					    <h3>{{ course['NAME'] }}</h3>
 					</div>
 					<div class="large-2 columns text-right">
-					    {% if course['CID'] >= 3 %}
+					    {% if course['MID'] >= 3 %}
 					    <a href="/course/{{course['NAME']}}" class="button tiny round green">View Grades</a>
 					    {% else %}
 					    <a href="/course/{{course['NAME']}}" class="button tiny round">Continue</a>

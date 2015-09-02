@@ -6,20 +6,25 @@
 {% endblock %}
 
 {% block content %}
-    <div id = "promptAnswer" class = "reveal-modal small" data-reveal aria-labelledby="stop" aria-hidden = "true" role = "dialog">
-	<h3 id = "stopModalTitle"> You have not selected an option! </h3>
-	<p>You cannot proceed to the next slide without completing the question.</p>
-	<a class="close-reveal-modal" aria-label="Close">&#215;</a>
-    </div>
-    <div id = "promptSelect" class = "reveal-modal small" data-reveal aria-labelledby="stop" aria-hidden = "true" role = "dialog">
-	<h3 id = "stopModalTitle"> Please select only one option! </h3>
-	<p>You have selected more than one answer. Please go back and correct this.</p>
-	<a class="close-reveal-modal" aria-label="Close">&#215;</a>
-    </div>
-    <div class="reveal">
-	<div class="small-12 columns text-center">
-	    <h4>module - {{ coursetitle }}</h4>
+	<!-- Pop-up message in case the user submits a quiz without selecting an answer -->
+	 <div id = "promptAnswer" class = "reveal-modal small" data-reveal aria-labelledby="stop" aria-hidden = "true" role = "dialog">
+		<h3 id = "stopModalTitle"> You have not selected an option! </h3>
+		<p>You cannot proceed to the next slide without completing the question.</p>
+		<a class="close-reveal-modal" aria-label="Close">&#215;</a>
 	</div>
+
+	<!-- Pop-up message in case the user selects more than one answer in a quiz -->
+	<div id = "promptSelect" class = "reveal-modal small" data-reveal aria-labelledby="stop" aria-hidden = "true" role = "dialog">
+		<h3 id = "stopModalTitle"> Please select only one option! </h3>
+		<p>You have selected more than one answer test . Please go back and correct this.</p>
+		<a class="close-reveal-modal" aria-label="Close">&#215;</a>
+	</div>
+
+   	 <div class="reveal">
+		<div class="small-12 columns text-center">
+	    		<h4>module - {{ coursetitle }}</h4>
+		</div>
+	
 	<div class="slides">
 	    {% for slide in slides %}
 		<section>

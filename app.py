@@ -17,7 +17,7 @@ def frontPage():
     modules = db.get_module_info()
     if user_info['user'] in admin_list:
 	return redirect(url_for('dashboard'))
-    return render_template('user_course.html', name=user_info['name'],
+    return render_template('user_module_list.html', name=user_info['name'],
 	    modules = modules, is_admin = False)
 
 @app.route("/modules")
@@ -27,12 +27,12 @@ def courseDefault():
 
     modules = db.get_module_info()
     if user_info['user'] not in admin_list:
-	return render_template('user_course.html', name=user_info['name'],
+	return render_template('user_module_list.html', name=user_info['name'],
 		modules = modules, is_admin = False)
     return redirect(url_for('dashboard'))
 
-@app.route("/module/<moduleid>", methods=['GET', 'POST'])
-def coursePage(moduleid):
+@app.route("/module/<module_id>", methods=['GET', 'POST'])
+def coursePage(module_id):
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
 
@@ -46,7 +46,7 @@ def coursePage(moduleid):
 	    'contents' : ['Turkish Van', '0 months old']} ]
     if user_info['user'] not in admin_list:
 	return render_template('user_module.html', name = user_info['name'],
-		coursetitle = courseid, slides = slides, is_admin = False)
+		module_title = module_id, slides = slides, is_admin = False)
     return redirect(url_for('dashboard'))
 
 # ADMIN PAGES

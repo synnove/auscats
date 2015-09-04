@@ -27,6 +27,11 @@ input[type="text"] {
     margin-top: 0.5rem;
 }
 
+select {
+    margin-top: 0.5rem;
+    height: 2rem;
+}
+
 /* DEFINING COLOURS */
 .green {
     background-color: #8bc641 !important;

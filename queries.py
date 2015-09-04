@@ -15,9 +15,9 @@ def get_admin_user_list():
     admin = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT userid FROM ADMIN")
+    cur.execute("SELECT user_id FROM ADMIN")
     for row in cur.fetchall():
-	admin.append(row['userid'])
+	admin.append(row['user_id'])
     conn.close()
     return admin
 

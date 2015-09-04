@@ -22,7 +22,6 @@ def frontPage():
     return render_template('user_course.html', name=user_info['name'],
 	    courses = courses, is_admin = False)
 
-# USER PAGES
 @app.route("/courses")
 def courseDefault():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
@@ -64,6 +63,15 @@ def dashboard():
     return render_template('unauthorized.html', name=user_info['name'], 
 	    is_admin = False)
 
+@app.route("/download/", methods=['GET', 'POST'])
+def download_csv():
+    user_info = json.loads(request.headers.get('X-KVD-Payload'))
+    admin_list = db.get_admin_user_list();
+    if user_info['user'] in admin_list:
+	data = request.get_json()
+    return render_template('unauthorized.html', name=user_info['name'],
+	    is_admin = False)
+    
 @app.route("/admin")
 def admin():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))

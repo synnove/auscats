@@ -1,15 +1,15 @@
 import MySQLdb.cursors
 import hashlib
 
-def get_course_info():
-    courses = list()
+def get_module_info():
+    modules = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("SELECT * FROM MODULES")
     for row in cur.fetchall():
-	courses.append(row)
+	modules.append(row)
     conn.close()
-    return courses
+    return modules
 
 def get_admin_user_list():
     admin = list()
@@ -20,6 +20,16 @@ def get_admin_user_list():
 	admin.append(row['user_id'])
     conn.close()
     return admin
+
+def get_org_unit_info():
+    org_units = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT UNIT_ID, UNIT_NAME FROM ORG_UNITS")
+    for row in cur.fetchall():
+	org_units.append(row)
+    conn.close()
+    return org_units
 
 def read_mysql_password():
     f = open('mysql.passwd', 'r')

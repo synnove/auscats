@@ -2,11 +2,11 @@
 
 {% block content %}
 <div class="container">
-    <div class="row" data-equalizer>
+    <div class="row" data-equalizer="blocks">
 	<div class="large-7 small-12 columns text-center">
 	    <ul class="pricing-table">
 		<li class="price text-left">View/ Edit Courses</li>
-		<li class="description text-left" data-equalizer-watch>
+		<li class="description text-left" data-equalizer-watch="blocks">
 		<ul class="accordion" data-accordion>
 		    <li class="accordion-navigation">
 			<a href="#recent_mods"><p><b>Recently Updated Modules</b></p></a>
@@ -62,7 +62,7 @@
 	<div class="large-5 small-12 columns text-center">
 	    <ul class="pricing-table">
 		<li class="price text-left">Manage Administrators</li>
-		<li class="description text-left" data-equalizer-watch>
+		<li class="description text-left" data-equalizer-watch="blocks">
 		<form>
 		    <div class="row">
 			<div class="large-12 columns">
@@ -102,42 +102,36 @@
 	    <ul class="pricing-table">
 		<li class="title text-right blue">
 		<i class="fi-magnifying-glass"></i></li>
-		<li class="price text-left" data-equalizer-watch>Filter By:
+		<li class="price text-left">Filter By:
 		</li>
-		<li class="description text-left" data-equalizer-watch>
+		<li class="description text-left">
 		<form>
-		    <div class="row">
-			<div class="large-3 small-12 columns">
+		    <div class="row" data-equalizer="form">
+			<div class="large-4 small-12 columns" data-equalizer-watch="form">
 			    <label>Module
 			    <select>
-			    <option value="husker">Husker</option>
-			    <option value="starbuck">Starbuck</option>
-			    <option value="hotdog">Hot Dog</option>
-			    <option value="apollo">Apollo</option>
+			    {% for module in modules %}
+			    <option value="{{ module['MODULE_ID'] }}">{{ module['NAME'] }}</option>
+			    {% endfor %}
 			    </select>
 			    </label>
 			</div>
-			<div class="large-3 small-12 columns">
+			<div class="large-4 small-12 columns" data-equalizer-watch="form">
 			    <label>Org Unit
 			    <select>
-			    <option value="husker">Husker</option>
-			    <option value="starbuck">Starbuck</option>
-			    <option value="hotdog">Hot Dog</option>
-			    <option value="apollo">Apollo</option>
+			    {% for org_unit in org_units %}
+			    <option value="{{ org_unit['UNIT_ID'] }}">{{ org_unit['UNIT_NAME'] }}</option>
+			    {% endfor %}
 			    </select>
 			    </label>
 			</div>
-			<div class="large-3 small-12 columns">
+			<div class="large-3 small-12 columns" data-equalizer-watch="form">
 			    <label>User
-			    <select>
-			    <option value="husker">Husker</option>
-			    <option value="starbuck">Starbuck</option>
-			    <option value="hotdog">Hot Dog</option>
-			    <option value="apollo">Apollo</option>
-			    </select>
+				<input type="text" placeholder="Enter UQ ID" />
 			    </label>
 			</div>
-			<div class="large-3 small-12 columns text-right">
+			<div class="large-1 small-12 columns text-right bottom" data-equalizer-watch="form">
+			    <label><br></label>
 			    <input type="submit" class="tiny round green button" value="Submit" />
 			</div>
 		    </div>

@@ -14,27 +14,25 @@ def frontPage():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
 
-    courses = db.get_course_info()
+    modules = db.get_module_info()
     if user_info['user'] in admin_list:
-	return render_template('admin_dashboard.html', 
-		name = user_info['name'], 
-		is_admin = True)
+	return redirect(url_for('dashboard'))
     return render_template('user_course.html', name=user_info['name'],
-	    courses = courses, is_admin = False)
+	    modules = modules, is_admin = False)
 
-@app.route("/courses")
+@app.route("/modules")
 def courseDefault():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
 
-    courses = db.get_course_info()
+    modules = db.get_module_info()
     if user_info['user'] not in admin_list:
 	return render_template('user_course.html', name=user_info['name'],
-		courses = courses, is_admin = False)
+		modules = modules, is_admin = False)
     return redirect(url_for('dashboard'))
 
-@app.route("/course/<courseid>", methods=['GET', 'POST'])
-def coursePage(courseid):
+@app.route("/module/<moduleid>", methods=['GET', 'POST'])
+def coursePage(moduleid):
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
 
@@ -55,11 +53,15 @@ def coursePage(courseid):
 @app.route("/dashboard")
 def dashboard():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
-    admin_list = db.get_admin_user_list();
+    admin_list = db.get_admin_user_list()
+
+    modules = db.get_module_info()
+    org_units = db.get_org_unit_info()
+
     if user_info['user'] in admin_list:
 	return render_template('admin_dashboard.html', 
-		name = user_info['name'],
-		is_admin = True)
+		name = user_info['name'], modules = modules,
+		org_units = org_units, is_admin = True)
     return render_template('unauthorized.html', name=user_info['name'], 
 	    is_admin = False)
 
@@ -67,6 +69,7 @@ def dashboard():
 def download_csv():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list();
+
     if user_info['user'] in admin_list:
 	data = request.get_json()
     return render_template('unauthorized.html', name=user_info['name'],
@@ -76,6 +79,7 @@ def download_csv():
 def admin():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list();
+
     if user_info['user'] in admin_list:
 	return render_template('admin_dashboard.html', name = user_info['name'],
 		is_admin = True)
@@ -86,6 +90,7 @@ def admin():
 def modcourse():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list();
+
     if user_info['user'] in admin_list:
 	return render_template('admin_dashboard.html', name = user_info['name'],
 		is_admin = True)

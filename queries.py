@@ -2,14 +2,33 @@ import MySQLdb.cursors
 import hashlib
 
 def get_module_info():
+    """ Returns a list of tuples containing the each row of data in the MODULES table 
+	get_module_info() ---> List<Tuple> """
     modules = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("SELECT * FROM MODULES")
-    for row in cur.fetchall():
+    rows = cur.fetchall()
+
+    for row in rows:
 	modules.append(row)
     conn.close()
     return modules
+
+def get_quiz_question_info():
+    """ Returns a list of tuples containing each row of data in the QUIZ_QUESTIONS table
+	get_quiz_info() ---> List<Tuple> """
+    quizes = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM QUIZ_QUESTIONS")
+    rows = cur.fetchall()
+    
+    for row in rows:
+	quizes.append(row)
+    conn.close()
+    return quizes
+
 
 def get_admin_user_list():
     admin = list()

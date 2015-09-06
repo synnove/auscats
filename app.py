@@ -1,5 +1,6 @@
 from flask import Flask
-from flask import render_template, request, redirect, send_file, url_for
+from flask import render_template, request, redirect, send_file, url_for, make_response
+import csv
 import io
 import json
 import queries as db
@@ -65,15 +66,14 @@ def dashboard():
     return render_template('unauthorized.html', name=user_info['name'], 
 	    is_admin = False)
 
-@app.route("/download/", methods=['GET', 'POST'])
-def download_csv():
-    user_info = json.loads(request.headers.get('X-KVD-Payload'))
-    admin_list = db.get_admin_user_list();
-
-    if user_info['user'] in admin_list:
-	data = request.get_json()
-    return render_template('unauthorized.html', name=user_info['name'],
-	    is_admin = False)
+@app.route("/download/<filters>", methods=['GET', 'POST'])
+def download_csv(filters):
+    # remember to parse filters and use them to modify query
+    data = db.get_data_for_csv()
+    csv = make_csv(data,["USER_ID","ORG_UNIT","MODULE_ID","QUESTION_ID","ANSWER_ID"])
+    response = make_response(csv)
+    response.headers["Content-Disposition"] = "attachment; filename=results.csv"
+    return response
     
 @app.route("/admin")
 def admin():
@@ -96,6 +96,22 @@ def modcourse():
 		is_admin = True)
     return render_template('unauthorized.html', name=user_info['name'],
 	    is_admin = False)
+
+def make_csv(data, headers):
+    data_list = []
+    csv = ""
+
+    data_list.append(",".join(headers))
+    for row in data:
+	curr_row = []
+	for item in headers:
+	    curr_row.append(str(row[item]))
+	data_list.append(",".join(curr_row))
+    for row in data_list:
+	csv += row
+	csv += "\n"
+    return csv
+
 
 # DO NOT TOUCH THIS SECTION DO NOT DO IT I WILL KNOW AND I WILL SMACK YOU
 if __name__ == "__main__":

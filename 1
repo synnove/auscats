@@ -2,6 +2,8 @@ import MySQLdb.cursors
 import hashlib
 
 def get_module_info():
+    """ Returns a list of tuples containing the each row of data in the MODULES table 
+	get_module_info() ---> List[Dict{'Attribute' : Value }]   """
     modules = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
@@ -25,7 +27,10 @@ def get_active_modules():
     conn.close()
     return active_modules
 
+
 def get_quiz_questions():
+    """ Returns a list of tuples containing each row of data in the QUIZ_QUESTIONS table
+	gte_quiz_question_info ---> List<Tuple> """
     quiz_questions = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
@@ -38,6 +43,10 @@ def get_quiz_questions():
     return quiz_questions
 
 def get_quiz_answers():
+    """ Returns a list of dictionaries containing the attributes of the QUIZ_ANSWERS table  as keys
+	and the value of each
+	
+	get_quiz_answers() ---> List[Dict{'Attribute' : Value }] """
     quiz_answers = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
@@ -47,12 +56,12 @@ def get_quiz_answers():
     for row in rows:
 	quiz_answers.append(row)
     conn.close()
-    return quiz_answers
+    return quiz_answers	    
 
 def get_gradebook():
     gradebook = list()
     conn = do_mysql_connect()
-    cur = conn.cursor()
+    cur conn.cursor()
     cur.execute("SELECT user_id, question_id FROM GRADEBOOK")
     rows = cur.fetchall()
 

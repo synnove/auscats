@@ -8,25 +8,25 @@
 	    <a href="#incomplete">Modules In Progress</a>
 		<div id="incomplete" class="content active">
 		    <!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS -->
-		    {% for module in modules %}
+		    {% for module in active_modules %}
 			<div class="row">
 			    <div class="large-12 columns">
 				<div class="panel">
 				    <div class="row">
 					<div class="large-10 columns text-left">
-					    <h3>{{ module['NAME'] }}</h3>
+					    <h3>{{ module['name'] }}</h3>
 					</div>
 					<div class="large-2 columns text-right">
-					    {% if module['MODULE_ID'] >= 3 %}
-					    <a href="/module/{{module['NAME']}}" class="button tiny round green">View Grades</a>
+					    {% if module['module_id'] >= 3 %}
+					    <a href="/module/{{module['name']}}" class="button tiny round green">View Grades</a>
 					    {% else %}
-					    <a href="/module/{{module['NAME']}}" class="button tiny round">Continue</a>
+					    <a href="/module/{{module['name']}}" class="button tiny round">Continue</a>
 					    {% endif %}
 					</div>
 				    </div>
 				    <div class="row">
 					<div class="large-10 large-offset-1 columns text-justify">
-					    <p>{{ module['BLURB'] }}</p>
+					    <p>{{ module['blurb'] }}</p>
 					</div>
 				    </div>
 				    <div class="progress large-10 large-offset-1 round">

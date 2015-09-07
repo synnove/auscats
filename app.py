@@ -14,11 +14,13 @@ def frontPage():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
 
-    modules = db.get_module_info()
+    active_modules = db.get_active_modules()
+    gradebook = db.get_gradebook()
+    
     if user_info['user'] in admin_list:
 	return redirect(url_for('dashboard'))
-    return render_template('user_module_list.html', name=user_info['name'],
-	    modules = modules, is_admin = False)
+    return render_template('user_module_list.html', name=user_info['name'],user_id = user_info['user'], 
+	    active_modules = active_modules, gradebook = gradebook, is_admin = False)
 
 @app.route("/modules")
 def courseDefault():
@@ -26,27 +28,24 @@ def courseDefault():
     admin_list = db.get_admin_user_list()
 
     modules = db.get_module_info()
+    
     if user_info['user'] not in admin_list:
 	return render_template('user_module_list.html', name=user_info['name'],
 		modules = modules, is_admin = False)
     return redirect(url_for('dashboard'))
 
-@app.route("/module/<module_id>", methods=['GET', 'POST'])
-def coursePage(module_id):
+@app.route("/module/<module_title>", methods=['GET', 'POST'])
+def coursePage(module_title):
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
 
-    slides = [{'title' : 'Nova', 
-	'contents' : ['Norwegian Forest Cat', '7 months old']}, 
-	{'title' : 'Pretzel',
-	    'contents' : ['Domestic Shorthair', '5 months old']},
-	{'title' : 'Poppy',
-	    'contents' : ['Ragdoll', '2 years old']},
-	{'title' : 'Kitty',
-	    'contents' : ['Turkish Van', '0 months old']} ]
+    modules = db.get_module_info()
+    quizes = db.get_quiz_questions()
+    answers = db.get_quiz_answers()
+    
     if user_info['user'] not in admin_list:
 	return render_template('user_module.html', name = user_info['name'],
-		module_title = module_id, slides = slides, is_admin = False)
+		module_title = module_title, modules = modules, quizes = quizes, answers = answers,  is_admin = False)
     return redirect(url_for('dashboard'))
 
 # ADMIN PAGES

@@ -81,6 +81,16 @@ def get_org_unit_info():
     conn.close()
     return org_units
 
+def get_data_for_csv():
+    data = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM vw_USER_CORRECT_ANSWERS")
+    for row in cur.fetchall():
+	data.append(row)
+    conn.close()
+    return data
+
 def read_mysql_password():
     f = open('mysql.passwd', 'r')
     passwd = f.read()

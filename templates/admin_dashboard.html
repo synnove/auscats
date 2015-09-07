@@ -105,11 +105,12 @@
 		<li class="price text-left">Filter By:
 		</li>
 		<li class="description text-left">
-		<form>
+		<form id="search">
 		    <div class="row" data-equalizer="form">
 			<div class="large-4 small-12 columns" data-equalizer-watch="form">
 			    <label>Module
-			    <select>
+			    <select id= "module">
+			    <option value="None">Show all modules</option>
 			    {% for module in modules %}
 			    <option value="{{ module['MODULE_ID'] }}">{{ module['NAME'] }}</option>
 			    {% endfor %}
@@ -118,7 +119,8 @@
 			</div>
 			<div class="large-4 small-12 columns" data-equalizer-watch="form">
 			    <label>Org Unit
-			    <select>
+			    <select id= "orgunit">
+			    <option value="None">Show all org units</option>
 			    {% for org_unit in org_units %}
 			    <option value="{{ org_unit['UNIT_ID'] }}">{{ org_unit['UNIT_NAME'] }}</option>
 			    {% endfor %}
@@ -127,7 +129,7 @@
 			</div>
 			<div class="large-3 small-12 columns" data-equalizer-watch="form">
 			    <label>User
-				<input type="text" placeholder="Enter UQ ID" />
+				<input type="text" id="userid" placeholder="Enter UQ ID" />
 			    </label>
 			</div>
 			<div class="large-1 small-12 columns text-right bottom" data-equalizer-watch="form">
@@ -141,4 +143,33 @@
 	</div>
     </div>
 </div>
+<script>
+    $('#search').bind('submit', function(e) {                               
+	console.log("clicked");                                                
+	e.preventDefault();                                                    
+	$.post('/download/thing', {}).done(function(data) {
+	    $filters = 0;
+	    $url = "/download/"
+	    if($("#module").val() != "None") {
+		$url += "module=".concat($("#module").val());
+		$filters++;
+	    }
+	    if($("#orgunit").val() != "None") {
+		if($filters > 0) {
+		    $url += "&";
+		}
+		$url += "orgunit=".concat($("#orgunit").val());
+	    }
+	    if($("#userid").val() != "") {
+		if($filters > 1) {
+		    $url += "&";
+		}
+		$url += "userid=".concat($("#userid").val());
+	    }
+	    console.log($url);
+	    console.log($("#module").val());
+	     window.location = "/download/" + "hi";
+	  });
+    });
+</script>
 {% endblock %}

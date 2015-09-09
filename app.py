@@ -1,5 +1,6 @@
 from flask import Flask
-from flask import render_template, request, redirect, send_file, url_for, make_response
+from flask import render_template, request, redirect, send_file, url_for
+from flask import make_response, flash
 import csv
 import io
 import json
@@ -7,7 +8,13 @@ import queries as db
 
 app = Flask(__name__)
 
-app.secret_key = ''
+app.secret_key = 'supersupersecret'
+
+# UNAUTHORIZED PAGE
+@app.errorhandler(401)
+def custom_401(error):
+        return Response('You are not authorized to view this page', 401,
+		{'WWWAuthenticate':'Basic realm="You are not an administrator"'})
 
 # USER PAGES
 @app.route("/")
@@ -68,12 +75,33 @@ def dashboard():
 
 @app.route("/download/<filters>", methods=['GET', 'POST'])
 def download_csv(filters):
-    # remember to parse filters and use them to modify query
-    data = db.get_data_for_csv()
-    csv = make_csv(data,["USER_ID","ORG_UNIT","MODULE_ID","QUESTION_ID","ANSWER_ID"])
-    response = make_response(csv)
-    response.headers["Content-Disposition"] = "attachment; filename=results.csv"
-    return response
+    if filters == "nofilter":
+	data = db.get_data_for_csv(0, "")
+    else:
+	query_filters = {}
+	filters = filters.split("&")
+	num_filters = len(filters)
+	for condition in filters:
+	    query_filter = condition.split("=")
+	    query_filters[query_filter[0]] = query_filter[1]
+	data = db.get_data_for_csv(num_filters, query_filters)
+    if data != None:
+	csv = make_csv(data,["USER_ID","ORG_UNIT","MODULE_ID","QUESTION_ID","ANSWER_ID"])
+	response = make_response(csv)
+	response.headers["Content-Disposition"] = "attachment; filename=results.csv"
+	return response
+    flash("No results for requested filters.", "search")
+    return redirect(url_for('dashboard'))
+
+@app.route("/admin_mod/<attrs>", methods=['GET', 'POST'])
+def admin_mod(attrs):
+    admin_perms = {}
+    attrs = attrs.split("&")
+    for item in attrs:
+	info = item.split("=")
+	admin_perms[info[0]] = info[1]
+    parse_admin_mod_directive(admin_perms)
+    return redirect(url_for('dashboard'))
     
 @app.route("/admin")
 def admin():
@@ -86,7 +114,7 @@ def admin():
     return render_template('unauthorized.html', name=user_info['name'],
 	    is_admin = False)
 
-@app.route("/edit/<course_id>/<rev_id>/<slide_no>")
+@app.route("/drawingboard/<course_id>/<rev_id>/<slide_no>")
 def modcourse():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list();
@@ -94,6 +122,19 @@ def modcourse():
     if user_info['user'] in admin_list:
 	return render_template('admin_dashboard.html', name = user_info['name'],
 		is_admin = True)
+    return render_template('unauthorized.html', name=user_info['name'],
+	    is_admin = False)
+
+@app.route("/edit")
+def mod_course_list():
+    user_info = json.loads(request.headers.get('X-KVD-Payload'))
+    admin_list = db.get_admin_user_list();
+
+    modules = db.get_module_info()
+
+    if user_info['user'] in admin_list:
+	return render_template('admin_edit.html', name = user_info['name'],
+		modules = modules, is_admin = True)
     return render_template('unauthorized.html', name=user_info['name'],
 	    is_admin = False)
 
@@ -111,6 +152,42 @@ def make_csv(data, headers):
 	csv += row
 	csv += "\n"
     return csv
+
+
+def parse_admin_mod_directive(admin_perms):
+    action = admin_perms.pop("action", None)
+    admin_id = admin_perms.pop("user", None)
+    if action != None and admin_id != None:
+	if action == "add":
+	    status = add_administrator(admin_id, admin_perms)
+	    if status == -1:
+		flash("Administrator already exists.", "admin")
+		return redirect(url_for('dashboard'))
+	    elif status == 0:
+		flash("Administrator successfully added.", "admin_ok")
+		return redirect(url_for('dashboard'))
+	elif action == "modify":
+	    pass
+	    # call other function
+	elif action == "delete":
+	    pass
+	    # call delete function
+    thing = str(action) + " " + str(admin_id)
+    return redirect(url_for('dashboard'))
+
+def add_administrator(admin_id, admin_perms):
+    status = db.do_admin_add(admin_id)
+    if status == -1:
+	return -1
+    for perm_type in admin_perms:
+	if admin_perms[perm_type] == "true":
+	    perm_err = db.do_admin_add_perms(admin_id, perm_type)
+	    if perm_err == -1:
+		flash("Permission " + perm_type + 
+			" already exists for administrator " + 
+			admin_id + ".", "admin")
+		return redirect(url_for('dashboard'))
+    return 0
 
 
 # DO NOT TOUCH THIS SECTION DO NOT DO IT I WILL KNOW AND I WILL SMACK YOU

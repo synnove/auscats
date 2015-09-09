@@ -54,6 +54,12 @@ INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s4367
 INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s4367459", "EAIT", 4, 11);
 INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s4367459", "EAIT", 5, 13);
 
+INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s1234567", "CATS", 1, 1);
+INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s1234567", "CATS", 2, 5);
+INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s1234567", "CATS", 3, 9);
+INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s1234567", "CATS", 4, 10);
+INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s1234567", "CATS", 5, 13);
+
 INSERT INTO MODULES (NAME, BLURB) VALUES ("Phishes and Spam",
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ullamcorper a arcu at congue. Maecenas nec commodo nisl, nec volutpat quam. Sed sit amet hendrerit libero. In eget ornare magna, eget malesuada diam. Fusce commodo sed neque et aliquam. Donec accumsan, dolor non ultricies molestie, urna nisl maximus justo, vitae facilisis tortor nisi a lorem. Pellentesque pulvinar magna ac augue dapibus ornare. Mauris gravida purus in felis gravida pretium. Fusce bibendum vestibulum nunc, ut euismod libero consectetur ut. Aliquam in lectus ut eros malesuada fringilla ac quis turpis. Nullam cursus felis vel orci elementum, tempor posuere lectus scelerisque. Proin malesuada rhoncus sapien vitae aliquet."
 );

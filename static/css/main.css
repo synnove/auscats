@@ -43,6 +43,8 @@ input[type="text"], select {
 /* FOUNDATION MODS */
 .panel {
     background-color: #ffffff;
+    margin-bottom: 0;
+    margin-top: 1.25rem;
 }
 
 .container {
@@ -91,6 +93,13 @@ table thead tr th, table tr td {
 
 .bottom {
     vertical-align: bottom; !important
+}
+
+.lastmod p{
+    margin: 0;
+    font-size: 0.8em;
+    font-style: italic;
+    font-weight: bold;
 }
 
 /* ICONS */

@@ -1,5 +1,15 @@
 import MySQLdb.cursors
 import hashlib
+from random import randrange
+
+unit_names = ["Cat Care Specialists", "IT Infrastructure Group",
+	"Grouper Group", "Tuna Group", "Salmon Group", "Stray Pig News",
+	"Some People", "Some Other People", "Pretty Okay People",
+	"People Who Do Stuff", "Nothing To See Here"]
+
+people_names = ["George", "Fred", "Harry", "Hermione", "Tammy", "Imogen",
+	"William", "Alexander", "David", "David", "David", "David", "Marisa",
+	"Marissa", "Alice", "Sarah", "Max", "Chloe", "Warren"]
 
 def get_module_info():
     modules = list()
@@ -9,6 +19,16 @@ def get_module_info():
     rows = cur.fetchall()
 
     for row in rows:
+	modules.append(row)
+    conn.close()
+    return modules
+
+def get_admin_module_info():
+    modules = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM MODULES")
+    for row in cur.fetchall():
 	modules.append(row)
     conn.close()
     return modules
@@ -94,15 +114,95 @@ def get_org_unit_info():
     conn.close()
     return org_units
 
-def get_data_for_csv():
+def get_data_for_csv(num, filters):
     data = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM vw_USER_CORRECT_ANSWERS")
+    sql = "SELECT * FROM vw_USER_CORRECT_ANSWERS"
+    if num >= 1:
+	attrs = list(filters.keys())
+	for attr in attrs:
+	    if attr == attrs[0]:
+		sql += (" WHERE " + attr + " = " + filters[attr] + " ")
+	    else:
+		sql += ("AND " + attr + " = " + filters[attr] + " ")
+    cur.execute(sql)
     for row in cur.fetchall():
 	data.append(row)
     conn.close()
-    return data
+    if len(data) >= 1:
+	return data
+    return None
+
+def check_admin_exists(admin_id):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM ADMIN WHERE USER_ID = %s", [admin_id])
+    if cur.rowcount == 1:
+	return True
+    return False
+
+def check_admin_perms(admin_id, permission_type):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM ADMIN_PERM WHERE USER_ID = %s AND PERMISSION = %s",
+	    [admin_id, permission_type])
+    if cur.rowcount==1:
+	return True
+    return False
+
+def check_orgunit_exists(orgunit):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM ORG_UNITS WHERE UNIT_ID = %s", [orgunit])
+    if cur.rowcount == 1:
+	return True
+    return False
+
+def do_admin_add(admin_id):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    orgunit = randrange(1,500) #artificially generating orgunit, get value from ldap
+    do_add_orgunit(orgunit)
+    if not check_admin_exists(admin_id):
+        try:
+            cur.execute("INSERT INTO ADMIN (USER_ID, NAME, UNIT_ID) VALUES (%s, %s, %s)", 
+        	    [admin_id, people_names[randrange(0,len(people_names))], orgunit])
+            conn.commit()
+            return 0
+        except MySQLdb.Error as e:
+            conn.rollback()
+	    return e
+    conn.close()
+    return -1
+
+def do_add_orgunit(orgunit):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    if not check_orgunit_exists(orgunit):
+        try:
+            cur.execute("INSERT INTO ORG_UNITS (UNIT_ID, UNIT_NAME) VALUES (%s, %s)", 
+        	    [orgunit, unit_names[randrange(0,len(unit_names))]])
+            conn.commit()
+            return 0
+        except MySQLdb.Error as e:
+            conn.rollback()
+    conn.close()
+    return -1
+
+def do_admin_add_perms(admin_id, permission):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    if not check_admin_perms(admin_id, permission):
+	try:
+	    cur.execute("INSERT INTO ADMIN_PERM (USER_ID, PERMISSION) VALUES (%s, %s)", 
+		    [admin_id, permission])
+	    conn.commit()
+	    return 0
+	except MySQLdb.Error as e:
+	    conn.rollback()
+    conn.close()
+    return -1
 
 def read_mysql_password():
     f = open('mysql.passwd', 'r')

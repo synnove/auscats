@@ -6,20 +6,26 @@
 {% endblock %}
 
 {% block content %}
+
+    <!-- Pop-up message in case the user submits a quiz without selecting an answer -->
     <div id = "promptAnswer" class = "reveal-modal small" data-reveal aria-labelledby="stop" aria-hidden = "true" role = "dialog">
 	<h3 id = "stopModalTitle"> You have not selected an option! </h3>
 	<p>You cannot proceed to the next slide without completing the question.</p>
 	<a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
+    
+    <!-- Pop-up message in case the user selects more than one answer in a quiz -->     
     <div id = "promptSelect" class = "reveal-modal small" data-reveal aria-labelledby="stop" aria-hidden = "true" role = "dialog">
 	<h3 id = "stopModalTitle"> Please select only one option! </h3>
 	<p>You have selected more than one answer. Please go back and correct this.</p>
 	<a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
+
     <div class="reveal">
 	<div class="small-12 columns text-center">
 	    <h4>module - {{ module_title }}</h4>
 	</div>
+
 	<div class="slides">
 	    <!-- LECTURE SEGMENT -->
 	    {% for slide in slides %}
@@ -30,17 +36,28 @@
 		{% endfor %}
 		</section>
 	    {% endfor %}
+
 	    <!-- QUIZ SEGMENT -->
-	    <section>
-		<h3> Which is your favourite cat? </h3>
-		<form id = "bestKitty">
-		    <ul class = "quiz">
-			<li><input type="checkbox" name = "kitty" value = "Nova"> Nova<br></li>
-			<li><input type="checkbox" name = "kitty" value = "Pretzel"> Pretzel<br></li>
-			<li><input type="checkbox" name = "kitty" value = "Poppy"> Poppy<br></li>
-		    <input type="submit" class="tiny round button" value="Submit" />
-		    </ul>
-	    </section>
+            {% for question in quizes %}
+                {% for module in modules %}
+                   
+		    {% if question['MODULE_ID'] == module['MODULE_ID'] and module['NAME'] == module_title %}
+                        <section>
+			<h3>{{ question['QUESTION'] }}</h3>
+                        <form id = "bestKitty">
+                        <ul class = "quiz">
+                            {% for answer in answers %}
+			        {% if answer['QUESTION_ID'] == question ['QUESTION_ID'] %}
+				    <li><input type="checkbox" name = "kitty" value = "Nova">{{ answer['ANSWER'] }}</li>
+				{% endif %}
+                            {% endfor %}
+			    <input type="submit" class="tiny round button" value="Submit" />
+                        </ul>
+                        </form>
+			</section>
+		    {% endif %} 
+		{% endfor %}
+	    {% endfor %}
 	    <section>
 		<h3> THE END !</h3>
 	    </section>

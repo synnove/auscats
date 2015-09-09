@@ -16,7 +16,9 @@ def get_module_info():
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("SELECT * FROM MODULES")
-    for row in cur.fetchall():
+    rows = cur.fetchall()
+
+    for row in rows:
 	modules.append(row)
     conn.close()
     return modules
@@ -30,6 +32,54 @@ def get_admin_module_info():
 	modules.append(row)
     conn.close()
     return modules
+
+def get_active_modules():
+    active_modules = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT module_id, name, blurb FROM MODULES WHERE status = 'ACTIVE'" )
+    rows = cur.fetchall()
+    
+    for row in rows:
+	active_modules.append(row)
+    conn.close()
+    return active_modules
+
+def get_quiz_questions():
+    quiz_questions = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM QUIZ_QUESTIONS")
+    rows = cur.fetchall()
+    
+    for row in rows:
+	quiz_questions.append(row)
+    conn.close()
+    return quiz_questions
+
+def get_quiz_answers():
+    quiz_answers = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM QUIZ_ANSWERS")
+    rows = cur.fetchall()
+
+    for row in rows:
+	quiz_answers.append(row)
+    conn.close()
+    return quiz_answers
+
+def get_gradebook():
+    gradebook = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT user_id, question_id FROM GRADEBOOK")
+    rows = cur.fetchall()
+
+    for row in rows:
+        gradebook.append(row)
+    conn.close()
+    return gradebook
 
 def get_admin_user_list():
     admin = list()

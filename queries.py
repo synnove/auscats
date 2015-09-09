@@ -25,18 +25,31 @@ def get_active_modules():
     conn.close()
     return active_modules
 
-def get_quiz_questions():
-    quiz_questions = list()
+def get_quiz_questions_by_module(module_title):
+    quiz_questions_by_module = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM QUIZ_QUESTIONS")
+    cur.execute("SELECT * FROM QUIZ_QUESTIONS WHERE MODULE_ID = (SELECT MODULE_ID FROM MODULES WHERE  NAME = %s)", [module_title])
     rows = cur.fetchall()
     
     for row in rows:
-	quiz_questions.append(row)
+	quiz_questions_by_module.append(row)
     conn.close()
-    return quiz_questions
+    return quiz_questions_by_module
 
+def modules_completed_by_user(user_id):
+    modules_completed = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT MODULE_ID FROM (SELECT MODULE_ID,COUNT(MODULE_ID) AS COUNT FROM vw_USER_ANSWERS WHERE USER_ID = %s GROUP BY MODULE_ID) AS A WHERE COUNT = 3", [user_id])
+    rows = cur.fetchall()
+
+    for row in rows:
+	modules_completed.append(row['MODULE_ID'])
+
+    conn.close()
+    return modules_completed
+    
 def get_quiz_answers():
     quiz_answers = list()
     conn = do_mysql_connect()
@@ -49,15 +62,15 @@ def get_quiz_answers():
     conn.close()
     return quiz_answers
 
-def get_gradebook():
+def get_gradebook(user_id):
     gradebook = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT user_id, question_id FROM GRADEBOOK")
+    cur.execute("SELECT QUESTION_ID FROM GRADEBOOK WHERE USER_ID = %s", [user_id])
     rows = cur.fetchall()
 
     for row in rows:
-        gradebook.append(row)
+        gradebook.append(row['QUESTION_ID'])
     conn.close()
     return gradebook
 

@@ -38,26 +38,22 @@
 	    {% endfor %}
 
 	    <!-- QUIZ SEGMENT -->
-            {% for question in quizes %}
-                {% for module in modules %}
-                   
-		    {% if question['MODULE_ID'] == module['MODULE_ID'] and module['NAME'] == module_title %}
-                        <section>
-			<h3>{{ question['QUESTION'] }}</h3>
-                        <form id = "bestKitty">
-                        <ul class = "quiz">
-                            {% for answer in answers %}
-			        {% if answer['QUESTION_ID'] == question ['QUESTION_ID'] %}
-				    <li><input type="checkbox" name = "kitty" value = "Nova">{{ answer['ANSWER'] }}</li>
-				{% endif %}
-                            {% endfor %}
-			    <input type="submit" class="tiny round button" value="Submit" />
-                        </ul>
-                        </form>
-			</section>
-		    {% endif %} 
-		{% endfor %}
+            {% for question in quizes %}                 
+	        <section>
+		    <h3>{{ question['QUESTION'] }}</h3>
+                    <form id = "bestKitty">
+                    <ul class = "quiz">
+                        {% for answer in answers %}
+		            {% if answer['QUESTION_ID'] == question ['QUESTION_ID'] %}
+				<li><input type="checkbox" name = "kitty" value = "Nova">{{ answer['ANSWER'] }}</li>
+			    {% endif %}
+                        {% endfor %}
+			<input type="submit" class="tiny round button" value="Submit" />
+                    </ul>
+                    </form>
+		</section>
 	    {% endfor %}
+
 	    <section>
 		<h3> THE END !</h3>
 	    </section>

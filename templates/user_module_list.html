@@ -9,39 +9,71 @@
 		<div id="incomplete" class="content active">
 		    <!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS -->
 		    {% for module in active_modules %}
-			<div class="row">
-			    <div class="large-12 columns">
-				<div class="panel">
-				    <div class="row">
-					<div class="large-10 columns text-left">
-					    <h3>{{ module['name'] }}</h3>
+				<div class="row">
+			    	    <div class="large-12 columns">
+				        <div class="panel">
+				            <div class="row">
+					        <div class="large-10 columns text-left">
+					            <h3>{{ module['MODULE_ID'] }}</h3>
+					        </div>
+					    
+						<div class="large-2 columns text-right">
+					            {% if module['MODULE_ID'] not in modules_completed %}
+					    	        <a href="/module/{{module['name']}}" class="button tiny round">Continue</a>
+					    	    {% endif %}
+						</div>
+				    	    </div>
+				    	    
+					    <div class="row">
+						<div class="large-10 large-offset-1 columns text-justify">
+					    	    <p>{{ module['blurb'] }}</p>
+						</div>
+				    	    </div>
+				    	    
+					    <div class="progress large-10 large-offset-1 round">
+						<span class="meter" style="width: 40%">
+						</span>
+					    </div>
 					</div>
-					<div class="large-2 columns text-right">
-					    {% if module['module_id'] >= 3 %}
-					    <a href="/module/{{module['name']}}" class="button tiny round green">View Grades</a>
-					    {% else %}
-					    <a href="/module/{{module['name']}}" class="button tiny round">Continue</a>
-					    {% endif %}
-					</div>
-				    </div>
-				    <div class="row">
-					<div class="large-10 large-offset-1 columns text-justify">
-					    <p>{{ module['blurb'] }}</p>
-					</div>
-				    </div>
-				    <div class="progress large-10 large-offset-1 round">
-					<span class="meter" style="width: 40%">
-					</span>
 				    </div>
 				</div>
-			    </div>
-			</div>
 		    {% endfor %}
 		</div>
 	    </li>
 	    <li class="accordion-navigation text-center">
 	    <a href="#complete">Completed CATS</a>
 		<div id="complete" class="content">
+		    <!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS -->
+                    {% for module in active_modules %}
+                                <div class="row">
+                                    <div class="large-12 columns">
+                                        <div class="panel">
+                                            <div class="row">
+                                                <div class="large-10 columns text-left">
+                                                    <h3>{{ module['MODULE_ID'] }}</h3>
+                                                </div>
+
+                                                <div class="large-2 columns text-right">
+                                                    {% if module['MODULE_ID'] in modules_completed %}
+                                                        <a href="/module/{{module['name']}}" class="button tiny round green">View Grades</a>
+						    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="large-10 large-offset-1 columns text-justify">
+                                                    <p>{{ module['blurb'] }}</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="progress large-10 large-offset-1 round">
+                                                <span class="meter" style="width: 40%">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    {% endfor %}
 		</div>
 	    </li>
 	</ul>

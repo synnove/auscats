@@ -16,12 +16,13 @@ def frontPage():
     admin_list = db.get_admin_user_list()
 
     active_modules = db.get_active_modules()
-    gradebook = db.get_gradebook()
-    
+    modules_completed = db.modules_completed_by_user(user_info['user'])
+ 
     if user_info['user'] in admin_list:
 	return redirect(url_for('dashboard'))
     return render_template('user_module_list.html', name=user_info['name'],user_id = user_info['user'], 
-	    active_modules = active_modules, gradebook = gradebook, is_admin = False)
+	    active_modules = active_modules, modules_completed = modules_completed,
+	    is_admin = False)
 
 @app.route("/modules")
 def courseDefault():
@@ -41,7 +42,7 @@ def coursePage(module_title):
     admin_list = db.get_admin_user_list()
 
     modules = db.get_module_info()
-    quizes = db.get_quiz_questions()
+    quizes = db.get_quiz_questions_by_module(module_title)
     answers = db.get_quiz_answers()
     
     if user_info['user'] not in admin_list:

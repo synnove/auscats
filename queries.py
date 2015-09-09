@@ -11,7 +11,9 @@ people_names = ["George", "Fred", "Harry", "Hermione", "Tammy", "Imogen",
 	"William", "Alexander", "David", "David", "David", "David", "Marisa",
 	"Marissa", "Alice", "Sarah", "Max", "Chloe", "Warren"]
 
+# QUERIES FOR GETTING INFORMATION ABOUT MODULES
 def get_module_info():
+    """ get basic information about modules """
     modules = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
@@ -24,28 +26,23 @@ def get_module_info():
     return modules
 
 def get_admin_module_info():
-    modules = list()
-    conn = do_mysql_connect()
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM MODULES")
-    for row in cur.fetchall():
-	modules.append(row)
-    conn.close()
-    return modules
+    """ get module information for administrators """
+    pass
 
 def get_active_modules():
+    """ get list of modules that are active """
     active_modules = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT module_id, name, blurb FROM MODULES WHERE status = 'ACTIVE'" )
+    cur.execute("SELECT MODULE_ID, NAME, BLURB FROM MODULES WHERE status = 'ACTIVE'" )
     rows = cur.fetchall()
-    
     for row in rows:
 	active_modules.append(row)
     conn.close()
     return active_modules
 
 def get_quiz_questions_by_module(module_title):
+    """ get list of questions per module """
     quiz_questions_by_module = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
@@ -61,9 +58,9 @@ def modules_completed_by_user(user_id):
     modules_completed = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
+    # remember to equate it to the number of questions per module
     cur.execute("SELECT MODULE_ID FROM (SELECT MODULE_ID,COUNT(MODULE_ID) AS COUNT FROM vw_USER_ANSWERS WHERE USER_ID = %s GROUP BY MODULE_ID) AS A WHERE COUNT = 3", [user_id])
     rows = cur.fetchall()
-
     for row in rows:
 	modules_completed.append(row['MODULE_ID'])
 

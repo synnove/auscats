@@ -22,25 +22,23 @@ def frontPage():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
 
-    active_modules = db.get_active_modules()
-    modules_completed = db.modules_completed_by_user(user_info['user'])
- 
     if user_info['user'] in admin_list:
 	return redirect(url_for('dashboard'))
-    return render_template('user_module_list.html', name=user_info['name'],user_id = user_info['user'], 
-	    active_modules = active_modules, modules_completed = modules_completed,
-	    is_admin = False)
+    return redirect(url_for('courseDefault'))
 
 @app.route("/modules")
 def courseDefault():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
 
-    modules = db.get_module_info()
+    active_modules = db.get_active_modules()
+    modules_completed = db.modules_completed_by_user(user_info['user'])
     
     if user_info['user'] not in admin_list:
 	return render_template('user_module_list.html', name=user_info['name'],
-		modules = modules, is_admin = False)
+		user_id = user_info['user'], 
+		active_modules = active_modules, modules_completed = modules_completed,
+		is_admin = False)
     return redirect(url_for('dashboard'))
 
 @app.route("/module/<module_title>", methods=['GET', 'POST'])
@@ -48,13 +46,27 @@ def coursePage(module_title):
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
 
+    slides = [
+	    {"title": "Amateurs Hack Systems, Professionals Hack People"},
+	    {"title": "Social engineering is..",
+		"contents": ["the 'art' of utilizing human behaviour to breach security",
+		"without the participant (or victim) even realizing",
+		"that they have been manipulated."]},
+	    {"title": "Amateurs Hack Systems, Professionals Hack People",
+		"contents": ["Social engineering is...", 
+		"the 'art' of utilizing human behaviour to breach security",
+		"without the participant (or victim) even realizing",
+		"that they have been manipulated."]}
+		]
+
     modules = db.get_module_info()
-    quizes = db.get_quiz_questions_by_module(module_title)
+    quizzes = db.get_quiz_questions_by_module(module_title)
     answers = db.get_quiz_answers()
     
     if user_info['user'] not in admin_list:
-	return render_template('user_module.html', name = user_info['name'],
-		module_title = module_title, modules = modules, quizes = quizes, answers = answers,  is_admin = False)
+	return render_template('user_module.html', name = user_info['name'], slides = slides,
+		module_title = module_title, modules = modules, quizzes = quizzes, 
+		answers = answers, is_admin = False)
     return redirect(url_for('dashboard'))
 
 # ADMIN PAGES

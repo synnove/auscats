@@ -26,26 +26,26 @@
 	    <h4>module - {{ module_title }}</h4>
 	</div>
 
-	<div class="slides">
+	<div class="slides text-left">
 	    <!-- LECTURE SEGMENT -->
 	    {% for slide in slides %}
 		<section>
-		<h1>{{ slide['title'] }}</h1>
+		<h2 class="text-center">{{ slide['title'] }}</h2>
 		{% for line in slide['contents'] %}
-		    <p class="fragment">{{ line }}</p>
+		    <p >{{ line }}</p>
 		{% endfor %}
 		</section>
 	    {% endfor %}
 
 	    <!-- QUIZ SEGMENT -->
-            {% for question in quizes %}                 
+            {% for question in quizzes %}                 
 	        <section>
 		    <h3>{{ question['QUESTION'] }}</h3>
-                    <form id = "bestKitty">
+		    <form id = "{{ question['QUESTION_ID'] }}">
                     <ul class = "quiz">
                         {% for answer in answers %}
 		            {% if answer['QUESTION_ID'] == question ['QUESTION_ID'] %}
-				<li><input type="checkbox" name = "kitty" value = "Nova">{{ answer['ANSWER'] }}</li>
+			    <li><input type="checkbox" value = "{{ answer['ANSWER_ID'] }}">&emsp;{{ answer['ANSWER'] }}</li>
 			    {% endif %}
                         {% endfor %}
 			<input type="submit" class="tiny round button" value="Submit" />
@@ -54,8 +54,8 @@
 		</section>
 	    {% endfor %}
 
-	    <section>
-		<h3> THE END !</h3>
+	    <section class="text-center">
+		<h1> THE END !</h1>
 	    </section>
 	</div>
     </div>
@@ -63,7 +63,7 @@
     <script src="../static/js/reveal.js"></script>
     <script>                                                        
 	Reveal.initialize({                                     
-	    width: 800,
+	    width: 1200,
 	    height: 1200,
 	    minScale: 0.5,
 	    maxScale: 2.5,

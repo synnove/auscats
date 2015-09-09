@@ -22,34 +22,47 @@
     </div>
 
     <div class="reveal">
-	<div class="small-12 columns text-center">
-	    <h4>module - {{ module_title }}</h4>
+	<div class="small-12 large-6 large-offset-3 columns text-center">
+	    <div class="alert-box secondary radius"><h4>module - {{ module_title }}</h4></div>
 	</div>
 
-	<div class="slides text-left">
+	<div class="slides">
 	    <!-- LECTURE SEGMENT -->
 	    {% for slide in slides %}
-		<section>
-		<h2 class="text-center">{{ slide['title'] }}</h2>
-		{% for line in slide['contents'] %}
-		    <p >{{ line }}</p>
-		{% endfor %}
+		<section data-state="lecture">
+		<!-- creating different types of content -->
+		{% if 'title' in slide %}
+		    <h3>{{ slide['title'] }}</h3>
+		{% endif %}
+		{% if 'quote' in slide %}
+		    <blockquote>
+			{{ slide['quote'] }}
+			<cite>{{ slide['cite'] }}</cite>
+		    </blockquote>
+		{% endif %}
+		{% if 'contents' in slide %}
+		    {% for line in slide['contents'] %}
+			<p>{{ line }}</p>
+		    {% endfor %}
+		{% endif %}
 		</section>
 	    {% endfor %}
 
 	    <!-- QUIZ SEGMENT -->
             {% for question in quizzes %}                 
-	        <section>
+	        <section data-state="quiz">
 		    <h3>{{ question['QUESTION'] }}</h3>
-		    <form id = "{{ question['QUESTION_ID'] }}">
+		    <form id = "{{ question['QUESTION_ID'] }}" class="question">
                     <ul class = "quiz">
                         {% for answer in answers %}
 		            {% if answer['QUESTION_ID'] == question ['QUESTION_ID'] %}
-			    <li><input type="checkbox" value = "{{ answer['ANSWER_ID'] }}">&emsp;{{ answer['ANSWER'] }}</li>
+			    <li><input type="radio" name="answer" value="{{ answer['ANSWER_ID'] }}">&emsp;{{ answer['ANSWER'] }}</li>
 			    {% endif %}
                         {% endfor %}
-			<input type="submit" class="tiny round button" value="Submit" />
                     </ul>
+		    <div class="row text-center">
+			<input type="submit" class="tiny round button" value="Submit" />
+		    </div>
                     </form>
 		</section>
 	    {% endfor %}
@@ -63,30 +76,41 @@
     <script src="../static/js/reveal.js"></script>
     <script>                                                        
 	Reveal.initialize({                                     
-	    width: 1200,
-	    height: 1200,
+	    width: 1000,
+	    height: 600,
 	    minScale: 0.5,
-	    maxScale: 2.5,
+	    maxScale: 0.7,
 	    controls: true,                                 
 	    progress: true,                                 
 	    history: true,                                  
-	    center: true,                                   
 	    transition: 'convex',
-	    embedded: true
+	    mouseWheel: false
 	});
     </script>    
+    <script>
+	Reveal.addEventListener('lecture', function() {
+	    Reveal.configure({
+		keyboard: true,
+		controls: true
+	      });
+	}, false );
+
+	Reveal.addEventListener('quiz', function() {
+	    Reveal.configure({
+		keyboard: false,
+		controls: false
+	      });
+	}, false );
+    </script>
     <script>                                                        
-	$('#bestKitty').bind('submit', function(e) {
-	    console.log("clicked");
+	$('.question').bind('submit', function(e) {
+	    $url = "/check_answer/qid="
 	    e.preventDefault();
-	    var selected = $("input[name='kitty']:checked").length;
-	    if (selected == 0) {
-		$('#promptAnswer').foundation('reveal', 'open');
-	    } else if (selected > 1) {
-		$('#promptSelect').foundation('reveal', 'open');
-	    } else {
-	    //
-	    }
+	    console.log($(this).closest(".question").attr("id"));
+	    $qid = $(this).closest(".question").attr("id");
+	    $url += $qid;
+	    console.log($("input[type='radio']:checked").val());
+	    console.log($url);
 	});
     </script>    
 </div>

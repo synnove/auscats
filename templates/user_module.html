@@ -46,7 +46,7 @@
 	    </section>
 
 	    <section data-state="interactive" class="main clearfix">
-		<h3> some title </h3>
+		<h3> Interactive Scenario </h3>
 		<div class="row" data-equalizer="interactive_q">
 		    <div class="large-3 columns large-offset-1 text-center" data-equalizer-watch="interactive_q">
 			<img src="http://i58.tinypic.com/okr7uf.jpg" class="interactive">
@@ -157,7 +157,13 @@
 	    console.log($("input[type='radio']:checked").val());
 	    console.log($url);
 	});
-    </script>    
+    </script> 
+
+// The following script is the one we used to trigger
+// the NotificationFx in the Interactive Scenario section 
+// Following the code from Codrops by Tympanus
+// http://tympanus.net/codrops/2014/07/23/notification-styles-inspiration/
+
     <script>
 	$('.interact_select').click(function(e) {
 	    e.preventDefault();
@@ -166,7 +172,7 @@
 	    if ($aid == 1) {
 		var notification = new NotificationFx({
 		    wrapper : document.body,
-		    message : 'YOU DID GOOD',
+		    message : 'Correct! You can go to the <a href=""> next scenario </a>',
 		    layout : 'other',
 		    effect : 'boxspinner',
 		    type : 'notice',
@@ -175,9 +181,9 @@
 	    } else {
 		var notification = new NotificationFx({
 		    wrapper : document.body,
-		    message : 'YOU ARE SO WRONG',
+		    message : 'Incorrect answer. Try the <a href=""> next scenario </a>',
 		    layout : 'other',
-		    effect : 'boxspinner',
+		    effect : 'boxspinner2',
 		    type : 'error',
 		    ttl : 6000,
 		});

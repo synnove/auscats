@@ -47,10 +47,12 @@ def coursePage(module_title):
     admin_list = db.get_admin_user_list()
 
     slides = [
-	    {"title": "Amateurs Hack Systems, Professionals Hack People"},
+	    {"title": "Social Engineering",
+		"quote": "Amateurs hack systems, professionals hack people",
+		"cite": "someone"},
 	    {"title": "Social engineering is..",
-		"contents": ["the 'art' of utilizing human behaviour to breach security",
-		"without the participant (or victim) even realizing",
+		"contents": ["The 'art' of utilizing human behaviour to breach security",
+		"Without the participant (or victim) even realizing",
 		"that they have been manipulated."]},
 	    {"title": "Amateurs Hack Systems, Professionals Hack People",
 		"contents": ["Social engineering is...", 

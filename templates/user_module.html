@@ -14,42 +14,100 @@
 	<a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
     
-    <!-- Pop-up message in case the user selects more than one answer in a quiz -->     
-    <div id = "promptSelect" class = "reveal-modal small" data-reveal aria-labelledby="stop" aria-hidden = "true" role = "dialog">
-	<h3 id = "stopModalTitle"> Please select only one option! </h3>
-	<p>You have selected more than one answer. Please go back and correct this.</p>
-	<a class="close-reveal-modal" aria-label="Close">&#215;</a>
-    </div>
-
     <div class="reveal">
-	<div class="small-12 columns text-center">
-	    <h4>module - {{ module_title }}</h4>
+	<div class="small-12 large-6 large-offset-3 columns text-center">
+	    <div class="alert-box secondary radius"><h4>module - {{ module_title }}</h4></div>
 	</div>
 
-	<div class="slides text-left">
+	<div class="slides">
 	    <!-- LECTURE SEGMENT -->
 	    {% for slide in slides %}
-		<section>
-		<h2 class="text-center">{{ slide['title'] }}</h2>
-		{% for line in slide['contents'] %}
-		    <p >{{ line }}</p>
-		{% endfor %}
+		<section data-state="lecture">
+		<!-- creating different types of content -->
+		{% if 'title' in slide %}
+		    <h3>{{ slide['title'] }}</h3>
+		{% endif %}
+		{% if 'quote' in slide %}
+		    <blockquote>
+			{{ slide['quote'] }}
+			<cite>{{ slide['cite'] }}</cite>
+		    </blockquote>
+		{% endif %}
+		{% if 'contents' in slide %}
+		    {% for line in slide['contents'] %}
+			<p>{{ line }}</p>
+		    {% endfor %}
+		{% endif %}
 		</section>
 	    {% endfor %}
 
+	    <section class="text-center">
+		<h1> READY FOR A CHALLENGE? </h1>
+	    </section>
+
+	    <section data-state="interactive" class="main clearfix">
+		<h3> Interactive Scenario </h3>
+		<div class="row" data-equalizer="interactive_q">
+		    <div class="large-3 columns large-offset-1 text-center" data-equalizer-watch="interactive_q">
+			<img src="http://i58.tinypic.com/okr7uf.jpg" class="interactive">
+		    </div>
+		    <div id="scenario" class="large-6 large-offset-1 end columns text-justify" data-equalizer-watch="interactive_q">
+			<p>Imagine you received an email written by Mr Sugar Rush Cat asking you to share with him your UQ credentials. What would you do?</p>
+		    </div>
+		</div>
+		<br>
+		<div class="row" id="feedback">
+		</div>
+		<div class="row">
+		    <div class="large-4 columns">
+			<button class="button radius interact_select" id="1">
+			    <span class="content">I would mark it as spam and notify IT Security department</span>
+			    <span class="progress"></span>
+			</button>
+		    </div>
+		    <div class="large-4 columns">
+			<button class="button radius interact_select" id="2">
+			    <span class="content">I would read his email and follow his orders because it's Mr Sugar Rush Cat!</span>
+			    <span class="progress"></span>
+			</button>
+		    </div>
+		    <div class="large-4 columns">
+			<button class="button radius interact_select" id="3">
+			    <span class="content">I would give him my credit card details and my user ID</span>
+			    <span class="progress"></span>
+			</button>
+		    </div>
+		</div>
+	    </section>
+
+	    <section class="text-center">
+		<h1> QUIZ TIME!</h1>
+	    </section>
+
+	    <!--
+            {% for scenario in interactive %}                 
+	        <section data-state="interactive">
+		    <h3>{{ scenario['question'] }}</h3>
+                    </form>
+		</section>
+	    {% endfor %}
+	    -->
+
 	    <!-- QUIZ SEGMENT -->
             {% for question in quizzes %}                 
-	        <section>
+	        <section data-state="quiz">
 		    <h3>{{ question['QUESTION'] }}</h3>
-		    <form id = "{{ question['QUESTION_ID'] }}">
+		    <form id = "{{ question['QUESTION_ID'] }}" class="question">
                     <ul class = "quiz">
                         {% for answer in answers %}
 		            {% if answer['QUESTION_ID'] == question ['QUESTION_ID'] %}
-			    <li><input type="checkbox" value = "{{ answer['ANSWER_ID'] }}">&emsp;{{ answer['ANSWER'] }}</li>
+			    <li><input type="radio" name="answer" value="{{ answer['ANSWER_ID'] }}">&emsp;{{ answer['ANSWER'] }}</li>
 			    {% endif %}
                         {% endfor %}
-			<input type="submit" class="tiny round button" value="Submit" />
                     </ul>
+		    <div class="row text-center">
+			<input type="submit" class="tiny round button" value="Submit" />
+		    </div>
                     </form>
 		</section>
 	    {% endfor %}
@@ -63,31 +121,76 @@
     <script src="../static/js/reveal.js"></script>
     <script>                                                        
 	Reveal.initialize({                                     
-	    width: 1200,
-	    height: 1200,
+	    width: 1000,
+	    height: 600,
 	    minScale: 0.5,
-	    maxScale: 2.5,
+	    maxScale: 0.7,
 	    controls: true,                                 
 	    progress: true,                                 
 	    history: true,                                  
-	    center: true,                                   
 	    transition: 'convex',
-	    embedded: true
+	    mouseWheel: false
 	});
     </script>    
+    <script>
+	Reveal.addEventListener('lecture', function() {
+	    Reveal.configure({
+		keyboard: true,
+		controls: true
+	      });
+	}, false );
+
+	Reveal.addEventListener('quiz', function() {
+	    Reveal.configure({
+		keyboard: false,
+		controls: false
+	      });
+	}, false );
+    </script>
     <script>                                                        
-	$('#bestKitty').bind('submit', function(e) {
-	    console.log("clicked");
+	$('.question').bind('submit', function(e) {
+	    $url = "/check_answer/qid="
 	    e.preventDefault();
-	    var selected = $("input[name='kitty']:checked").length;
-	    if (selected == 0) {
-		$('#promptAnswer').foundation('reveal', 'open');
-	    } else if (selected > 1) {
-		$('#promptSelect').foundation('reveal', 'open');
-	    } else {
-	    //
-	    }
+	    console.log($(this).closest(".question").attr("id"));
+	    $qid = $(this).closest(".question").attr("id");
+	    $url += $qid;
+	    console.log($("input[type='radio']:checked").val());
+	    console.log($url);
 	});
-    </script>    
+    </script> 
+
+// The following script is the one we used to trigger
+// the NotificationFx in the Interactive Scenario section 
+// Following the code from Codrops by Tympanus
+// http://tympanus.net/codrops/2014/07/23/notification-styles-inspiration/
+
+    <script>
+	$('.interact_select').click(function(e) {
+	    e.preventDefault();
+	    $aid = $(this).attr("id");
+	    console.log($aid);
+	    if ($aid == 1) {
+		var notification = new NotificationFx({
+		    wrapper : document.body,
+		    message : 'Correct! You can go to the <a href=""> next scenario </a>',
+		    layout : 'other',
+		    effect : 'boxspinner',
+		    type : 'notice',
+		    ttl : 6000,
+		});
+	    } else {
+		var notification = new NotificationFx({
+		    wrapper : document.body,
+		    message : 'Incorrect answer. Try the <a href=""> next scenario </a>',
+		    layout : 'other',
+		    effect : 'boxspinner2',
+		    type : 'error',
+		    ttl : 6000,
+		});
+	    }
+
+	    notification.show();
+	});
+    </script>
 </div>
 {% endblock %}

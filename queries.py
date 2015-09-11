@@ -67,6 +67,19 @@ def modules_completed_by_user(user_id):
 
     conn.close()
     return modules_completed
+
+def get_quiz_questions_by_module(module_title):
+    """ get list of questions per module """
+    quiz_questions_by_module = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM QUIZ_QUESTIONS WHERE MODULE_ID = (SELECT MODULE_ID FROM MODULES WHERE  NAME = %s)", [module_title])
+    rows = cur.fetchall()
+    
+    for row in rows:
+	quiz_questions_by_module.append(row)
+    conn.close()
+    return quiz_questions_by_module
     
 def get_quiz_answers():
     """ get list of all quiz answers to quiz questions"""

@@ -69,6 +69,19 @@ def coursePage(module_title):
 		answers = answers, is_admin = False)
     return redirect(url_for('dashboard'))
 
+@app.route("/module/<module_title>/grades", methods=['GET', 'POST'])
+def gradePage(module_title):
+    user_info = json.loads(request.headers.get('X-KVD-Payload'))
+    admin_list = db.get_admin_user_list()
+
+    modules = db.get_module_info()
+    correct_answers = db.get_number_of_correct_answers(user_info['user'], module_title)
+
+    if user_info['user'] not in admin_list:
+        return render_template('user_grades.html', name = user_info['name'],correct_answers = correct_answers,
+                module_title = module_title, modules = modules, is_admin = False)
+    return redirect(url_for('dashboard'))
+
 # ADMIN PAGES
 @app.route("/dashboard")
 def dashboard():

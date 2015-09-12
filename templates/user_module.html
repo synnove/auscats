@@ -3,6 +3,8 @@
 {% block scripts %} 
 <link rel="stylesheet" href="../static/css/reveal.css">
 <link rel="stylesheet" href="../static/css/theme/uq.css" id="theme">
+<script src="../static/lib/js/head.min.js"></script>
+<script src="../static/js/reveal.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -23,7 +25,7 @@
 	    <!-- LECTURE SEGMENT -->
 	    {% for slide in slides %}
 		<section data-state="lecture">
-		<!-- creating different types of content -->
+		<!-- handling different types of content -->
 		{% if 'title' in slide %}
 		    <h3>{{ slide['title'] }}</h3>
 		{% endif %}
@@ -41,7 +43,7 @@
 		</section>
 	    {% endfor %}
 
-	    <section class="text-center">
+	    <section class="text-center" data-state="filler">
 		<h1> READY FOR A CHALLENGE? </h1>
 	    </section>
 
@@ -56,9 +58,7 @@
 		    </div>
 		</div>
 		<br>
-		<div class="row" id="feedback">
-		</div>
-		<div class="row">
+		<div class="row" id="interact_answers">
 		    <div class="large-4 columns">
 			<button class="button radius interact_select" id="1">
 			    <span class="content">I would mark it as spam and notify IT Security department</span>
@@ -80,18 +80,9 @@
 		</div>
 	    </section>
 
-	    <section class="text-center">
+	    <section class="text-center" data-state="filler">
 		<h1> QUIZ TIME!</h1>
 	    </section>
-
-	    <!--
-            {% for scenario in interactive %}                 
-	        <section data-state="interactive">
-		    <h3>{{ scenario['question'] }}</h3>
-                    </form>
-		</section>
-	    {% endfor %}
-	    -->
 
 	    <!-- QUIZ SEGMENT -->
             {% for question in quizzes %}                 
@@ -117,80 +108,6 @@
 	    </section>
 	</div>
     </div>
-    <script src="../static/lib/js/head.min.js"></script>
-    <script src="../static/js/reveal.js"></script>
-    <script>                                                        
-	Reveal.initialize({                                     
-	    width: 1000,
-	    height: 600,
-	    minScale: 0.5,
-	    maxScale: 0.7,
-	    controls: true,                                 
-	    progress: true,                                 
-	    history: true,                                  
-	    transition: 'convex',
-	    mouseWheel: false
-	});
-    </script>    
-    <script>
-	Reveal.addEventListener('lecture', function() {
-	    Reveal.configure({
-		keyboard: true,
-		controls: true
-	      });
-	}, false );
-
-	Reveal.addEventListener('quiz', function() {
-	    Reveal.configure({
-		keyboard: false,
-		controls: false
-	      });
-	}, false );
-    </script>
-    <script>                                                        
-	$('.question').bind('submit', function(e) {
-	    $url = "/check_answer/qid="
-	    e.preventDefault();
-	    console.log($(this).closest(".question").attr("id"));
-	    $qid = $(this).closest(".question").attr("id");
-	    $url += $qid;
-	    console.log($("input[type='radio']:checked").val());
-	    console.log($url);
-	});
-    </script> 
-
-// The following script is the one we used to trigger
-// the NotificationFx in the Interactive Scenario section 
-// Following the code from Codrops by Tympanus
-// http://tympanus.net/codrops/2014/07/23/notification-styles-inspiration/
-
-    <script>
-	$('.interact_select').click(function(e) {
-	    e.preventDefault();
-	    $aid = $(this).attr("id");
-	    console.log($aid);
-	    if ($aid == 1) {
-		var notification = new NotificationFx({
-		    wrapper : document.body,
-		    message : 'Correct! You can go to the <a href=""> next scenario </a>',
-		    layout : 'other',
-		    effect : 'boxspinner',
-		    type : 'notice',
-		    ttl : 6000,
-		});
-	    } else {
-		var notification = new NotificationFx({
-		    wrapper : document.body,
-		    message : 'Incorrect answer. Try the <a href=""> next scenario </a>',
-		    layout : 'other',
-		    effect : 'boxspinner2',
-		    type : 'error',
-		    ttl : 6000,
-		});
-	    }
-
-	    notification.show();
-	});
-    </script>
 </div>
+<script src="../static/js/user_module.js"></script>
 {% endblock %}

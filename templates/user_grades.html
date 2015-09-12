@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="small-10 small-offset-1 columns">
+	<ul class="accordion" data-accordion>
+        <li class="accordion-navigation text-center">
+        <a href="#complete">{{module_title}} Grade</a>
+	<div id="complete" class="content active">
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel">
+			<div class="row">
+
+                            <div class="large-10 columns text-left">
+	                        <p>You have solved {{correct_answers}} out of the {{number_of_questions}} questions in the {{module_title}} quiz</p>
+		            </div>
+		            
+			    <div class="large-2 columns text-right">
+			    	<a href="/modules" class="button tiny round green">Main Page</a>
+			    </div>
+			</div>
+
+			<div class="progress large-10 large-offset-1 round">
+			    <span class="meter" style="width:{{percentage_correct }}%"></span>
+		        </div>
+		   
+		    </div>
+		</div>
+	    </div>               
+	</div>
+	</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

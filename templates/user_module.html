@@ -41,7 +41,7 @@
 		</section>
 	    {% endfor %}
 
-	    <section class="text-center">
+	    <section class="text-center" data-state="filler">
 		<h1> READY FOR A CHALLENGE? </h1>
 	    </section>
 
@@ -56,9 +56,7 @@
 		    </div>
 		</div>
 		<br>
-		<div class="row" id="feedback">
-		</div>
-		<div class="row">
+		<div class="row" id="interact_answers">
 		    <div class="large-4 columns">
 			<button class="button radius interact_select" id="1">
 			    <span class="content">I would mark it as spam and notify IT Security department</span>
@@ -80,7 +78,7 @@
 		</div>
 	    </section>
 
-	    <section class="text-center">
+	    <section class="text-center" data-state="filler">
 		<h1> QUIZ TIME!</h1>
 	    </section>
 
@@ -128,6 +126,7 @@
 	    controls: true,                                 
 	    progress: true,                                 
 	    history: true,                                  
+	    overview: false,
 	    transition: 'convex',
 	    mouseWheel: false
 	});
@@ -140,9 +139,25 @@
 	      });
 	}, false );
 
+	Reveal.addEventListener('filler', function() {
+	    Reveal.configure({
+		keyboard: true,
+		controls: true
+	      });
+	}, false );
+
+	Reveal.addEventListener('interactive', function() {
+	    Reveal.configure({
+		keyboard: false,
+		touch: false,
+		controls: false
+	      });
+	}, false );
+
 	Reveal.addEventListener('quiz', function() {
 	    Reveal.configure({
 		keyboard: false,
+		touch: false,
 		controls: false
 	      });
 	}, false );
@@ -168,28 +183,39 @@
 	$('.interact_select').click(function(e) {
 	    e.preventDefault();
 	    $aid = $(this).attr("id");
-	    console.log($aid);
+	    var choice = $($(this).parent()).detach();
+	    $('#interact_answers').empty().append(choice);
 	    if ($aid == 1) {
 		var notification = new NotificationFx({
 		    wrapper : document.body,
-		    message : 'Correct! You can go to the <a href=""> next scenario </a>',
+		    message : 'Correct! Good Work!',
 		    layout : 'other',
 		    effect : 'boxspinner',
 		    type : 'notice',
-		    ttl : 6000,
 		});
 	    } else {
 		var notification = new NotificationFx({
 		    wrapper : document.body,
-		    message : 'Incorrect answer. Try the <a href=""> next scenario </a>',
+		    message : 'Wrong! You can\'t trust Mr Sugar Rush Cat.',
 		    layout : 'other',
 		    effect : 'boxspinner2',
 		    type : 'error',
-		    ttl : 6000,
 		});
 	    }
 
 	    notification.show();
+	    $('#interact_answers').append('<div class="large-4 columns">\
+			<button class="button radius green interact_select" id="next">\
+			    <span class="content">Continue!</span>\
+			</button>\
+		    </div>');
+	});
+    </script>
+    <script>
+	$('#interact_answers').on('click', '#next', function(e) {
+	    console.log('clicked??');
+	    e.preventDefault();
+	    Reveal.next();
 	});
     </script>
 </div>

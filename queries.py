@@ -59,8 +59,7 @@ def modules_completed_by_user(user_id):
     modules_completed = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    # remember to equate it to the number of questions per module
-    cur.execute("SELECT MODULE_ID FROM (SELECT MODULE_ID,COUNT(MODULE_ID) AS COUNT FROM vw_USER_ANSWERS WHERE USER_ID = %s GROUP BY MODULE_ID) AS A WHERE COUNT = 3", [user_id])
+    cur.execute("SELECT A.MODULE_ID FROM MODULES M,(SELECT MODULE_ID,COUNT(MODULE_ID) AS COUNT FROM vw_USER_ANSWERS WHERE USER_ID = %s GROUP BY MODULE_ID) AS A WHERE COUNT = M.NUM_QUESTIONS", [user_id])
     rows = cur.fetchall()
     for row in rows:
 	modules_completed.append(row['MODULE_ID'])
@@ -99,10 +98,22 @@ def get_number_of_correct_answers(user_id, module_title):
     cur = conn.cursor()
     cur.execute("SELECT COUNT(QUESTION_ID) AS QUESTIONS_CORRECT FROM vw_USER_CORRECT_ANSWERS WHERE USER_ID = %s AND MODULE_ID IN (SELECT MODULE_ID FROM MODULES WHERE NAME = %s) GROUP BY USER_ID, MODULE_ID", [user_id, module_title])
     rows = cur.fetchall()
-    
-    correct_answers = rows[0]
+   
+    for row in rows:
+	correct_answers = row['QUESTIONS_CORRECT']
     conn.close()
     return correct_answers
+
+def get_total_number_of_questions(module_title):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("Select MODULE_ID, NUM_QUESTIONS FROM MODULES WHERE STATUS = 'ACTIVE' AND NAME = %s", [module_title])
+    rows = cur.fetchall()
+
+    for row in rows:
+	number_of_questions = row['NUM_QUESTIONS']
+    conn.close()
+    return number_of_questions
 
 def get_admin_user_list():
     admin = list()

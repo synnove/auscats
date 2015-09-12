@@ -77,6 +77,25 @@ def check_answer(attrs):
 	info = item.split("=")
 	admin_perms[info[0]] = info[1]
     parse_admin_mod_directive(admin_perms)
+
+@app.route("/grades/<module_title>", methods=['GET', 'POST'])
+def gradePage(module_title):
+    user_info = json.loads(request.headers.get('X-KVD-Payload'))
+    admin_list = db.get_admin_user_list()
+
+    modules = db.get_module_info()
+    correct_answers = db.get_number_of_correct_answers(user_info['user'], module_title)
+    number_of_questions = db.get_total_number_of_questions(module_title)
+    
+    try:
+	percentage_correct = (correct_answers /float( number_of_questions)) * 100
+    except ZeroDivisionError:
+	percentage_correct = 0
+
+    if user_info['user'] not in admin_list:
+        return render_template('user_grades.html', name = user_info['name'],correct_answers = correct_answers,
+                number_of_questions = number_of_questions, percentage_correct = percentage_correct, 
+		module_title = module_title, modules = modules, is_admin = False)
     return redirect(url_for('dashboard'))
 
 # ADMIN PAGES

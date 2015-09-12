@@ -83,7 +83,6 @@ $('.interact_select').click(function(e) {
 
 // Sends user to next page on clicking Continue button in interactive section
 $('#interact_answers').on('click', '#next', function(e) {
-    console.log('clicked??');
     e.preventDefault();
     Reveal.next();
 });
@@ -96,5 +95,5 @@ $('.question').bind('submit', function(e) {
     $url += $qid + "&aid=";
     $aid = $("input[type='radio']:checked").val();
     $url += $aid;
-    window.location($url);
+    window.location = $url;
 });

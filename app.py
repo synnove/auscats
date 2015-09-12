@@ -53,96 +53,12 @@ def coursePage(module_title):
 	then parsed."""
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
-    #flash("Permission " + perm_type + 
-    #        " already exists for administrator " + 
-    #        admin_id + ".", "admin")
-    #return redirect(url_for('dashboard'))
+    modules_list = db.get_module_names()
+    if module_title.lower() not in modules_list:
+	flash("Invalid module title.", "invalid")
+	return redirect(url_for('courseDefault'))
 
-    slides = [
-	    {"title": "Social Engineering",
-		"quote": "Amateurs hack systems, professionals hack people",
-		"cite": "someone"},
-	    {"title": "Social engineering is..",
-		"contents": ["The 'art' of utilizing human behaviour to breach security",
-		"Without the participant (or victim) even realizing",
-		"that they have been manipulated."]},
-	    {"title": "Amateurs Hack Systems, Professionals Hack People",
-		"contents": ["Social engineering is...", 
-		"the 'art' of utilizing human behaviour to breach security",
-		"without the participant (or victim) even realizing",
-		"that they have been manipulated."]}
-	    {"title":"A threat often overlooked..",
-	     	"contents": ["but regularily exploited to take advantage",
-		"of what is considered in the security chain of an organisation",
-		"the 'human factor'"]}
-	    {"title":"2 Main Types Social Engineering",
-		"contents":["Technology-Based Approach: deceive the user",
-		"into believing they are interacting with a 'real' computer system",
-		"to extract personal information"]}
-	    {"title": "Technology-Based Example",
-		"contents":["The user gets a popup window, informing him that the",
-		"computer application has had a problem and the user will need to",
-		"reauthenticate in order to proceed. Once the user provides his",
-		"id and password on that pop up window, the harm is done.",
-		"The hacker now has the user id and password."]} 
-	    {"title": "2 Main Types Of Social Engineering",
-		"contents": ["Human Approach: takes advantage on the victims ignorance",
-		"the natural human inclination to be helpful and liked"]}
-	    {"title": "Human Based Example",
-		"contents":["attacker impersonates a person with authority and  places",
-		"a call to the help desk, and pretends to be a senior Manager",
-		"they say that have forgotten their password and needs to get it reset",
-		"The help desk person resets the password and gives the new password",
-		"to the person waiting at the other end of the phone.",
-		"the attacker now access the personnel systems as if they were the manager",]}
-	    {"title":"The Cycle",
-		"contents":["A common pattern associated with social engineering is known as",
-		"'The Cycle'. The cycle has the following steps:",
-		"Step 1) Information Gathering: aggressor gathers information about the target",
-		"Step 2) Developing Relationship: aggressor develops trust with the victim",
-		"Step 3) Exploitation: target is manipulated by trusted aggressor to revel",
-		"information or perform an action",
-		"Step 4) Execution: once the target has completed the task the cycle is complete",]}
-	    {"title":"Types of Social Engineering Attacks",
-		"contents":["The variation and extent of social engineering attacks are only",
-		"limited by the creativity of the hacker.",
-		"The more common methods are as follows.",]}
-	    {"title":"Phishing",
-		"contents":["The attempt to acquire sensitive information or to make",
-		"somebody act in a desired way by acting as a trustworthy entity in an",
-		"electronic communication medium. They are usually targeted at large groups of people",]}
-	    {"title":"Dumpster Diving",
-		"contents":["Sifting through the trash of private individuals",
-		"or companies to find discarded items that include sensitive information that",
-		"can be used to compromise a system or a specific user account",]}
-	    {"title":"Shoulder Surfing",
-		"contents":["Using direct observation techniques to get information, such as looking",
-		"over someone shoulder at their screen or keyboard.",]}
-	    {"title":"Reverse Social Engineering",
-		"contents":["The attackers create a situation in which the victim requires help and",
-		"then present themselves as someone the victim will consider someone who can both solve",
-		"their problem and is allowed to receive privileged information.",]}
-	    {"title":"Waterholing",
-		"contents":["Describes a targeted attack where the attackers compromise a website that",
-		"is likely to be of interest to the chosen victim. The attackers then wait at the",
-		"waterhole for their victim.",]}
-	    {"title":"Baiting",
-		"contents":["An attack during which a malware-infected storage medium is left in a",
-		"location where it is likely to be found by the targeted victims.",]}
-	    {"title":"How to avoid social engineering schemes?",
-		"contents":["1) Do not open any emails from untrusted sources. Be sure to contact",
-		"a friend or family member in person or via phone if you ever receive an email",
-		"message that seems unlike them in any way.",
-		"2) Do not give offers from strangers the benefit of the doubt.",
-		"If they seem too good to be true, they probably are.",
-		"3) Lock your laptop whenever you are away from your workstation.",]}
-	    {"title":"How to avoid social engineering schemes?"
-		"contents":["4) Purchase anti-virus software. No solution can defend against every",
-		"threat that seeks to jeopardize users information, but they can help protect against some.",
-		"5) Read your company privacy policy to understand under what circumstances you can or",
-		"should let a stranger into the building.",]}
-]
-
+    slides = parse_lecture_content("lecture.txt")
     modules = db.get_module_info()
     quizzes = db.get_quiz_questions_by_module(module_title)
     answers = db.get_quiz_answers()
@@ -151,6 +67,16 @@ def coursePage(module_title):
 	return render_template('user_module.html', name = user_info['name'], slides = slides,
 		module_title = module_title, modules = modules, quizzes = quizzes, 
 		answers = answers, is_admin = False)
+    return redirect(url_for('dashboard'))
+
+@app.route("/check_answer/<info>", methods=['GET', 'POST'])
+def check_answer(attrs):
+    admin_perms = {}
+    attrs = attrs.split("&")
+    for item in attrs:
+	info = item.split("=")
+	admin_perms[info[0]] = info[1]
+    parse_admin_mod_directive(admin_perms)
     return redirect(url_for('dashboard'))
 
 # ADMIN PAGES
@@ -233,6 +159,29 @@ def mod_course_list():
 		modules = modules, is_admin = True)
     return render_template('unauthorized.html', name=user_info['name'],
 	    is_admin = False)
+
+# MISCELLANEOUS HELPER FUNCTIONS
+
+def parse_lecture_content(filename):
+    lecture_file = open(filename,"r")
+    contents = []                                                                                                                                                                            
+    slide = {}
+    content_type = ""
+    for line in lecture_file:
+	if not line.strip():
+	    contents.append(slide)
+	    slide = {}
+	elif line.strip()[0] == "[":
+	    parts = line.strip().split("]")
+	    content_type = parts[0][1:]
+	    if content_type == "contents":
+		slide[content_type] = []
+		slide[content_type].append(parts[1].strip())
+	    else:
+		slide[content_type] = parts[1].strip()
+	else:
+	    slide[content_type].append(line.strip())
+    return contents
 
 def make_csv(data, headers):
     data_list = []

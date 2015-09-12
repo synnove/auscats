@@ -25,6 +25,19 @@ def get_module_info():
     conn.close()
     return modules
 
+def get_module_names():
+    """ get list of module names to check against"""
+    modules = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT NAME FROM MODULES WHERE status = 'ACTIVE'")
+    rows = cur.fetchall()
+
+    for row in rows:
+	modules.append(row['NAME'].lower())
+    conn.close()
+    return modules
+
 def get_admin_module_info():
     """ get module information for administrators """
     pass

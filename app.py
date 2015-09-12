@@ -19,6 +19,9 @@ def custom_401(error):
 # USER PAGES
 @app.route("/")
 def frontPage():
+    """ Main page (equivalent of index.html).
+	Admin users redirect to administrator dashboard.
+	Regular users redirect to list of modules."""
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
 
@@ -28,10 +31,12 @@ def frontPage():
 
 @app.route("/modules")
 def courseDefault():
+    """ Default user page: displays list of modules either in progress or
+	completed. """
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
 
-    active_modules = db.get_active_modules()
+    active_modules = db.get_module_info()
     modules_completed = db.modules_completed_by_user(user_info['user'])
     
     if user_info['user'] not in admin_list:
@@ -43,8 +48,15 @@ def courseDefault():
 
 @app.route("/module/<module_title>", methods=['GET', 'POST'])
 def coursePage(module_title):
+    """ Displays a module to the user. Currently module content is hard-coded
+	but will be eventually stored within the database as plain text and
+	then parsed."""
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
+    #flash("Permission " + perm_type + 
+    #        " already exists for administrator " + 
+    #        admin_id + ".", "admin")
+    #return redirect(url_for('dashboard'))
 
     slides = [
 	    {"title": "Social Engineering",

@@ -92,7 +92,7 @@ table thead tr th, table tr td {
 }
 
 .bottom {
-    vertical-align: bottom; !important
+    vertical-align: bottom !important;
 }
 
 .lastmod p{
@@ -100,6 +100,10 @@ table thead tr th, table tr td {
     font-size: 0.8em;
     font-style: italic;
     font-weight: bold;
+}
+
+.quiz-feedback {
+    margin-bottom: 1rem !important;
 }
 
 /* ICONS */

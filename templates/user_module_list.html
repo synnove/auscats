@@ -25,34 +25,28 @@
 			<!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS -->
 			{% for module in active_modules %}
 			    {% if module['MODULE_ID'] not in modules_completed %}
-				<div class="row">
+				<div class="row" >
 				    <div class="large-12 columns">
-					<div class="panel">
-					    <div class="row">
-						<div class="large-10 columns text-left">
-						    <h3>{{ module['NAME'] }}</h3>
-						</div>
-					    
-						<div class="large-2 columns text-right">
-							<a href="/module/{{module['NAME']}}" class="button tiny round">Continue</a>
-						</div>
+					<div class="row">
+					    <div class="large-10 columns text-left">
+						<h3>{{ module['NAME'] }}</h3>
 					    </div>
-					    
-					    <div class="row">
-						<div class="large-10 large-offset-1 columns text-justify">
-						    <p>{{ module['BLURB'] }}</p>
-						</div>
+					
+					    <div class="large-2 columns text-right">
+						    <a href="/module/{{module['NAME']}}" class="button tiny round">Start</a>
 					    </div>
-					    
-					    <!--
-					    <div class="progress large-10 large-offset-1 round">
-						<span class="meter" style="width: 40%">
-						</span>
+					</div>
+					
+					<div class="row">
+					    <div class="large-10 large-offset-1 columns text-justify">
+						<p>{{ module['BLURB'] }}</p>
 					    </div>
-					    -->
 					</div>
 				    </div>
 				</div>
+				{% if module != active_modules[-1] %}
+				    <hr>
+				{% endif %}
 			    {% endif %}
 			{% endfor %}
 		    </div>
@@ -71,14 +65,8 @@
 						    <h3>{{ module['NAME'] }}</h3>
 						</div>
 
-<<<<<<< HEAD
 					    <div class="large-2 columns text-right">
 						<a href="/grades/{{module['NAME']}}" class="button tiny round green">View Grades</a>
-=======
-						<div class="large-2 columns text-right">
-						    <a href="/module/{{module['NAME']}}" class="button tiny round green">View Grades</a>
-						</div>
->>>>>>> ca681758b0844ca81efa9e3f4030cb7da3e48fa0
 					    </div>
 
 					    <div class="row">

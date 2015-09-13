@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import render_template, request, redirect, send_file, url_for
-from flask import make_response, flash
+from flask import make_response, flash, jsonify
 import csv
 import io
 import json
@@ -41,47 +41,47 @@ def courseDefault():
     
     if user_info['user'] not in admin_list:
 	return render_template('user_module_list.html', name=user_info['name'],
-		user_id = user_info['user'], 
-		active_modules = active_modules, modules_completed = modules_completed,
-		is_admin = False)
+		user_id = user_info['user'], active_modules = active_modules, 
+		modules_completed = modules_completed, is_admin = False)
     return redirect(url_for('dashboard'))
 
 @app.route("/module/<module_title>", methods=['GET', 'POST'])
 def coursePage(module_title):
-    """ Displays a module to the user. Currently module content is hard-coded
-	but will be eventually stored within the database as plain text and
-	then parsed."""
+    """ Displays a module to the user. Currently content is stored in .txt
+	files and parsed, will eventually shift to using database. """
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
     modules_list = db.get_module_names()
+
+    # check url is valid
     if module_title.lower() not in modules_list:
 	flash("Invalid module title.", "invalid")
 	return redirect(url_for('courseDefault'))
 
-    slides = parse_lecture_content("lecture.txt")
-    modules = db.get_module_info()
-    quizzes = db.get_quiz_questions_by_module(module_title)
+    # get module content
+    lecture_file = module_title.lower().replace(" ", "_") + ".txt"
+    slides = parse_lecture_content(lecture_file)
+    module_id = db.get_module_id_from_name(module_title)
+    quizzes = db.get_quiz_questions_by_module(module_id)
     answers = db.get_quiz_answers()
     
     if user_info['user'] not in admin_list:
-	return render_template('user_module.html', name = user_info['name'], slides = slides,
-		module_title = module_title, modules = modules, quizzes = quizzes, 
-		answers = answers, is_admin = False)
+	return render_template('user_module.html', name = user_info['name'], 
+		slides = slides, module_title = module_title, 
+		quizzes = quizzes, answers = answers, is_admin = False)
     return redirect(url_for('dashboard'))
-
-@app.route("/check_answer/<info>", methods=['GET', 'POST'])
-def check_answer(attrs):
-    admin_perms = {}
-    attrs = attrs.split("&")
-    for item in attrs:
-	info = item.split("=")
-	admin_perms[info[0]] = info[1]
-    parse_admin_mod_directive(admin_perms)
 
 @app.route("/grades/<module_title>", methods=['GET', 'POST'])
 def gradePage(module_title):
+    """ displays grades to the user by the requested module. """
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
+    modules_list = db.get_module_names()
+
+    # check url is valid
+    if module_title.lower() not in modules_list:
+	flash("Invalid module title.", "invalid")
+	return redirect(url_for('courseDefault'))
 
     modules = db.get_module_info()
     correct_answers = db.get_number_of_correct_answers(user_info['user'], module_title)
@@ -93,10 +93,21 @@ def gradePage(module_title):
 	percentage_correct = 0
 
     if user_info['user'] not in admin_list:
-        return render_template('user_grades.html', name = user_info['name'],correct_answers = correct_answers,
-                number_of_questions = number_of_questions, percentage_correct = percentage_correct, 
+        return render_template('user_grades.html', name = user_info['name'], 
+		correct_answers = correct_answers,
+                number_of_questions = number_of_questions, 
+		percentage_correct = percentage_correct, 
 		module_title = module_title, modules = modules, is_admin = False)
     return redirect(url_for('dashboard'))
+
+@app.route("/check_answer", methods=['GET', 'POST'])
+def check_answer():
+    """ checks the user's answer """
+    user_info = json.loads(request.headers.get('X-KVD-Payload'))
+    qid = request.args.get('qid', -1, type=int)
+    aid = request.args.get('aid', -1, type=int)
+    result = db.log_user_answer(user_info['user'], user_info['dn'], qid, aid)
+    return jsonify(result=result)
 
 # ADMIN PAGES
 @app.route("/dashboard")
@@ -114,36 +125,6 @@ def dashboard():
     return render_template('unauthorized.html', name=user_info['name'], 
 	    is_admin = False)
 
-@app.route("/download/<filters>", methods=['GET', 'POST'])
-def download_csv(filters):
-    if filters == "nofilter":
-	data = db.get_data_for_csv(0, "")
-    else:
-	query_filters = {}
-	filters = filters.split("&")
-	num_filters = len(filters)
-	for condition in filters:
-	    query_filter = condition.split("=")
-	    query_filters[query_filter[0]] = query_filter[1]
-	data = db.get_data_for_csv(num_filters, query_filters)
-    if data != None:
-	csv = make_csv(data,["USER_ID","ORG_UNIT","MODULE_ID","QUESTION_ID","ANSWER_ID"])
-	response = make_response(csv)
-	response.headers["Content-Disposition"] = "attachment; filename=results.csv"
-	return response
-    flash("No results for requested filters.", "search")
-    return redirect(url_for('dashboard'))
-
-@app.route("/admin_mod/<attrs>", methods=['GET', 'POST'])
-def admin_mod(attrs):
-    admin_perms = {}
-    attrs = attrs.split("&")
-    for item in attrs:
-	info = item.split("=")
-	admin_perms[info[0]] = info[1]
-    parse_admin_mod_directive(admin_perms)
-    return redirect(url_for('dashboard'))
-    
 @app.route("/admin")
 def admin():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
@@ -178,6 +159,36 @@ def mod_course_list():
 		modules = modules, is_admin = True)
     return render_template('unauthorized.html', name=user_info['name'],
 	    is_admin = False)
+
+@app.route("/download/<filters>", methods=['GET', 'POST'])
+def download_csv(filters):
+    if filters == "nofilter":
+	data = db.get_data_for_csv(0, "")
+    else:
+	query_filters = {}
+	filters = filters.split("&")
+	num_filters = len(filters)
+	for condition in filters:
+	    query_filter = condition.split("=")
+	    query_filters[query_filter[0]] = query_filter[1]
+	data = db.get_data_for_csv(num_filters, query_filters)
+    if data != None:
+	csv = make_csv(data,["USER_ID","ORG_UNIT","MODULE_ID","QUESTION_ID","ANSWER_ID"])
+	response = make_response(csv)
+	response.headers["Content-Disposition"] = "attachment; filename=results.csv"
+	return response
+    flash("No results for requested filters.", "search")
+    return redirect(url_for('dashboard'))
+
+@app.route("/admin_mod/<attrs>", methods=['GET', 'POST'])
+def admin_mod(attrs):
+    admin_perms = {}
+    attrs = attrs.split("&")
+    for item in attrs:
+	info = item.split("=")
+	admin_perms[info[0]] = info[1]
+    parse_admin_mod_directive(admin_perms)
+    return redirect(url_for('dashboard'))
 
 # MISCELLANEOUS HELPER FUNCTIONS
 
@@ -217,7 +228,6 @@ def make_csv(data, headers):
 	csv += "\n"
     return csv
 
-
 def parse_admin_mod_directive(admin_perms):
     action = admin_perms.pop("action", None)
     admin_id = admin_perms.pop("user", None)
@@ -252,7 +262,6 @@ def add_administrator(admin_id, admin_perms):
 			admin_id + ".", "admin")
 		return redirect(url_for('dashboard'))
     return 0
-
 
 # DO NOT TOUCH THIS SECTION DO NOT DO IT I WILL KNOW AND I WILL SMACK YOU
 if __name__ == "__main__":

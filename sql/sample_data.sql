@@ -20,39 +20,62 @@ INSERT INTO ADMIN (USER_ID, NAME, UNIT_ID) VALUES ("uqmcerva", "Maria", 456);
 INSERT INTO ADMIN_PERM (USER_ID, PERMISSION) VALUES ("uqcchua1", "read");
 INSERT INTO ADMIN_PERM (USER_ID, PERMISSION) VALUES ("uqcchua1", "write");
 
-INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (1, "Hello?");
+INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (1, "Best kind of cake?");
 INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (1, "Where is bear?");
-INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (1, "Cat?");
-INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (2, "Thing?");
-INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (2, "What?");
+INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (1, "Where's Wally?");
+INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (2, "Cat?");
+INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (2, "Dog?");
+INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (3, "Breakfast?");
+INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (3, "Lunch?");
+INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (3, "Dinner?");
+INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (3, "Dessert?");
 
-INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (1, 2);
-INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (2, 4);
-INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (3, 9);
-INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (4, 11);
-INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (5, 13);
+INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (1, 3);
+INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (2, 5);
+INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (3, 8);
+INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (4, 10);
+INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (5, 15);
+INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (6, 16);
+INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (7, 20);
+INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (8, 24);
+INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (9, 22);
 
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (1, "A");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (1, "B");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (1, "C");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (2, "D");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (2, "E");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (2, "F");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (3, "G");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (3, "H");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (3, "I");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (4, "J");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (4, "K");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (4, "L");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (5, "M");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (5, "N");
-INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (5, "O");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (1, "Tiramisu");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (1, "Blackforest");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (1, "Any cake");
 
-INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s4367459", "EAIT", 1, 2);
-INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s4367459", "EAIT", 2, 4);
-INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s4367459", "EAIT", 3, 7);
-INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s4367459", "EAIT", 4, 11);
-INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s4367459", "EAIT", 5, 13);
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (2, "Twelve-Acre Wood");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (2, "Hundred-Acre Wood");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (2, "Forty-Five-Acre Wood");
+
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (3, "Somewhere");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (3, "Nowhere");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (3, "Everywhere");
+
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (4, "Nova");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (4, "Pretzel");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (4, "Poppy");
+
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (5, "Corgi");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (5, "German Shepherd");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (5, "Finnish Lapphund");
+
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (6, "Waffles");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (6, "Bagel");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (6, "Cereal");
+
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (7, "Noodles");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (7, "Sushi");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (7, "Pies");
+
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (9, "Ice Cream");
+
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (8, "Spaghetti");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (8, "Mac and Cheese");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (8, "Lasagne");
+
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (9, "Chocolate Fondue");
+INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (9, "Frozen Yogurt");
 
 INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s1234567", "CATS", 1, 1);
 INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s1234567", "CATS", 2, 5);
@@ -60,13 +83,13 @@ INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s1234
 INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s1234567", "CATS", 4, 10);
 INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES ("s1234567", "CATS", 5, 13);
 
-INSERT INTO MODULES (NAME, STATUS, BLURB) VALUES ("Phishes and Spam", "ACTIVE",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ullamcorper a arcu at congue. Maecenas nec commodo nisl, nec volutpat quam. Sed sit amet hendrerit libero. In eget ornare magna, eget malesuada diam. Fusce commodo sed neque et aliquam. Donec accumsan, dolor non ultricies molestie, urna nisl maximus justo, vitae facilisis tortor nisi a lorem. Pellentesque pulvinar magna ac augue dapibus ornare. Mauris gravida purus in felis gravida pretium. Fusce bibendum vestibulum nunc, ut euismod libero consectetur ut. Aliquam in lectus ut eros malesuada fringilla ac quis turpis. Nullam cursus felis vel orci elementum, tempor posuere lectus scelerisque. Proin malesuada rhoncus sapien vitae aliquet."
+INSERT INTO MODULES (NAME, STATUS, BLURB, NUM_QUESTIONS) VALUES ("Phishes and Spam", "ACTIVE",
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ullamcorper a arcu at congue. Maecenas nec commodo nisl, nec volutpat quam. Sed sit amet hendrerit libero. In eget ornare magna, eget malesuada diam. Fusce commodo sed neque et aliquam. Donec accumsan, dolor non ultricies molestie, urna nisl maximus justo, vitae facilisis tortor nisi a lorem. Pellentesque pulvinar magna ac augue dapibus ornare. Mauris gravida purus in felis gravida pretium. Fusce bibendum vestibulum nunc, ut euismod libero consectetur ut. Aliquam in lectus ut eros malesuada fringilla ac quis turpis. Nullam cursus felis vel orci elementum, tempor posuere lectus scelerisque. Proin malesuada rhoncus sapien vitae aliquet.", 3
 );
-INSERT INTO MODULES (NAME, STATUS, BLURB) VALUES ("Social Engineering", "ACTIVE",
-    "Mauris at congue ante, non varius velit. Nunc ac rutrum neque, at molestie lorem. In semper turpis a neque posuere interdum. Donec id turpis id ex tempus semper. Nunc tempor purus quis nisi tincidunt gravida. Phasellus rhoncus gravida odio. Aenean congue vel ligula sit amet consequat. Duis efficitur leo vel nisl sollicitudin mollis. Nulla porta ipsum lectus, nec consequat nibh bibendum eu. Fusce mollis nisl eget dignissim rutrum. In ultrices iaculis nibh, sit amet fermentum risus. Quisque tempus, metus ac venenatis fermentum, mi lorem varius nisi, sit amet volutpat ante justo hendrerit odio. Sed blandit elit velit, sed euismod sapien vehicula at. Phasellus dignissim massa nisl, sed bibendum felis bibendum a."
+INSERT INTO MODULES (NAME, STATUS, BLURB, NUM_QUESTIONS) VALUES ("Social Engineering", "ACTIVE",
+    "Mauris at congue ante, non varius velit. Nunc ac rutrum neque, at molestie lorem. In semper turpis a neque posuere interdum. Donec id turpis id ex tempus semper. Nunc tempor purus quis nisi tincidunt gravida. Phasellus rhoncus gravida odio. Aenean congue vel ligula sit amet consequat. Duis efficitur leo vel nisl sollicitudin mollis. Nulla porta ipsum lectus, nec consequat nibh bibendum eu. Fusce mollis nisl eget dignissim rutrum. In ultrices iaculis nibh, sit amet fermentum risus. Quisque tempus, metus ac venenatis fermentum, mi lorem varius nisi, sit amet volutpat ante justo hendrerit odio. Sed blandit elit velit, sed euismod sapien vehicula at. Phasellus dignissim massa nisl, sed bibendum felis bibendum a.", 2
 );
-INSERT INTO MODULES (NAME, STATUS, BLURB) VALUES ("Choosing A Good Password", "ACTIVE",
-    "Aliquam id odio laoreet, rutrum diam at, interdum quam. Donec quis laoreet metus. Suspendisse quis feugiat eros. Suspendisse potenti. Phasellus eget aliquet lectus. Nullam consequat, elit ac lacinia elementum, nulla turpis auctor nunc, sed lacinia leo enim id sem. Proin justo ex, dictum in urna ut, dignissim molestie ipsum."
+INSERT INTO MODULES (NAME, STATUS, BLURB, NUM_QUESTIONS) VALUES ("Choosing A Good Password", "ACTIVE",
+    "Aliquam id odio laoreet, rutrum diam at, interdum quam. Donec quis laoreet metus. Suspendisse quis feugiat eros. Suspendisse potenti. Phasellus eget aliquet lectus. Nullam consequat, elit ac lacinia elementum, nulla turpis auctor nunc, sed lacinia leo enim id sem. Proin justo ex, dictum in urna ut, dignissim molestie ipsum.", 4
 );
 SET FOREIGN_KEY_CHECKS = 1;

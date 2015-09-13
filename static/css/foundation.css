@@ -3285,24 +3285,26 @@ ul.pagination {
 
 .accordion {
   margin-bottom: 0; }
-  .accordion:before, .accordion:after {
-    content: " ";
-    display: table; }
-  .accordion:after {
-    clear: both; }
-  .accordion .accordion-navigation, .accordion dd {
-    display: block;
-    margin-bottom: 0 !important; }
-    .accordion .accordion-navigation.active > a, .accordion dd.active > a {
-      background: #a265cc; }
-    .accordion .accordion-navigation > a, .accordion dd > a {
-      background: #a265cc;
-      color: #ffffff;
-      display: block;
-      font-family: "Ubuntu", Helvetica, Roboto, Arial, sans-serif;
-      font-weight: bold;
-      font-size: 1.5rem;
-      padding: 0.5rem; }
+.accordion:before, .accordion:after {
+  content: " ";
+  display: table; }
+.accordion:after {
+  clear: both; }
+.accordion .accordion-navigation, .accordion dd {
+  display: block;
+  margin-bottom: 0 !important; }
+.accordion .accordion-navigation.active > a, .accordion dd.active > a {
+  background: #a265cc; }
+.accordion .accordion-navigation > a, .accordion dd > a {
+  background: #a265cc;
+  color: #ffffff;
+  display: block;
+  font-family: "Ubuntu", Helvetica, Roboto, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #6f4d91;
+  padding: 0.5rem; }
+
       .accordion .accordion-navigation > a:hover, .accordion dd > a:hover {
         background: #6f4d91; }
     .accordion .accordion-navigation > .content, .accordion dd > .content {

@@ -89,11 +89,49 @@ $('#interact_answers').on('click', '#next', function(e) {
 
 // Sends answer to each quiz question off to another url to be checked
 $('.question').bind('submit', function(e) {
-    $url = "/check_answer/qid="
     e.preventDefault();
-    $qid = $(this).closest(".question").attr("id");
-    $url += $qid + "&aid=";
-    $aid = $("input[type='radio']:checked").val();
-    $url += $aid;
-    window.location = $url;
+    if (!$("input[type='radio']:checked").val()) {
+	console.log("ANSWER THE THING");
+    } else {
+	$.getJSON($SCRIPT_ROOT + '/check_answer', {
+	    aid: $("input[type='radio']:checked").val(),
+	    qid: $(this).closest(".question").attr("id"),
+	}, function(data) {
+	    console.log(data.result)
+	    if (data.result == 0) {
+		$msg = "Answer correct!";
+		$type = "success"
+	    } else if (data.result == 1) {
+		$msg = "Wrong answer!";
+		$type = "warning"
+	    } else {
+		$msg = "Invalid answer. Try again?";
+		$type = "warning"
+	    }
+	    $(".q_err").html(function() {                               
+		return "<div data-alert class='alert-box quiz-feedback " + 
+		$type + " radius text-center'>" + "<b>" + $msg + "</b>" + 
+		"<a href='#' class='close'>&times;</a>" + "</div>";
+	    });                                                         
+	    $(document).foundation();                                       
+	    $(document).foundation('alert', 'reflow');
+	    $(".quiz_submit").html(function() {                               
+		return "<input type='submit' class='tiny round green button next' value='Next'/>"
+	    });                                                         
+	});
+    }
+    return false;
+});
+
+$('.quiz_submit').on('click', '.next', function(e) {
+    e.preventDefault();
+    $(".q_err").empty();
+    $(".quiz_submit").html(function() {                               
+        return "<input type='submit' class='tiny round button' value='Submit'>"
+    });                                                         
+    Reveal.next();
+});
+
+Reveal.addEventListener( 'slidechanged', function( event ) {
+    $("input[type='radio']").prop('checked', false);
 });

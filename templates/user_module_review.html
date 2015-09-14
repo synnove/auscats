@@ -1,0 +1,59 @@
+{% extends "layout.html" %}  
+
+{% block scripts %} 
+<link rel="stylesheet" href="../static/css/reveal.css">
+<link rel="stylesheet" href="../static/css/theme/uq.css" id="theme">
+<script src="../static/lib/js/head.min.js"></script>
+<script src="../static/js/reveal.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="reveal">
+    <div class="small-12 large-6 large-offset-3 columns text-center">
+	<div class="alert-box secondary radius"><h4>module - {{ module_title }}</h4></div>
+    </div>
+
+    <div class="slides">
+	<!-- LECTURE SEGMENT -->
+	{% for slide in slides %}
+	    <section>
+	    <!-- handling different types of content -->
+	    {% if 'title' in slide %}
+		<h3>{{ slide['title'] }}</h3>
+	    {% endif %}
+	    {% if 'quote' in slide %}
+		<blockquote>
+		    {{ slide['quote'] }}
+		    <cite>{{ slide['cite'] }}</cite>
+		</blockquote>
+	    {% endif %}
+	    {% if 'contents' in slide %}
+		{% for line in slide['contents'] %}
+		    <p>{{ line }}</p>
+		{% endfor %}
+	    {% endif %}
+	    </section>
+	{% endfor %}
+
+	<section class="text-center">
+	    <h1> THE END !</h1>
+	    <a href="/">Back to Module List</a>
+	</section>
+    </div>
+</div>
+<script>
+    // Initialise settings for Reveal.js                                            
+    Reveal.initialize({                                                             
+	width: 1000,                                                                
+	height: 600,                                                                
+	minScale: 0.5,                                                              
+	maxScale: 0.7,                                                              
+	controls: true,                                                             
+	progress: true,                                                             
+	history: true,                                                              
+	overview: false,                                                            
+	transition: 'convex',                                                       
+	mouseWheel: false                                                           
+    });
+</script>
+{% endblock %}

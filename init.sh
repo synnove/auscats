@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#source - m-emerson
+#source - m-emerson@github
 
 function init {
     uwsgi-2.7 --module app --callable app --ini uwsgi.ini

@@ -1,3 +1,11 @@
+.purple {
+  color: #49075e;
+}
+
+.purple-shaded {
+  color: #370546;
+}
+
 meta.foundation-version {
   font-family: "/5.5.2/"; }
 
@@ -1164,7 +1172,7 @@ button, .button {
   display: inline-block;
   padding: 1rem 2rem 1.0625rem 2rem;
   font-size: 1rem;
-  background-color: #a265cc;
+  background-color: #49075e;
   border-color: #5e4c88;
   color: #FFFFFF;
   transition: background-color 300ms ease-out; }
@@ -1236,7 +1244,7 @@ button, .button {
   button.round, .button.round {
     border-radius: 1000px; }
   button.disabled, button[disabled], .button.disabled, .button[disabled] {
-    background-color: #a265cc;
+    background-color: #49075e;
     border-color: #5e4c88;
     color: #FFFFFF;
     box-shadow: none;
@@ -1247,7 +1255,7 @@ button, .button {
     button.disabled:hover, button.disabled:focus, button[disabled]:hover, button[disabled]:focus, .button.disabled:hover, .button.disabled:focus, .button[disabled]:hover, .button[disabled]:focus {
       color: #FFFFFF; }
     button.disabled:hover, button.disabled:focus, button[disabled]:hover, button[disabled]:focus, .button.disabled:hover, .button.disabled:focus, .button[disabled]:hover, .button[disabled]:focus {
-      background-color: #a265cc; }
+      background-color: #49075e; }
     button.disabled.secondary, button[disabled].secondary, .button.disabled.secondary, .button[disabled].secondary {
       background-color: #F0F0F0;
       border-color: silver;
@@ -1699,7 +1707,7 @@ meta.foundation-mq-topbar {
 /* Wrapped around .top-bar to contain to grid width */
 .contain-to-grid {
   width: 100%;
-  background: #a265cc; }
+  background: #49075e; }
   .contain-to-grid .top-bar {
     margin-bottom: 0; }
 
@@ -1723,7 +1731,7 @@ meta.foundation-mq-topbar {
       z-index: 98; }
 
 .top-bar {
-  background: #a265cc;
+  background: #49075e;
   height: 2.8125rem;
   line-height: 2.8125rem;
   margin-bottom: 0;
@@ -1809,7 +1817,7 @@ meta.foundation-mq-topbar {
     background: transparent;
     height: auto; }
     .top-bar.expanded .title-area {
-      background: #a265cc; }
+      background: #49075e; }
     .top-bar.expanded .toggle-topbar a {
       color: #888888; }
       .top-bar.expanded .toggle-topbar a span::after {
@@ -1840,7 +1848,7 @@ meta.foundation-mq-topbar {
     height: 1px;
     width: 100%; }
   .top-bar-section ul li {
-    background: #a265cc; }
+    background: #49075e; }
     .top-bar-section ul li > a {
       color: #FFFFFF;
       display: block;
@@ -1855,7 +1863,7 @@ meta.foundation-mq-topbar {
         font-size: 0.8125rem;
         padding-left: 0.9375rem;
         padding-right: 0.9375rem;
-        background-color: #a265cc;
+        background-color: #49075e;
         border-color: #5e4c88;
         color: #FFFFFF; }
         .top-bar-section ul li > a.button:hover, .top-bar-section ul li > a.button:focus {
@@ -1906,7 +1914,7 @@ meta.foundation-mq-topbar {
       font-size: 0.8125rem;
       padding-left: 0.9375rem;
       padding-right: 0.9375rem;
-      background-color: #a265cc;
+      background-color: #49075e;
       border-color: #5e4c88;
       color: #FFFFFF; }
       .top-bar-section ul li > button:hover, .top-bar-section ul li > button:focus {
@@ -1956,12 +1964,12 @@ meta.foundation-mq-topbar {
     .top-bar-section ul li:hover:not(.has-form) > a {
       background-color: #555555;
       color: #FFFFFF;
-      background: #6f4d91; }
+      background: #370546; }
     .top-bar-section ul li.active > a {
-      background: #a265cc;
+      background: #49075e;
       color: #FFFFFF; }
       .top-bar-section ul li.active > a:hover {
-        background: #6f4d91;
+        background: #370546;
         color: #FFFFFF; }
   .top-bar-section .has-form {
     padding: 0.9375rem; }
@@ -2040,7 +2048,7 @@ meta.foundation-mq-topbar {
 
 @media only screen and (min-width: 58.75em) {
   .top-bar {
-    background: #a265cc;
+    background: #49075e;
     overflow: visible; }
     .top-bar:before, .top-bar:after {
       content: " ";
@@ -2067,7 +2075,7 @@ meta.foundation-mq-topbar {
       position: relative;
       top: 0.53125rem; }
     .top-bar.expanded {
-      background: #a265cc; }
+      background: #49075e; }
 
   .contain-to-grid .top-bar {
     margin-bottom: 0;
@@ -2087,22 +2095,22 @@ meta.foundation-mq-topbar {
           display: none; }
     .top-bar-section li.hover > a:not(.button) {
       background-color: #555555;
-      background: #6f4d91;
+      background: #370546;
       color: #FFFFFF; }
     .top-bar-section li:not(.has-form) a:not(.button) {
-      background: #a265cc;
+      background: #49075e;
       line-height: 2.8125rem;
       padding: 0 0.9375rem; }
       .top-bar-section li:not(.has-form) a:not(.button):hover {
         background-color: #555555;
-        background: #6f4d91; }
+        background: #370546; }
     .top-bar-section li.active:not(.has-form) a:not(.button) {
-      background: #a265cc;
+      background: #49075e;
       color: #FFFFFF;
       line-height: 2.8125rem;
       padding: 0 0.9375rem; }
       .top-bar-section li.active:not(.has-form) a:not(.button):hover {
-        background: #6f4d91;
+        background: #370546;
         color: #FFFFFF; }
     .top-bar-section .has-dropdown > a {
       padding-right: 2.1875rem !important; }
@@ -2152,20 +2160,20 @@ meta.foundation-mq-topbar {
       min-width: 100%;
       top: auto; }
       .top-bar-section .dropdown li a {
-        background: #a265cc;
+        background: #49075e;
         color: #FFFFFF;
         line-height: 2.8125rem;
         padding: 12px 0.9375rem;
         white-space: nowrap; }
       .top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button) {
-        background: #a265cc;
+        background: #49075e;
         color: #FFFFFF; }
       .top-bar-section .dropdown li:not(.has-form):not(.active):hover > a:not(.button) {
         background-color: #555555;
         color: #FFFFFF;
-        background: #6f4d91; }
+        background: #370546; }
       .top-bar-section .dropdown li label {
-        background: #a265cc;
+        background: #49075e;
         white-space: nowrap; }
       .top-bar-section .dropdown li .dropdown {
         left: 100%;
@@ -2179,7 +2187,7 @@ meta.foundation-mq-topbar {
       height: 2.8125rem;
       width: 0; }
     .top-bar-section .has-form {
-      background: #a265cc;
+      background: #49075e;
       height: 2.8125rem;
       padding: 0 0.9375rem; }
     .top-bar-section .right li .dropdown {
@@ -2195,10 +2203,10 @@ meta.foundation-mq-topbar {
 
   .no-js .top-bar-section ul li:hover > a {
     background-color: #555555;
-    background: #6f4d91;
+    background: #370546;
     color: #FFFFFF; }
   .no-js .top-bar-section ul li:active > a {
-    background: #a265cc;
+    background: #49075e;
     color: #FFFFFF; }
   .no-js .top-bar-section .has-dropdown:hover > .dropdown {
     position: static !important;
@@ -2279,8 +2287,8 @@ meta.foundation-mq-topbar {
   padding: 0.875rem 1.5rem 0.875rem 0.875rem;
   position: relative;
   transition: opacity 300ms ease-out;
-  background-color: #a265cc;
-  border-color: #6f4d91;
+  background-color: #49075e;
+  border-color: #370546;
   color: #FFFFFF; }
   .alert-box .close {
     right: 0.25rem;
@@ -2759,7 +2767,7 @@ meta.foundation-mq-topbar {
     .panel.callout a:not(.button) {
       color: #222222; }
       .panel.callout a:not(.button):hover, .panel.callout a:not(.button):focus {
-        color: #6f4d91; }
+        color: #370546; }
   .panel.radius {
     border-radius: 3px; }
 
@@ -2806,7 +2814,7 @@ meta.foundation-mq-topbar {
     .dropdown.button.large::after, button.dropdown.large::after {
       border-color: #FFFFFF transparent transparent transparent; }
   .dropdown.button.secondary:after, button.dropdown.secondary:after {
-    border-color: #a265cc transparent transparent transparent; }
+    border-color: #49075e transparent transparent transparent; }
 
 /* Image Thumbnails */
 .th {
@@ -2830,7 +2838,7 @@ meta.foundation-mq-topbar {
     list-style: none;
     line-height: 1; }
   .pricing-table .title {
-    background-color: #a265cc;
+    background-color: #49075e;
     color: #EEEEEE;
     font-family: "Ubuntu", Helvetica, Roboto, Arial, sans-serif;
     font-size: 1rem;
@@ -2883,7 +2891,7 @@ meta.foundation-mq-topbar {
   display: inline-block;
   font-size: 0;
   width: 100%;
-  background: #a265cc; }
+  background: #49075e; }
   .icon-bar > * {
     display: block;
     float: left;
@@ -2951,13 +2959,13 @@ meta.foundation-mq-topbar {
   .icon-bar > * i {
     color: #FFFFFF; }
   .icon-bar > a:hover {
-    background: #a265cc; }
+    background: #49075e; }
     .icon-bar > a:hover label {
       color: #FFFFFF; }
     .icon-bar > a:hover i {
       color: #FFFFFF; }
   .icon-bar > a.active {
-    background: #a265cc; }
+    background: #49075e; }
     .icon-bar > a.active label {
       color: #FFFFFF; }
     .icon-bar > a.active i {
@@ -3128,18 +3136,19 @@ meta.foundation-mq-topbar {
     .tabs dd > a,
     .tabs .tab-title > a {
       display: block;
-      background-color: #EFEFEF;
-      color: #222222;
+      background-color: #5d1773;
+      color: #ffffff;
       font-family: "Ubuntu", Helvetica, Roboto, Arial, sans-serif;
       font-size: 1rem;
-      padding: 1rem 2rem; }
+      border-right: 1px solid #ffffff;
+      padding: 0.5rem 2rem; }
       .tabs dd > a:hover,
       .tabs .tab-title > a:hover {
-        background-color: #e1e1e1; }
+        background-color: #370546; }
     .tabs dd.active a,
     .tabs .tab-title.active a {
-      background-color: #FFFFFF;
-      color: #222222; }
+      background-color: #49075e;
+      color: #ffffff; }
   .tabs.radius dd:first-child a,
   .tabs.radius .tab:first-child a {
     -webkit-border-bottom-left-radius: 3px;
@@ -3229,12 +3238,12 @@ ul.pagination {
     ul.pagination li.unavailable:hover a, ul.pagination li.unavailable a:focus, ul.pagination li.unavailable:hover button, ul.pagination li.unavailable button:focus {
       background: transparent; }
     ul.pagination li.current a, ul.pagination li.current button {
-      background: #a265cc;
+      background: #49075e;
       color: #FFFFFF;
       cursor: default;
       font-weight: bold; }
       ul.pagination li.current a:hover, ul.pagination li.current a:focus, ul.pagination li.current button:hover, ul.pagination li.current button:focus {
-        background: #a265cc; }
+        background: #49075e; }
   ul.pagination li {
     display: block;
     float: left; }
@@ -3285,26 +3294,28 @@ ul.pagination {
 
 .accordion {
   margin-bottom: 0; }
-  .accordion:before, .accordion:after {
-    content: " ";
-    display: table; }
-  .accordion:after {
-    clear: both; }
-  .accordion .accordion-navigation, .accordion dd {
-    display: block;
-    margin-bottom: 0 !important; }
-    .accordion .accordion-navigation.active > a, .accordion dd.active > a {
-      background: #a265cc; }
-    .accordion .accordion-navigation > a, .accordion dd > a {
-      background: #a265cc;
-      color: #ffffff;
-      display: block;
-      font-family: "Ubuntu", Helvetica, Roboto, Arial, sans-serif;
-      font-weight: bold;
-      font-size: 1.5rem;
-      padding: 0.5rem; }
+.accordion:before, .accordion:after {
+  content: " ";
+  display: table; }
+.accordion:after {
+  clear: both; }
+.accordion .accordion-navigation, .accordion dd {
+  display: block;
+  margin-bottom: 0 !important; }
+.accordion .accordion-navigation.active > a, .accordion dd.active > a {
+  background: #49075e; }
+.accordion .accordion-navigation > a, .accordion dd > a {
+  background: #49075e;
+  color: #ffffff;
+  display: block;
+  font-family: "Ubuntu", Helvetica, Roboto, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+  border-bottom: 1px solid #ffffff;
+  padding: 0.5rem; }
+
       .accordion .accordion-navigation > a:hover, .accordion dd > a:hover {
-        background: #6f4d91; }
+        background: #370546; }
     .accordion .accordion-navigation > .content, .accordion dd > .content {
       display: none;
       padding: 0.9375em; }
@@ -3473,7 +3484,7 @@ a {
   line-height: inherit;
   text-decoration: none; }
   a:hover, a:focus {
-    color: #6f4d91; }
+    color: #370546; }
   a img {
     border: none; }
 
@@ -3765,7 +3776,7 @@ blockquote p {
   .split.button.expand {
     padding-left: 2rem; }
   .split.button.secondary span:after {
-    border-color: #a265cc transparent transparent transparent; }
+    border-color: #49075e transparent transparent transparent; }
   .split.button.radius span {
     -webkit-border-bottom-right-radius: 3px;
     -webkit-border-top-right-radius: 3px;
@@ -3913,7 +3924,7 @@ blockquote p {
     float: none !important; }
 
 .tooltip {
-  background: #a265cc;
+  background: #49075e;
   color: #FFFFFF;
   display: none;
   font-size: 0.875rem;
@@ -3926,7 +3937,7 @@ blockquote p {
   z-index: 1006;
   left: 50%; }
   .tooltip > .nub {
-    border-color: transparent transparent #a265cc transparent;
+    border-color: transparent transparent #49075e transparent;
     border: solid 5px;
     display: block;
     height: 0;
@@ -3956,22 +3967,22 @@ blockquote p {
 
 @media only screen and (min-width: 40.0625em) {
   .tooltip > .nub {
-    border-color: transparent transparent #a265cc transparent;
+    border-color: transparent transparent #49075e transparent;
     top: -10px; }
   .tooltip.tip-top > .nub {
-    border-color: #a265cc transparent transparent transparent;
+    border-color: #49075e transparent transparent transparent;
     bottom: -10px;
     top: auto; }
   .tooltip.tip-left, .tooltip.tip-right {
     float: none !important; }
   .tooltip.tip-left > .nub {
-    border-color: transparent transparent transparent #a265cc;
+    border-color: transparent transparent transparent #49075e;
     left: auto;
     margin-top: -5px;
     right: -10px;
     top: 50%; }
   .tooltip.tip-right > .nub {
-    border-color: transparent #a265cc transparent transparent;
+    border-color: transparent #49075e transparent transparent;
     left: -10px;
     margin-top: -5px;
     right: auto;
@@ -3993,7 +4004,7 @@ blockquote p {
     margin-right: 0; }
 
 .clearing-blackout {
-  background: #a265cc;
+  background: #49075e;
   height: 100%;
   position: fixed;
   top: 0;
@@ -4033,7 +4044,7 @@ blockquote p {
     max-width: 100%; }
 
 .clearing-caption {
-  background: #a265cc;
+  background: #49075e;
   bottom: 0;
   color: #CCCCCC;
   font-size: 0.875em;
@@ -4140,7 +4151,7 @@ blockquote p {
         .clearing-assembled .clearing-container .carousel > ul li:hover {
           opacity: .8; }
   .clearing-assembled .clearing-container .visible-img {
-    background: #a265cc;
+    background: #49075e;
     height: 85%;
     overflow: hidden; }
 
@@ -4158,7 +4169,7 @@ blockquote p {
   margin-bottom: 0.625rem;
   padding: 0.125rem; }
   .progress .meter {
-    background: #a265cc;
+    background: #49075e;
     display: block;
     height: 100%; }
   .progress.secondary .meter {
@@ -4214,7 +4225,7 @@ blockquote p {
     .sub-nav dd.active a,
     .sub-nav li.active a {
       border-radius: 3px;
-      background: #a265cc;
+      background: #49075e;
       color: #FFFFFF;
       cursor: default;
       font-weight: normal;
@@ -4222,7 +4233,7 @@ blockquote p {
       .sub-nav dt.active a:hover,
       .sub-nav dd.active a:hover,
       .sub-nav li.active a:hover {
-        background: #6f4d91; }
+        background: #370546; }
 
 /* Foundation Joyride */
 .joyride-list {
@@ -4230,7 +4241,7 @@ blockquote p {
 
 /* Default styles for the container */
 .joyride-tip-guide {
-  background: #a265cc;
+  background: #49075e;
   color: #FFFFFF;
   display: none;
   font-family: inherit;
@@ -4256,21 +4267,21 @@ blockquote p {
 
 /* Add a little css triangle pip, older browser just miss out on the fanciness of it */
 .joyride-tip-guide .joyride-nub {
-  border: 10px solid #a265cc;
+  border: 10px solid #49075e;
   display: block;
   height: 0;
   position: absolute;
   width: 0;
   left: 22px; }
   .joyride-tip-guide .joyride-nub.top {
-    border-color: #a265cc;
+    border-color: #49075e;
     border-top-color: transparent !important;
     border-top-style: solid;
     border-left-color: transparent !important;
     border-right-color: transparent !important;
     top: -20px; }
   .joyride-tip-guide .joyride-nub.bottom {
-    border-color: #a265cc !important;
+    border-color: #49075e !important;
     border-bottom-color: transparent !important;
     border-bottom-style: solid;
     border-left-color: transparent !important;
@@ -4356,13 +4367,13 @@ blockquote p {
     width: 300px;
     left: inherit; }
     .joyride-tip-guide .joyride-nub.bottom {
-      border-color: #a265cc !important;
+      border-color: #49075e !important;
       border-bottom-color: transparent !important;
       border-left-color: transparent !important;
       border-right-color: transparent !important;
       bottom: -20px; }
     .joyride-tip-guide .joyride-nub.right {
-      border-color: #a265cc !important;
+      border-color: #49075e !important;
       border-right-color: transparent !important;
       border-bottom-color: transparent !important;
       border-top-color: transparent !important;
@@ -4370,7 +4381,7 @@ blockquote p {
       right: -20px;
       top: 22px; }
     .joyride-tip-guide .joyride-nub.left {
-      border-color: #a265cc !important;
+      border-color: #49075e !important;
       border-bottom-color: transparent !important;
       border-left-color: transparent !important;
       border-top-color: transparent !important;
@@ -4389,7 +4400,7 @@ blockquote p {
   white-space: nowrap;
   padding: 0.25rem 0.5rem 0.25rem;
   font-size: 0.6875rem;
-  background-color: #a265cc;
+  background-color: #49075e;
   color: #FFFFFF; }
   .label.radius {
     border-radius: 3px; }
@@ -4436,7 +4447,7 @@ blockquote p {
 
 .tab-bar {
   -webkit-backface-visibility: hidden;
-  background: #a265cc;
+  background: #49075e;
   color: #FFFFFF;
   height: 2.8125rem;
   line-height: 2.8125rem;
@@ -4509,7 +4520,7 @@ blockquote p {
 
 .left-off-canvas-menu {
   -webkit-backface-visibility: hidden;
-  background: #a265cc;
+  background: #49075e;
   bottom: 0;
   box-sizing: content-box;
   -webkit-overflow-scrolling: touch;
@@ -4533,7 +4544,7 @@ blockquote p {
 
 .right-off-canvas-menu {
   -webkit-backface-visibility: hidden;
-  background: #a265cc;
+  background: #49075e;
   bottom: 0;
   box-sizing: content-box;
   -webkit-overflow-scrolling: touch;
@@ -4718,7 +4729,7 @@ ul.off-canvas-list {
 .left-submenu {
   -webkit-backface-visibility: hidden;
   -webkit-overflow-scrolling: touch;
-  background: #a265cc;
+  background: #49075e;
   bottom: 0;
   box-sizing: content-box;
   margin: 0;
@@ -4770,7 +4781,7 @@ ul.off-canvas-list {
 .right-submenu {
   -webkit-backface-visibility: hidden;
   -webkit-overflow-scrolling: touch;
-  background: #a265cc;
+  background: #49075e;
   bottom: 0;
   box-sizing: content-box;
   margin: 0;
@@ -5151,7 +5162,7 @@ table {
     background: #FAFAFA;
     border-radius: 3px; }
     .range-slider.radius .range-slider-handle {
-      background: #a265cc;
+      background: #49075e;
       border-radius: 3px; }
       .range-slider.radius .range-slider-handle:hover {
         background: #685395; }
@@ -5159,7 +5170,7 @@ table {
     background: #FAFAFA;
     border-radius: 1000px; }
     .range-slider.round .range-slider-handle {
-      background: #a265cc;
+      background: #49075e;
       border-radius: 1000px; }
       .range-slider.round .range-slider-handle:hover {
         background: #685395; }
@@ -5168,7 +5179,7 @@ table {
     cursor: not-allowed;
     opacity: 0.7; }
     .range-slider.disabled .range-slider-handle, .range-slider[disabled] .range-slider-handle {
-      background: #a265cc;
+      background: #49075e;
       cursor: default;
       opacity: 0.7; }
       .range-slider.disabled .range-slider-handle:hover, .range-slider[disabled] .range-slider-handle:hover {
@@ -5193,7 +5204,7 @@ table {
   z-index: 1;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-  background: #a265cc; }
+  background: #49075e; }
   .range-slider-handle:hover {
     background: #685395; }
 
@@ -5583,7 +5594,7 @@ kbd {
     -o-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0); }
   .switch input:checked + label {
-    background: #a265cc; }
+    background: #49075e; }
   .switch input:checked + label:after {
     left: 2.25rem; }
   .switch label {
@@ -5600,7 +5611,7 @@ kbd {
   .switch label:after {
     background: #FFFFFF; }
   .switch input:checked + label {
-    background: #a265cc; }
+    background: #49075e; }
   .switch.large label {
     height: 2.5rem;
     width: 5rem; }

@@ -945,9 +945,11 @@
 			document.addEventListener( 'keypress', onDocumentKeyPress, false );
 		}
 
+		/* disabling progress bar clicks
 		if( config.progress && dom.progress ) {
 			dom.progress.addEventListener( 'click', onProgressClicked, false );
 		}
+		*/
 
 		if( config.focusBodyOnPageVisibilityChange ) {
 			var visibilityChange;

@@ -1,15 +1,11 @@
-.light-purple {
+.purple {
   color: #49075e;
 }
 
-.light-purple-shaded {
+.purple-shaded {
   color: #370546;
 }
 
-.dark-purple {
-  color: #370546;
-  /* color: #5e4c88; */
-}
 meta.foundation-version {
   font-family: "/5.5.2/"; }
 
@@ -3140,18 +3136,19 @@ meta.foundation-mq-topbar {
     .tabs dd > a,
     .tabs .tab-title > a {
       display: block;
-      background-color: #EFEFEF;
-      color: #222222;
+      background-color: #5d1773;
+      color: #ffffff;
       font-family: "Ubuntu", Helvetica, Roboto, Arial, sans-serif;
       font-size: 1rem;
-      padding: 1rem 2rem; }
+      border-right: 1px solid #ffffff;
+      padding: 0.5rem 2rem; }
       .tabs dd > a:hover,
       .tabs .tab-title > a:hover {
-        background-color: #e1e1e1; }
+        background-color: #370546; }
     .tabs dd.active a,
     .tabs .tab-title.active a {
-      background-color: #FFFFFF;
-      color: #222222; }
+      background-color: #49075e;
+      color: #ffffff; }
   .tabs.radius dd:first-child a,
   .tabs.radius .tab:first-child a {
     -webkit-border-bottom-left-radius: 3px;

@@ -2,32 +2,86 @@
 
 {% block content %}
 <div class="container">
-    <div class="small-10 small-offset-1 columns">
-	<!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS -->
-	{% for module in modules %}
-	    <div class="row">
+    <div class="row">
+	<div class="large-12 columns">
+	    <ul class="tabs" data-tab>
+		<li class="tab-title active"><a href="#active">Active Modules</a></li>
+		<li class="tab-title"><a href="#inactive">Inactive Modules</a></li>
+	    </ul>
+	    <div class="tabs-content" data-equalizer>
+		<div class="content active panel" id="active" data-equalizer-watch>
 		<div class="large-12 columns">
-		    <div class="panel">
 			<div class="row">
-			    <div class="large-10 columns text-left">
-				<h3>{{ module['NAME'] }}</h3>
+			    <div class="large-3 columns text-left">
+				<h5>Name</h5>
 			    </div>
-			    <div class="large-2 columns text-right">
-				<a href="/module/{{module['NAME']}}" class="button tiny round green">Edit Module</a>
+			    <div class="large-4 columns text-left">
+				<h5>Last Updated</h5>
+			    </div>
+			    <div class="large-5 columns text-right">
 			    </div>
 			</div>
-			<div class="row">
-			    <div class="large-10 large-offset-1 columns text-justify">
-				<p>{{ module['BLURB'] }}</p>
-			    </div>
-			</div>
-		    </div>
-		    <div class="text-right lastmod">
-			<p>last modified: date by name</p>
-		    </div>
 		</div>
+		<hr>
+		{% for module in active_modules %}
+		    <div class="row">
+			<div class="large-12 columns">
+				<div class="row">
+				    <div class="large-3 columns text-left">
+					<h5>{{ module['NAME'] }}</h5>
+				    </div>
+				    <div class="large-4 columns text-left">
+					{{ module['LAST_UPDATED'] }} by {{ module['EDITOR'] }}
+				    </div>
+				    <div class="large-5 columns text-right">
+					<a href="/module/{{module['NAME']}}" class="button tiny round green">Edit Module</a>
+					<a href="/module/{{module['NAME']}}" class="button tiny round warning">Deactivate</a>
+				    </div>
+				</div>
+			</div>
+			{% if module != active_modules[-1] %}
+			    <hr>
+			{% endif %}
+		    </div>
+		{% endfor %}
+		</div>
+		<div class="content panel" id="inactive" data-equalizer-watch>
+		<div class="large-12 columns">
+			<div class="row">
+			    <div class="large-3 columns text-left">
+				<h5>Name</h5>
+			    </div>
+			    <div class="large-4 columns text-left">
+				<h5>Last Updated</h5>
+			    </div>
+			    <div class="large-5 columns text-right">
+			    </div>
+			</div>
+		</div>
+		<hr>
+		{% for module in inactive_modules %}
+		    <div class="row">
+			<div class="large-12 columns">
+				<div class="row">
+				    <div class="large-3 columns text-left">
+					<h5>{{ module['NAME'] }}</h5>
+				    </div>
+				    <div class="large-4 columns text-left">
+					{{ module['LAST_UPDATED'] }} by {{ module['EDITOR'] }}
+				    </div>
+				    <div class="large-5 columns text-right">
+					<a href="/module/{{module['NAME']}}" class="button tiny round green">Edit Module</a>
+					<a href="/module/{{module['NAME']}}" class="button tiny round ">Activate</a>
+				    </div>
+				</div>
+			</div>
+			{% if module != inactive_modules[-1] %}
+			    <hr>
+			{% endif %}
+		    </div>
+		{% endfor %}
 	    </div>
-	{% endfor %}
+	</div>
     </div>
 </div>
 {% endblock %}

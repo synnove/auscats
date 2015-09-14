@@ -26,7 +26,7 @@ def frontPage():
     admin_list = db.get_admin_user_list()
 
     if user_info['user'] in admin_list:
-	return redirect(url_for('dashboard'))
+	return redirect(url_for('adminDashboard'))
     return redirect(url_for('courseDefault'))
 
 @app.route("/modules")
@@ -45,7 +45,7 @@ def courseDefault():
 		user_id = user_info['user'], active_modules = active_modules, 
 		modules_completed = modules_completed, 
 		num_incomplete = num_incomplete, is_admin = False)
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('adminDashboard'))
 
 @app.route("/module/<module_title>", methods=['GET', 'POST'])
 def coursePage(module_title):
@@ -71,7 +71,7 @@ def coursePage(module_title):
 	return render_template('user_module.html', name = user_info['name'], 
 		slides = slides, module_title = module_title, 
 		quizzes = quizzes, answers = answers, is_admin = False)
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('adminDashboard'))
 
 @app.route("/review/<module_title>", methods=['GET', 'POST'])
 def reviewModule(module_title):
@@ -93,7 +93,7 @@ def reviewModule(module_title):
     if user_info['user'] not in admin_list:
 	return render_template('user_module_review.html', name = user_info['name'], 
 		slides = slides, module_title = module_title, is_admin = False)
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('adminDashboard'))
 
 @app.route("/grades/<module_title>", methods=['GET', 'POST'])
 def gradePage(module_title):
@@ -122,7 +122,7 @@ def gradePage(module_title):
                 number_of_questions = number_of_questions, 
 		percentage_correct = percentage_correct, 
 		module_title = module_title, modules = modules, is_admin = False)
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('adminDashboard'))
 
 @app.route("/check_answer", methods=['GET', 'POST'])
 def check_answer():
@@ -135,22 +135,26 @@ def check_answer():
 
 # ADMIN PAGES
 @app.route("/dashboard")
-def dashboard():
+def adminDashboard():
+    """ main admin user page """
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list()
 
     modules = db.get_module_info()
     org_units = db.get_org_unit_info()
+    last_updated = db.get_last_updated_module()
 
     if user_info['user'] in admin_list:
 	return render_template('admin_dashboard.html', 
 		name = user_info['name'], modules = modules,
-		org_units = org_units, is_admin = True)
+		last_updated = last_updated, org_units = org_units, 
+		is_admin = True)
     return render_template('unauthorized.html', name=user_info['name'], 
 	    is_admin = False)
 
 @app.route("/admin")
-def admin():
+def manageAdmin():
+    """ add, modify and remove admin users """
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list();
 
@@ -161,7 +165,8 @@ def admin():
 	    is_admin = False)
 
 @app.route("/drawingboard/<course_id>/<rev_id>/<slide_no>")
-def modcourse():
+def editCourse():
+    """ page for modifying module content """
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list();
 
@@ -172,20 +177,24 @@ def modcourse():
 	    is_admin = False)
 
 @app.route("/edit")
-def mod_course_list():
+def editCourseList():
+    """ lists modules that administrators can edit """
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     admin_list = db.get_admin_user_list();
 
-    modules = db.get_module_info()
+    active_modules = db.get_admin_module_info("ACTIVE")
+    inactive_modules = db.get_admin_module_info("INACTIVE")
 
     if user_info['user'] in admin_list:
 	return render_template('admin_edit.html', name = user_info['name'],
-		modules = modules, is_admin = True)
+		active_modules = active_modules, 
+		inactive_modules = inactive_modules, is_admin = True)
     return render_template('unauthorized.html', name=user_info['name'],
 	    is_admin = False)
 
 @app.route("/download/<filters>", methods=['GET', 'POST'])
 def download_csv(filters):
+    """ retrieves a .csv file to download """
     if filters == "nofilter":
 	data = db.get_data_for_csv(0, "")
     else:
@@ -202,23 +211,25 @@ def download_csv(filters):
 	response.headers["Content-Disposition"] = "attachment; filename=results.csv"
 	return response
     flash("No results for requested filters.", "search")
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('adminDashboard'))
 
 @app.route("/admin_mod/<attrs>", methods=['GET', 'POST'])
 def admin_mod(attrs):
+    """ calls function that modifies admin permissions """
     admin_perms = {}
     attrs = attrs.split("&")
     for item in attrs:
 	info = item.split("=")
 	admin_perms[info[0]] = info[1]
     parse_admin_mod_directive(admin_perms)
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('adminDashboard'))
 
 # MISCELLANEOUS HELPER FUNCTIONS
 
 def parse_lecture_content(filename):
+    """ reads a text file to get lecture content """
     lecture_file = open(filename,"r")
-    contents = []                                                                                                                                                                            
+    contents = []
     slide = {}
     content_type = ""
     for line in lecture_file:
@@ -238,6 +249,7 @@ def parse_lecture_content(filename):
     return contents
 
 def make_csv(data, headers):
+    """ creates a .csv file from data """
     data_list = []
     csv = ""
 
@@ -253,6 +265,7 @@ def make_csv(data, headers):
     return csv
 
 def parse_admin_mod_directive(admin_perms):
+    """ determines action to take (add, modify or remove admin) """
     action = admin_perms.pop("action", None)
     admin_id = admin_perms.pop("user", None)
     if action != None and admin_id != None:
@@ -260,10 +273,10 @@ def parse_admin_mod_directive(admin_perms):
 	    status = add_administrator(admin_id, admin_perms)
 	    if status == -1:
 		flash("Administrator already exists.", "admin")
-		return redirect(url_for('dashboard'))
+		return redirect(url_for('adminDashboard'))
 	    elif status == 0:
 		flash("Administrator successfully added.", "admin_ok")
-		return redirect(url_for('dashboard'))
+		return redirect(url_for('adminDashboard'))
 	elif action == "modify":
 	    pass
 	    # call other function
@@ -271,9 +284,10 @@ def parse_admin_mod_directive(admin_perms):
 	    pass
 	    # call delete function
     thing = str(action) + " " + str(admin_id)
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('adminDashboard'))
 
 def add_administrator(admin_id, admin_perms):
+    """ adds an administrator with the specified permissions """
     status = db.do_admin_add(admin_id)
     if status == -1:
 	return -1
@@ -284,7 +298,7 @@ def add_administrator(admin_id, admin_perms):
 		flash("Permission " + perm_type + 
 			" already exists for administrator " + 
 			admin_id + ".", "admin")
-		return redirect(url_for('dashboard'))
+		return redirect(url_for('adminDashboard'))
     return 0
 
 # DO NOT TOUCH THIS SECTION DO NOT DO IT I WILL KNOW AND I WILL SMACK YOU

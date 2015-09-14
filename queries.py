@@ -45,9 +45,25 @@ def get_module_names():
     conn.close()
     return modules
 
-def get_admin_module_info():
+def get_admin_module_info(status):
     """ get module information for administrators """
-    pass
+    modules = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM vw_ADMIN_MODULE_INFO WHERE STATUS = %s", [status])
+    rows = cur.fetchall()
+    for row in rows:
+	modules.append(row)
+    conn.close()
+    return modules
+
+def get_last_updated_module():
+    """ get module information for administrators """
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM vw_ADMIN_MODULE_INFO ORDER BY LAST_UPDATED DESC LIMIT 1")
+    module = cur.fetchone()
+    return module
 
 def get_quiz_questions_by_module(module_id):
     """ get list of questions per module """
@@ -194,7 +210,7 @@ def get_data_for_csv(num, filters):
     data = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    sql = "SELECT * FROM vw_USER_CORRECT_ANSWERS"
+    sql = "SELECT * FROM vw_USER_ANSWERS"
     if num >= 1:
 	attrs = list(filters.keys())
 	for attr in attrs:

@@ -38,11 +38,13 @@ def courseDefault():
 
     active_modules = db.get_module_info()
     modules_completed = db.modules_completed_by_user(user_info['user'])
+    num_incomplete = len(active_modules) - len(modules_completed)
     
     if user_info['user'] not in admin_list:
 	return render_template('user_module_list.html', name=user_info['name'],
 		user_id = user_info['user'], active_modules = active_modules, 
-		modules_completed = modules_completed, is_admin = False)
+		modules_completed = modules_completed, 
+		num_incomplete = num_incomplete, is_admin = False)
     return redirect(url_for('dashboard'))
 
 @app.route("/module/<module_title>", methods=['GET', 'POST'])
@@ -69,6 +71,28 @@ def coursePage(module_title):
 	return render_template('user_module.html', name = user_info['name'], 
 		slides = slides, module_title = module_title, 
 		quizzes = quizzes, answers = answers, is_admin = False)
+    return redirect(url_for('dashboard'))
+
+@app.route("/review/<module_title>", methods=['GET', 'POST'])
+def reviewModule(module_title):
+    """ Displays a module to the user. Currently content is stored in .txt
+	files and parsed, will eventually shift to using database. """
+    user_info = json.loads(request.headers.get('X-KVD-Payload'))
+    admin_list = db.get_admin_user_list()
+    modules_list = db.get_module_names()
+
+    # check url is valid
+    if module_title.lower() not in modules_list:
+	flash("Invalid module title.", "invalid")
+	return redirect(url_for('courseDefault'))
+
+    # get module content
+    lecture_file = module_title.lower().replace(" ", "_") + ".txt"
+    slides = parse_lecture_content(lecture_file)
+    
+    if user_info['user'] not in admin_list:
+	return render_template('user_module_review.html', name = user_info['name'], 
+		slides = slides, module_title = module_title, is_admin = False)
     return redirect(url_for('dashboard'))
 
 @app.route("/grades/<module_title>", methods=['GET', 'POST'])

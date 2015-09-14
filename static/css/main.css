@@ -35,11 +35,6 @@ input[type="text"], select {
     background-color: #8bc641 !important;
 }
 
-.blue {
-    background-color: #450869 !important;
-    /*background-color: #80b8cc !important;*/
-}
-
 /* FOUNDATION MODS */
 .panel {
     background-color: #ffffff;
@@ -49,6 +44,11 @@ input[type="text"], select {
 
 .container {
     padding: 2rem;
+}
+
+.button.tiny{
+    padding: 0.5rem 2rem;
+    font-size: 1em;
 }
 
 .pricing-table .title {

@@ -2,20 +2,14 @@
 [quote] Amateurs hack systems, professionals hack people
 [cite] Bruce Schneier
 
-[title] Social engineering is.
-[contents] The 'art' of utilizing human behaviour to breach security
-Without the participant (or victim) even realizing
-that they have been manipulated
+[title] Social engineering is..
+[contents] Utilizing human behaviour to breach security
+Without the victim realizing that they have been manipulated
+Easy to overlook
 
-[title] A threat often overlooked..
-[contents] but regularily exploited to take advantage
-of what is considered in the security chain of an organisation,
-the 'human factor'
-
-[title] 2 Main Types Social Engineering
-[contents] "Technology-Based Approach" deceive the user
-into believing they are interacting with a 'real' computer system
-to extract personal information
+[title] Technology-Based Approach
+[contents] Deceive the user into believing they are interacting with a 'real' computer system
+To extract personal information
 
 [title] Technology-Based Example
 [contents] The user gets a popup window, informing him that the
@@ -24,9 +18,9 @@ reauthenticate in order to proceed. Once the user provides his
 id and password on that pop up window, the harm is done.
 The hacker now has the user id and password.
 
-[title] 2 Main Types Of Social Engineering
-[contents] "Human Approach" takes advantage on the victims ignorance
-the natural human inclination to be helpful and liked
+[title] Human Approach
+[contents] Takes advantage of the victim's ignorance
+The natural human inclination to be helpful and liked
 
 [title] Human Based Example
 [contents] attacker impersonates a person with authority and  places

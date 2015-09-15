@@ -101,6 +101,11 @@ body {
   text-align: left;
   margin: 0 0 0 1em; }
 
+.reveal li {
+    text-align: left;
+    margin-left: 3rem;
+}
+
 .reveal ul.quiz {
   list-style-type: none; 
   }

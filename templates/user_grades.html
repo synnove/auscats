@@ -30,7 +30,50 @@
 	    </div>               
 	</div>
 	</li>
-        </ul>
+	
+	<li class="accordion-navigation text-center">
+	    <a href="#complete">Quiz Answers</a>
+            <div id="complete" class="content">
+            <!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS -->
+		    <div class="row">
+			<div class="large-12 columns">
+			    <div class="panel">
+				<div class="row">
+				    <div class="large-7 columns text-left">
+					<h3>Quiz Answers</h3>
+                                    </div>
+				
+                                    <div class="row">
+					<div class="large-10 large-offset-1 columns text-justify">
+					    <p>
+				            <!-- QUIZ SEGMENT -->
+				            {% for question in quizzes %}
+			                    <section data-state="quiz">
+						<h3>{{ question['QUESTION'] }}</h3>
+						<div class="q_err">
+						</div>
+						<form id = "{{ question['QUESTION_ID'] }}" class="question">
+						    <ul class = "quiz">
+							{% for answer in answers %}
+							    {% if answer['QUESTION_ID'] == question ['QUESTION_ID'] %}
+								<li>
+								    &emsp;{{ answer['ANSWER'] }}
+								</li>
+							    {% endif %}		    
+							{% endfor %}
+						    </ul>
+						</form>
+					    </section>
+					    {% endfor %}
+                                        </div>
+                                    </div>
+				</div>
+			    </div>
+			</div>
+		    <div/>
+            </div>
+        </li>
+	</ul>
     </div>
 </div>
 {% endblock %}

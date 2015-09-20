@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ausCATS Security Training</title>
+    <title>{{ pagetitle }}</title>
     {% block scripts %}
     {% endblock %}
     <link rel="stylesheet" href="../static/css/foundation.css" />
@@ -21,48 +21,86 @@
   </head>
 
     <body>
-    <!-- top navbar -->
-    <nav class="top-bar" data-topbar role="navigation">
-	<ul class="title-area">
-	    <li class="name">
-		<h1><a href="/">AusCERT Security Training</a></h1>
-	    </li>
-	    <li class="toggle-topbar menu-icon"><a href="#"></a></li>
-	</ul>
-
-	<section class="top-bar-section">
-	    <!-- Right Nav Section -->
-	    <ul class="right">
-		<li class="has-dropdown">
-		<a href="">Welcome, {{ name }}</a>
-		    {% if is_admin %}
-		    <ul class="dropdown">
-			<li><a href="/dashboard">View Dashboard</a></li>
-			<li><a href="/edit">Edit Courses</a></li>
-			<li><a href="/admin">Manage Administrators</a></li>
-			<li><a href="">Log Out</a></li>
-		    </ul>
-		    {% else %}
-		    <ul class="dropdown">
-			<li><a href="/modules">View Courses</a></li>
-			<li><a href="">Log Out</a></li>
-		    </ul>
-		    {% endif %}
-		</li>
-	    </ul>
-	</section>
-    </nav>
-
+    <div>
     <!-- side navbar -->
+    <div class="side__navigation">
+	<a class="side-navigation__logo">AusCERT Security Training</a>
+	<ul class="side-navigation__content">
+	    <li class="user__name text-center">&nbsp;<span>Welcome, {{ name }}!</span></li>
+	    <li class="toggle__side"><a href=""><i class="fi-list"></i></a></li>
+	{% if is_admin %}
+	    <li><a href="/dashboard">
+		<i class="fi-clipboard-pencil"></i>
+		<span>View Dashboard</span>
+	    </a></li>
+	    <li><a href="/edit">
+		<i class="fi-widget"></i>
+		<span>Edit Courses</span>
+	    </a></li>
+	    <li><a href="/admin">
+		<i class="fi-torsos-all"></i>
+		<span>Manage Administrators</span>
+	    </a></li>
+	{% else %}
+	    <li><a href="/modules">
+		<i class="fi-book-bookmark"></i>
+		<span>My Courses</span>
+	    </a></li>
+	    <li><a href="/modules">
+		<i class="fi-results"></i>
+		<span>My Grades</span>
+	    </a></li>
+	{% endif %}
+	    <li><a href="">
+		<i class="fi-power"></i>
+		<span>Log Out</span>
+	    </a></li>
+	</ul>
+    </div>
+
+    <div class="top__navigation">
+	<div class="large-12 columns text-left">
+	    <p class="title" <b>{{ subtitle }}</b></p>
+	</div>
+    </div>
 
     <!-- PAGE BODY -->
+    <div class="main__page">
     {% block content %}
     {% endblock %}
+    </div>
+    </div>
     
     <script src="../static/js/vendor/jquery.js"></script>
     <script src="../static/js/foundation.min.js"></script>
     <script>
       $(document).foundation();
+    </script>
+    <script>
+	$(".toggle__side").on("click", function(e) {
+	    e.preventDefault();
+	    $(".side__navigation").toggleClass("side-navigation__closed");
+	    $(".main__page").toggleClass("main-page__expand");
+	    $(".side__navigation span").toggleClass("hidden");
+	    $(".title").toggleClass("title__expand");
+	});
+
+	$(window).resize(function () {
+	    console.log($(window).width());
+	    if ($(window).width() <= 700) {
+		if ($(".side__navigation").hasClass("side-navigation__closed")) {
+		    $(".toggle__side").addClass("hidden");
+		} else {
+		    $(".side__navigation").toggleClass("side-navigation__closed");
+		    $(".top__navigation").toggleClass("top-navigation__expand");
+		    $(".title").toggleClass("title__expand");
+		    $(".main__page").toggleClass("main-page__expand");
+		    $(".side__navigation span").toggleClass("hidden");
+		}
+	    } else {
+		$(".toggle__side").removeClass("hidden");
+	    }
+	});
     </script>
   </body>
 </html>

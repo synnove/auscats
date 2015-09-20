@@ -110,7 +110,10 @@ def gradePage(module_title):
     modules = db.get_module_info()
     correct_answers = db.get_number_of_correct_answers(user_info['user'], module_title)
     number_of_questions = db.get_total_number_of_questions(module_title)
-    
+    module_id = db.get_module_id_from_name(module_title)    
+    quizzes = db.get_quiz_questions_by_module(module_id)
+    answers = db.get_quiz_answers()
+
     try:
 	percentage_correct = (correct_answers /float( number_of_questions)) * 100
     except ZeroDivisionError:
@@ -120,7 +123,8 @@ def gradePage(module_title):
         return render_template('user_grades.html', name = user_info['name'], 
 		correct_answers = correct_answers,
                 number_of_questions = number_of_questions, 
-		percentage_correct = percentage_correct, 
+		percentage_correct = percentage_correct,
+		quizzes = quizzes, answers = answers, 
 		module_title = module_title, modules = modules, is_admin = False)
     return redirect(url_for('adminDashboard'))
 

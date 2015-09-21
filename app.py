@@ -65,7 +65,7 @@ def coursePage(module_title):
     
     if g.username not in g.admins:
 	return render_template('user_module.html', name = g.user, 
-		subtitle = module_title, slides = slides, 
+		subtitle = "Module: " + module_title, slides = slides, 
 		module_title = module_title, quizzes = quizzes, 
 		answers = answers, is_admin = False)
     return redirect(url_for('adminDashboard'))
@@ -87,7 +87,8 @@ def reviewModule(module_title):
     
     if g.username not in g.admins:
 	return render_template('user_module_review.html', name = g.user, 
-		slides = slides, module_title = module_title, is_admin = False)
+		slides = slides, subtitle = "Review: " + module_title,
+		is_admin = False)
     return redirect(url_for('adminDashboard'))
 
 @app.route("/grades/<module_title>", methods=['GET', 'POST'])

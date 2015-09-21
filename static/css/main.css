@@ -115,7 +115,7 @@ ul.side-navigation__content > li > a > i {
     background-color: #7C7D92;
     width: 100%;
     padding: 0.5rem 0;
-    border-bottom: 5px solid #444555;
+    border-bottom: 3px solid #444555;
 }
 
 .top__navigation p {
@@ -141,7 +141,7 @@ ul.side-navigation__content > li > a > i {
 /* MAIN CONTENT */
 .main__page {
     padding-left: 15rem;
-    padding-top: 4rem;
+    padding-top: 6rem;
     min-height: 90%;
     -webkit-transition: padding-left 500ms ease;
     -moz-transition: padding-left 500ms ease;
@@ -226,10 +226,6 @@ ul.side-navigation__content > li > a > i {
 
 .content.panel {
     margin: 0;
-    padding: 2rem;
-}
-
-.container {
     padding: 2rem;
 }
 

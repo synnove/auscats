@@ -1,15 +1,15 @@
 // Initialise settings for Reveal.js
-Reveal.initialize({                                     
-    width: 1200,
-    height: 800,
-    minScale: 0.8,
-    maxScale: 1,
-    controls: true,                                 
-    progress: true,                                 
-    history: true,                                  
-    overview: false,
-    transition: 'convex',
-    mouseWheel: false
+Reveal.initialize({                                                             
+	width: 1000,                                                                
+        height: 600,                                                                
+        minScale: 0.5,                                                              
+        maxScale: 0.7,                                                              
+        controls: true,                                                             
+        progress: true,                                                             
+        history: true,                                                              
+        overview: false,                                                            
+        transition: 'convex',                                                       
+        mouseWheel: false                                                           
 });
 
 // Add listeners for different classes of slides to change properties

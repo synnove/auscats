@@ -34,9 +34,6 @@ body {
   color: #000; }
 
 /*********************************************
- * CUSTOM STYLES
- *********************************************/
-/*********************************************
  * VIEW FRAGMENTS
  *********************************************/
 .reveal .slides section .fragment {
@@ -219,24 +216,23 @@ body {
 .reveal .progress {
   position: fixed;
   display: none;
-  height: 10px;
+  height: 7px;
   width: 100%;
   bottom: 0;
-  left: 0;
-  margin-left: 15rem;
+  left: 15rem;
   z-index: 5;
   background-color: rgba(0, 0, 0, 0.2);
-  -webkit-transition: margin-left 500ms ease;                                     
-  -moz-transition: margin-left 500ms ease;                                        
-  -o-transition: margin-left 500ms ease;                                          
-  transition: margin-left 500ms ease; }
+  -webkit-transition: left 500ms ease;                                          
+  -moz-transition: left 500ms ease;                                             
+  -o-transition: left 500ms ease;                                               
+  transition: left 500ms ease; }
 
 .progress-expand {
-  margin-left: 3rem !important;
-  -webkit-transition: margin-left 500ms ease;                                     
-  -moz-transition: margin-left 500ms ease;                                        
-  -o-transition: margin-left 500ms ease;                                          
-  transition: margin-left 500ms ease; }
+    left: 0 !important;
+    -webkit-transition: left 500ms ease;                                          
+    -moz-transition: left 500ms ease;                                             
+    -o-transition: left 500ms ease;                                               
+    transition: left 500ms ease; }
 
 .reveal .progress:after {
   content: '';
@@ -270,21 +266,23 @@ body {
  * SLIDES
  *********************************************/
 .reveal {
+  position: relative;
   width: 100%;
-  height: calc(100% - 45px);
+  height: 100%;
   overflow: hidden;
   -ms-touch-action: none;
       touch-action: none; }
 
 .reveal .slides {
-  background-color: rgba(0,0,0,0.05);
   position: absolute;
   width: 100%;
   height: 100%;
+  top: 0;
   right: 0;
-  left: 15rem;
-  margin: 0 auto;
-  margin-top: 5rem;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  padding-left: 8rem;
   overflow: visible;
   z-index: 1;
   text-align: center;
@@ -292,17 +290,17 @@ body {
           perspective: 600px;
   -webkit-perspective-origin: 50% 40%;
           perspective-origin: 50% 40%;
-  -webkit-transition: left 500ms ease;                                     
-  -moz-transition: left 500ms ease;                                        
-  -o-transition: left 500ms ease;                                          
-  transition: left 500ms ease; }
+    -webkit-transition: padding-left 500ms ease;                                          
+    -moz-transition: padding-left 500ms ease;                                             
+    -o-transition: padding-left 500ms ease;                                               
+    transition: padding-left 500ms ease; }
 
 .slides-expand {
-  left: 3em !important;
-  -webkit-transition: left 500ms ease;                                     
-  -moz-transition: left 500ms ease;                                        
-  -o-transition: left 500ms ease;                                          
-  transition: left 500ms ease; }
+    padding-left: 2rem !important;
+    -webkit-transition: padding-left 500ms ease;                                          
+    -moz-transition: padding-left 500ms ease;                                             
+    -o-transition: padding-left 500ms ease;                                               
+    transition: padding-left 500ms ease; }
 
 .reveal .slides > section {
   -ms-perspective: 600px; }

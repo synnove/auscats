@@ -163,7 +163,7 @@ ul.side-navigation__content > li > a > i {
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
     .side__navigation {
 	position: absolute;
-	background-color: #222222;
+	background-color: #444555;
 	height: 100%;
 	width: 3em;
 	z-index: 10;
@@ -174,11 +174,7 @@ ul.side-navigation__content > li > a > i {
     }
 
     .side-navigation__toggle {
-	position: absolute;
-	background-color: #222222;
-	height: 100%;
 	width: 15rem;
-	z-index: 10;
 	-webkit-transition: width 500ms ease;
 	-moz-transition: width 500ms ease;
 	-o-transition: width 500ms ease;
@@ -200,6 +196,14 @@ ul.side-navigation__content > li > a > i {
     .main__page {
 	margin-left: 3em;
 	padding-top: 3rem;
+    }
+
+    .top__navigation p {
+	font-size: 1.5em;
+	font-weight: bolder;
+	color: #ffffff;
+	margin-bottom: 0;
+	padding: 0 4em;
     }
 }
 

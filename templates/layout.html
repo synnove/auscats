@@ -79,26 +79,25 @@
     <script>
 	$(".toggle__side").on("click", function(e) {
 	    e.preventDefault();
-	    $(".side__navigation").toggleClass("side-navigation__closed");
+	    $(".side__navigation").toggleClass("side-navigation__toggle");
 	    $(".main__page").toggleClass("main-page__expand");
-	    $(".side__navigation span").toggleClass("hidden");
+	    $(".side__navigation span").toggleClass("toggle__visibility");
 	    $(".title").toggleClass("title__expand");
 	});
 
 	$(window).resize(function () {
-	    console.log($(window).width());
 	    if ($(window).width() <= 700) {
-		if ($(".side__navigation").hasClass("side-navigation__closed")) {
-		    $(".toggle__side").addClass("hidden");
+		if ($(".side__navigation").hasClass("side-navigation__toggle")) {
+		    $(".toggle__side").addClass("toggle__visibility");
 		} else {
-		    $(".side__navigation").toggleClass("side-navigation__closed");
+		    $(".side__navigation").toggleClass("side-navigation__toggle");
 		    $(".top__navigation").toggleClass("top-navigation__expand");
 		    $(".title").toggleClass("title__expand");
 		    $(".main__page").toggleClass("main-page__expand");
-		    $(".side__navigation span").toggleClass("hidden");
+		    $(".side__navigation span").toggleClass("toggle__visibility");
 		}
 	    } else {
-		$(".toggle__side").removeClass("hidden");
+		$(".toggle__side").removeClass("toggle__visibility");
 	    }
 	});
     </script>

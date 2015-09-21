@@ -42,6 +42,7 @@ def courseDefault():
     
     if user_info['user'] not in admin_list:
 	return render_template('user_module_list.html', name=user_info['name'],
+		subtitle="My Modules",
 		user_id = user_info['user'], active_modules = active_modules, 
 		modules_completed = modules_completed, 
 		num_incomplete = num_incomplete, is_admin = False)
@@ -69,8 +70,9 @@ def coursePage(module_title):
     
     if user_info['user'] not in admin_list:
 	return render_template('user_module.html', name = user_info['name'], 
-		slides = slides, module_title = module_title, 
-		quizzes = quizzes, answers = answers, is_admin = False)
+		subtitle = module_title, slides = slides, 
+		module_title = module_title, quizzes = quizzes, 
+		answers = answers, is_admin = False)
     return redirect(url_for('adminDashboard'))
 
 @app.route("/review/<module_title>", methods=['GET', 'POST'])
@@ -149,7 +151,7 @@ def adminDashboard():
     last_updated = db.get_last_updated_module()
 
     if user_info['user'] in admin_list:
-	return render_template('admin_dashboard.html', 
+	return render_template('admin_dashboard.html', subtitle="Administrator Dashboard",
 		name = user_info['name'], modules = modules,
 		last_updated = last_updated, org_units = org_units, 
 		is_admin = True)

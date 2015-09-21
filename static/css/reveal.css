@@ -223,8 +223,20 @@ body {
   width: 100%;
   bottom: 0;
   left: 0;
-  z-index: 10;
-  background-color: rgba(0, 0, 0, 0.2); }
+  margin-left: 15rem;
+  z-index: 5;
+  background-color: rgba(0, 0, 0, 0.2);
+  -webkit-transition: margin-left 500ms ease;                                     
+  -moz-transition: margin-left 500ms ease;                                        
+  -o-transition: margin-left 500ms ease;                                          
+  transition: margin-left 500ms ease; }
+
+.progress-expand {
+  margin-left: 3rem !important;
+  -webkit-transition: margin-left 500ms ease;                                     
+  -moz-transition: margin-left 500ms ease;                                        
+  -o-transition: margin-left 500ms ease;                                          
+  transition: margin-left 500ms ease; }
 
 .reveal .progress:after {
   content: '';
@@ -279,7 +291,18 @@ body {
   -webkit-perspective: 600px;
           perspective: 600px;
   -webkit-perspective-origin: 50% 40%;
-          perspective-origin: 50% 40%; }
+          perspective-origin: 50% 40%;
+  -webkit-transition: left 500ms ease;                                     
+  -moz-transition: left 500ms ease;                                        
+  -o-transition: left 500ms ease;                                          
+  transition: left 500ms ease; }
+
+.slides-expand {
+  left: 3em !important;
+  -webkit-transition: left 500ms ease;                                     
+  -moz-transition: left 500ms ease;                                        
+  -o-transition: left 500ms ease;                                          
+  transition: left 500ms ease; }
 
 .reveal .slides > section {
   -ms-perspective: 600px; }

@@ -1,0 +1,36 @@
+/* MAIN COLOURS */
+.light-grey {
+    background-color: #57586C !important;
+}
+
+.middle-grey {
+    background-color: #444555 !important;
+}
+
+.dark-grey {
+    background-color: #2C2D37 !important;
+}
+
+/* MAIN COLOURS */
+.teal {
+    background-color: #53C0C1 !important;
+}
+
+.blue {
+    background-color: #3B83C5 !important;
+}
+
+.purple {
+    background-color: #7963AC !important;
+}
+.text__teal {
+    color: #53C0C1 !important;
+}
+
+.text__blue {
+    color: #3B83C5 !important;
+}
+
+.text__purple {
+    color: #7963AC !important;
+}

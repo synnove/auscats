@@ -177,7 +177,7 @@ def editCourseList():
 
     if g.username in g.admins:
 	return render_template('admin_edit.html', name = g.user,
-		active_modules = active_modules, 
+		active_modules = active_modules, subtitle = "Manage Courses",
 		inactive_modules = inactive_modules, is_admin = True)
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)

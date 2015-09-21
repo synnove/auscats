@@ -258,7 +258,6 @@ body {
  * SLIDES
  *********************************************/
 .reveal {
-  position: relative;
   width: 100%;
   height: calc(100% - 45px);
   overflow: hidden;
@@ -271,8 +270,8 @@ body {
   width: 100%;
   height: 100%;
   right: 0;
-  left: 0;
-  margin: auto;
+  left: 15rem;
+  margin: 0 auto;
   margin-top: 5rem;
   overflow: visible;
   z-index: 1;

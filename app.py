@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, request, redirect, send_file, url_for
+from flask import render_template, request, redirect, send_file, url_for, g
 from flask import make_response, flash, jsonify
 import csv
 import io
@@ -10,11 +10,12 @@ app = Flask(__name__)
 
 app.secret_key = 'supersupersecret'
 
-# UNAUTHORIZED PAGE
-@app.errorhandler(401)
-def custom_401(error):
-        return Response('You are not authorized to view this page', 401,
-		{'WWWAuthenticate':'Basic realm="You are not an administrator"'})
+@app.before_request
+def load_user():
+    user_info = json.loads(request.headers.get('X-KVD-Payload'))
+    g.username = user_info['user']
+    g.user = user_info['name'].split(" ")[0]
+    g.admins = db.get_admin_user_list()
 
 # USER PAGES
 @app.route("/")
@@ -22,10 +23,8 @@ def frontPage():
     """ Main page (equivalent of index.html).
 	Admin users redirect to administrator dashboard.
 	Regular users redirect to list of modules."""
-    user_info = json.loads(request.headers.get('X-KVD-Payload'))
-    admin_list = db.get_admin_user_list()
 
-    if user_info['user'] in admin_list:
+    if g.username in g.admins:
 	return redirect(url_for('adminDashboard'))
     return redirect(url_for('courseDefault'))
 
@@ -33,17 +32,15 @@ def frontPage():
 def courseDefault():
     """ Default user page: displays list of modules either in progress or
 	completed. """
-    user_info = json.loads(request.headers.get('X-KVD-Payload'))
-    admin_list = db.get_admin_user_list()
 
     active_modules = db.get_module_info()
-    modules_completed = db.modules_completed_by_user(user_info['user'])
+    modules_completed = db.modules_completed_by_user(g.username)
     num_incomplete = len(active_modules) - len(modules_completed)
     
-    if user_info['user'] not in admin_list:
-	return render_template('user_module_list.html', name=user_info['name'],
-		subtitle="My Modules",
-		user_id = user_info['user'], active_modules = active_modules, 
+    if g.username not in g.admins:
+	return render_template('user_module_list.html', name=g.user,
+		subtitle="My Modules", user_id = g.username, 
+		active_modules = active_modules, 
 		modules_completed = modules_completed, 
 		num_incomplete = num_incomplete, is_admin = False)
     return redirect(url_for('adminDashboard'))
@@ -52,8 +49,6 @@ def courseDefault():
 def coursePage(module_title):
     """ Displays a module to the user. Currently content is stored in .txt
 	files and parsed, will eventually shift to using database. """
-    user_info = json.loads(request.headers.get('X-KVD-Payload'))
-    admin_list = db.get_admin_user_list()
     modules_list = db.get_module_names()
 
     # check url is valid
@@ -68,8 +63,8 @@ def coursePage(module_title):
     quizzes = db.get_quiz_questions_by_module(module_id)
     answers = db.get_quiz_answers()
     
-    if user_info['user'] not in admin_list:
-	return render_template('user_module.html', name = user_info['name'], 
+    if g.username not in g.admins:
+	return render_template('user_module.html', name = g.user, 
 		subtitle = module_title, slides = slides, 
 		module_title = module_title, quizzes = quizzes, 
 		answers = answers, is_admin = False)
@@ -79,8 +74,6 @@ def coursePage(module_title):
 def reviewModule(module_title):
     """ Displays a module to the user. Currently content is stored in .txt
 	files and parsed, will eventually shift to using database. """
-    user_info = json.loads(request.headers.get('X-KVD-Payload'))
-    admin_list = db.get_admin_user_list()
     modules_list = db.get_module_names()
 
     # check url is valid
@@ -92,16 +85,14 @@ def reviewModule(module_title):
     lecture_file = module_title.lower().replace(" ", "_") + ".txt"
     slides = parse_lecture_content(lecture_file)
     
-    if user_info['user'] not in admin_list:
-	return render_template('user_module_review.html', name = user_info['name'], 
+    if g.username not in g.admins:
+	return render_template('user_module_review.html', name = g.user, 
 		slides = slides, module_title = module_title, is_admin = False)
     return redirect(url_for('adminDashboard'))
 
 @app.route("/grades/<module_title>", methods=['GET', 'POST'])
 def gradePage(module_title):
     """ displays grades to the user by the requested module. """
-    user_info = json.loads(request.headers.get('X-KVD-Payload'))
-    admin_list = db.get_admin_user_list()
     modules_list = db.get_module_names()
 
     # check url is valid
@@ -110,7 +101,7 @@ def gradePage(module_title):
 	return redirect(url_for('courseDefault'))
 
     modules = db.get_module_info()
-    correct_answers = db.get_number_of_correct_answers(user_info['user'], module_title)
+    correct_answers = db.get_number_of_correct_answers(g.username, module_title)
     number_of_questions = db.get_total_number_of_questions(module_title)
     module_id = db.get_module_id_from_name(module_title)    
     quizzes = db.get_quiz_questions_by_module(module_id)
@@ -121,8 +112,8 @@ def gradePage(module_title):
     except ZeroDivisionError:
 	percentage_correct = 0
 
-    if user_info['user'] not in admin_list:
-        return render_template('user_grades.html', name = user_info['name'], 
+    if g.username not in g.admins:
+        return render_template('user_grades.html', name = g.user, 
 		correct_answers = correct_answers,
                 number_of_questions = number_of_questions, 
 		percentage_correct = percentage_correct,
@@ -136,67 +127,59 @@ def check_answer():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     qid = request.args.get('qid', -1, type=int)
     aid = request.args.get('aid', -1, type=int)
-    result = db.log_user_answer(user_info['user'], user_info['dn'], qid, aid)
+    result = db.log_user_answer(g.username, user_info['dn'], qid, aid)
     return jsonify(result=result)
 
 # ADMIN PAGES
 @app.route("/dashboard")
 def adminDashboard():
     """ main admin user page """
-    user_info = json.loads(request.headers.get('X-KVD-Payload'))
-    admin_list = db.get_admin_user_list()
 
     modules = db.get_module_info()
     org_units = db.get_org_unit_info()
     last_updated = db.get_last_updated_module()
 
-    if user_info['user'] in admin_list:
+    if g.username in g.admins:
 	return render_template('admin_dashboard.html', subtitle="Administrator Dashboard",
-		name = user_info['name'], modules = modules,
+		name = g.user, modules = modules,
 		last_updated = last_updated, org_units = org_units, 
 		is_admin = True)
-    return render_template('unauthorized.html', name=user_info['name'], 
-	    is_admin = False)
+    return render_template('unauthorized.html', name=g.user, 
+	    subtitle = "Not Authorized", is_admin = False)
 
 @app.route("/admin")
 def manageAdmin():
     """ add, modify and remove admin users """
-    user_info = json.loads(request.headers.get('X-KVD-Payload'))
-    admin_list = db.get_admin_user_list();
 
-    if user_info['user'] in admin_list:
-	return render_template('admin_dashboard.html', name = user_info['name'],
+    if g.username in g.admins:
+	return render_template('admin_dashboard.html', name = g.user,
 		is_admin = True)
-    return render_template('unauthorized.html', name=user_info['name'],
-	    is_admin = False)
+    return render_template('unauthorized.html', name=g.user, 
+	    subtitle = "Not Authorized", is_admin = False)
 
 @app.route("/drawingboard/<course_id>/<rev_id>/<slide_no>")
 def editCourse():
     """ page for modifying module content """
-    user_info = json.loads(request.headers.get('X-KVD-Payload'))
-    admin_list = db.get_admin_user_list();
 
-    if user_info['user'] in admin_list:
-	return render_template('admin_dashboard.html', name = user_info['name'],
+    if g.username in g.admins:
+	return render_template('admin_dashboard.html', name = g.user,
 		is_admin = True)
-    return render_template('unauthorized.html', name=user_info['name'],
-	    is_admin = False)
+    return render_template('unauthorized.html', name=g.user, 
+	    subtitle = "Not Authorized", is_admin = False)
 
 @app.route("/edit")
 def editCourseList():
     """ lists modules that administrators can edit """
-    user_info = json.loads(request.headers.get('X-KVD-Payload'))
-    admin_list = db.get_admin_user_list();
 
     active_modules = db.get_admin_module_info("ACTIVE")
     inactive_modules = db.get_admin_module_info("INACTIVE")
 
-    if user_info['user'] in admin_list:
-	return render_template('admin_edit.html', name = user_info['name'],
+    if g.username in g.admins:
+	return render_template('admin_edit.html', name = g.user,
 		active_modules = active_modules, 
 		inactive_modules = inactive_modules, is_admin = True)
-    return render_template('unauthorized.html', name=user_info['name'],
-	    is_admin = False)
+    return render_template('unauthorized.html', name=g.user, 
+	    subtitle = "Not Authorized", is_admin = False)
 
 @app.route("/download/<filters>", methods=['GET', 'POST'])
 def download_csv(filters):

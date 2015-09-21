@@ -140,20 +140,21 @@ ul.side-navigation__content > li > a > i {
 
 /* MAIN CONTENT */
 .main__page {
-    margin-left: 15rem;
-    padding-top: 3rem;
-    -webkit-transition: margin-left 500ms ease;
-    -moz-transition: margin-left 500ms ease;
-    -o-transition: margin-left 500ms ease;
-    transition: margin-left 500ms ease;
+    padding-left: 15rem;
+    padding-top: 4rem;
+    min-height: 90%;
+    -webkit-transition: padding-left 500ms ease;
+    -moz-transition: padding-left 500ms ease;
+    -o-transition: padding-left 500ms ease;
+    transition: padding-left 500ms ease;
 }
 
 .main-page__expand {
-    margin-left: 3em;
-    -webkit-transition: margin-left 500ms ease;
-    -moz-transition: margin-left 500ms ease;
-    -o-transition: margin-left 500ms ease;
-    transition: margin-left 500ms ease;
+    padding-left: 3em;
+    -webkit-transition: padding-left 500ms ease;
+    -moz-transition: padding-left 500ms ease;
+    -o-transition: padding-left 500ms ease;
+    transition: padding-left 500ms ease;
 }
 
 .toggle__visibility {

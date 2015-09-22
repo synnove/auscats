@@ -77,6 +77,42 @@ def get_quiz_questions_by_module(module_id):
     conn.close()
     return questions
 
+def get_question_statistics():
+    """ get question statistics """
+    stats = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT QUESTION_ID, PERCENT_SUCCESS FROM vw_QUESTION_STATISTICS")
+    rows = cur.fetchall()
+    for row in rows:
+	stats.append(row)
+    conn.close()
+    return stats
+
+def get_correct_answers():
+    """ get list of correct answers """
+    answers = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM CORRECT_ANSWERS")
+    rows = cur.fetchall()
+    for row in rows:
+	answers.append(row['ANSWER_ID'])
+    conn.close()
+    return answers
+
+def get_answers_by_user(uid):
+    """ get list of correct answers """
+    answers = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM GRADEBOOK WHERE USER_ID = %s", [uid])
+    rows = cur.fetchall()
+    for row in rows:
+	answers.append(row['ANSWER_ID'])
+    conn.close()
+    return answers
+
 def modules_completed_by_user(user_id):
     """ get list of modules that the user has already completed """
     modules_completed = list()

@@ -125,21 +125,33 @@ def gradePage(module_title):
 	return redirect(url_for('courseDefault'))
 
     modules = db.get_module_info()
-    correct_answers = db.get_number_of_correct_answers(g.username, module_title)
+    num_correct_answers = db.get_number_of_correct_answers(g.username, module_title)
     number_of_questions = db.get_total_number_of_questions(module_title)
     module_id = db.get_module_id_from_name(module_title)    
     quizzes = db.get_quiz_questions_by_module(module_id)
     answers = db.get_quiz_answers()
+    correct_answers = db.get_correct_answers()
+    user_answers= db.get_answers_by_user(g.username)
+    stats = db.get_question_statistics()
+    for quiz in quizzes:
+	for stat in stats:
+	    if stat['QUESTION_ID'] == quiz['QUESTION_ID']:
+		if ("SUCCESS" not in quiz or quiz['SUCCESS'] == 0):
+		    quiz['SUCCESS'] = int(stat['PERCENT_SUCCESS'])
+	    else:
+		if ("SUCCESS" not in quiz):
+		    quiz['SUCCESS'] = 0
 
     try:
-	percentage_correct = int((correct_answers /float( number_of_questions)) * 100)
+	percentage_correct = int((num_correct_answers /float( number_of_questions)) * 100)
     except ZeroDivisionError:
 	percentage_correct = 0
 
     if g.username not in g.admins:
         return render_template('user_grades.html', name = g.user, 
 		subtitle = "My Grades: " + module_title,
-		correct_answers = correct_answers,
+		correct_answers = correct_answers, user_answers = user_answers,
+		num_correct_answers = num_correct_answers,
                 number_of_questions = number_of_questions, 
 		percentage_correct = percentage_correct,
 		quizzes = quizzes, answers = answers, 

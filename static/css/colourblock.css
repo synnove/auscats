@@ -16,6 +16,12 @@
     font-weight: bolder;
 }
 
+.panel.colourblock__bottom.user__percent {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8em;
+    margin-bottom: 1rem;
+}
+
 .panel.colourblock__top h4, .panel.colourblock__top h5 {
     color: #ffffff;
 }

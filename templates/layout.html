@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ausCATS Security Training</title>
+    <title>{{ pagetitle }}</title>
     {% block scripts %}
     {% endblock %}
     <link rel="stylesheet" href="../static/css/foundation.css" />
@@ -17,43 +17,54 @@
     <script src="../static/js/classie.js"></script>                           
     <script src="../static/js/notificationFx.js"></script>
     <link rel="stylesheet" href="../static/css/demo.css" />
+    <link rel="stylesheet" href="../static/css/colourlog.css" />
+    <link rel="stylesheet" href="../static/css/body.css" />
+    <link rel="stylesheet" href="../static/css/layout.css" />
     <link rel="stylesheet" href="../static/css/main.css" />
   </head>
 
     <body>
-    <!-- top navbar -->
-    <nav class="top-bar" data-topbar role="navigation">
-	<ul class="title-area">
-	    <li class="name">
-		<h1><a href="/">AusCERT Security Training</a></h1>
-	    </li>
-	    <li class="toggle-topbar menu-icon"><a href="#"></a></li>
-	</ul>
-
-	<section class="top-bar-section">
-	    <!-- Right Nav Section -->
-	    <ul class="right">
-		<li class="has-dropdown">
-		<a href="">Welcome, {{ name }}</a>
-		    {% if is_admin %}
-		    <ul class="dropdown">
-			<li><a href="/dashboard">View Dashboard</a></li>
-			<li><a href="/edit">Edit Courses</a></li>
-			<li><a href="/admin">Manage Administrators</a></li>
-			<li><a href="">Log Out</a></li>
-		    </ul>
-		    {% else %}
-		    <ul class="dropdown">
-			<li><a href="/modules">View Courses</a></li>
-			<li><a href="">Log Out</a></li>
-		    </ul>
-		    {% endif %}
-		</li>
-	    </ul>
-	</section>
-    </nav>
-
     <!-- side navbar -->
+    <div class="side__navigation">
+	<a class="side-navigation__logo">AusCERT Security Training</a>
+	<ul class="side-navigation__content">
+	    <li class="user__name text-center">&nbsp;<span>Welcome, {{ name }}!</span></li>
+	    <li class="toggle__side"><a href=""><i class="fi-list"></i></a></li>
+	{% if is_admin %}
+	    <li><a href="/dashboard">
+		<i class="fi-clipboard-pencil"></i>
+		<span>View Dashboard</span>
+	    </a></li>
+	    <li><a href="/edit">
+		<i class="fi-widget"></i>
+		<span>Edit Courses</span>
+	    </a></li>
+	    <li><a href="/admin">
+		<i class="fi-torsos-all"></i>
+		<span>Manage Administrators</span>
+	    </a></li>
+	{% else %}
+	    <li><a href="/modules">
+		<i class="fi-book-bookmark"></i>
+		<span>My Courses</span>
+	    </a></li>
+	    <li><a href="/modules">
+		<i class="fi-results"></i>
+		<span>My Grades</span>
+	    </a></li>
+	{% endif %}
+	    <li><a href="">
+		<i class="fi-power"></i>
+		<span>Log Out</span>
+	    </a></li>
+	</ul>
+    </div>
+
+    <div class="top__navigation">
+	<div class="large-12 columns text-left">
+	    <p class="title" <b>{{ subtitle }}</b></p>
+	</div>
+    </div>
 
     <!-- PAGE BODY -->
     {% block content %}
@@ -61,6 +72,7 @@
     
     <script src="../static/js/vendor/jquery.js"></script>
     <script src="../static/js/foundation.min.js"></script>
+    <script src="../static/js/layout.js"></script>
     <script>
       $(document).foundation();
     </script>

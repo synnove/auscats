@@ -9,10 +9,6 @@
 
 {% block content %}
 <div class="reveal">
-    <div class="small-12 large-6 large-offset-3 columns text-center">
-	<div class="alert-box secondary radius"><h4>module - {{ module_title }}</h4></div>
-    </div>
-
     <div class="slides">
 	<!-- LECTURE SEGMENT -->
 	{% for slide in slides %}
@@ -41,19 +37,5 @@
 	</section>
     </div>
 </div>
-<script>
-    // Initialise settings for Reveal.js                                            
-    Reveal.initialize({                                                             
-	width: 1000,                                                                
-	height: 600,                                                                
-	minScale: 0.5,                                                              
-	maxScale: 0.7,                                                              
-	controls: true,                                                             
-	progress: true,                                                             
-	history: true,                                                              
-	overview: false,                                                            
-	transition: 'convex',                                                       
-	mouseWheel: false                                                           
-    });
-</script>
+<script src="../static/js/user_module.js"></script>
 {% endblock %}

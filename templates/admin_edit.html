@@ -1,87 +1,126 @@
 {% extends "layout.html" %}
 
+{% block scripts %}
+<link rel="stylesheet" href="../static/css/colourblock.css" />
+{% endblock %}
+
 {% block content %}
-<div class="container">
+<div class="main__page">
     <div class="row">
 	<div class="large-12 columns">
-	    <ul class="tabs" data-tab>
-		<li class="tab-title active"><a href="#active">Active Modules</a></li>
-		<li class="tab-title"><a href="#inactive">Inactive Modules</a></li>
-	    </ul>
-	    <div class="tabs-content" data-equalizer>
-		<div class="content active panel" id="active" data-equalizer-watch>
-		<div class="large-12 columns">
-			<div class="row">
-			    <div class="large-3 columns text-left">
-				<h5>Name</h5>
-			    </div>
-			    <div class="large-4 columns text-left">
-				<h5>Last Updated</h5>
-			    </div>
-			    <div class="large-5 columns text-right">
-			    </div>
-			</div>
-		</div>
-		<hr>
-		{% for module in active_modules %}
-		    <div class="row">
-			<div class="large-12 columns">
-				<div class="row">
-				    <div class="large-3 columns text-left">
-					<h5>{{ module['NAME'] }}</h5>
-				    </div>
-				    <div class="large-4 columns text-left">
-					{{ module['LAST_UPDATED'] }} by {{ module['EDITOR'] }}
-				    </div>
-				    <div class="large-5 columns text-right">
-					<a href="/module/{{module['NAME']}}" class="button tiny round green">Edit Module</a>
-					<a href="/module/{{module['NAME']}}" class="button tiny round warning">Deactivate</a>
-				    </div>
-				</div>
-			</div>
-			{% if module != active_modules[-1] %}
-			    <hr>
-			{% endif %}
-		    </div>
-		{% endfor %}
-		</div>
-		<div class="content panel" id="inactive" data-equalizer-watch>
-		<div class="large-12 columns">
-			<div class="row">
-			    <div class="large-3 columns text-left">
-				<h5>Name</h5>
-			    </div>
-			    <div class="large-4 columns text-left">
-				<h5>Last Updated</h5>
-			    </div>
-			    <div class="large-5 columns text-right">
-			    </div>
-			</div>
-		</div>
-		<hr>
-		{% for module in inactive_modules %}
-		    <div class="row">
-			<div class="large-12 columns">
-				<div class="row">
-				    <div class="large-3 columns text-left">
-					<h5>{{ module['NAME'] }}</h5>
-				    </div>
-				    <div class="large-4 columns text-left">
-					{{ module['LAST_UPDATED'] }} by {{ module['EDITOR'] }}
-				    </div>
-				    <div class="large-5 columns text-right">
-					<a href="/module/{{module['NAME']}}" class="button tiny round green">Edit Module</a>
-					<a href="/module/{{module['NAME']}}" class="button tiny round ">Activate</a>
-				    </div>
-				</div>
-			</div>
-			{% if module != inactive_modules[-1] %}
-			    <hr>
-			{% endif %}
-		    </div>
-		{% endfor %}
+	    <div class="large-3 columns panel blue colourblock__top thin">
+		Last Modified: 
+	    </div>
+	    <div class="large-9 columns panel blue colourblock__top thin">
+		stuff here
 	    </div>
 	</div>
     </div>
+    <div class="row">
+	<div class="large-12 columns">
+	    <div class="large-3 columns panel purple colourblock__bottom thin">
+		Last Modified: 
+	    </div>
+	    <div class="large-9 columns panel purple colourblock__bottom thin">
+		stuff here
+	    </div>
+	</div>
+    </div>
+
+    <div class="row">
+	<div class="large-4 small-12 columns">
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel teal colourblock__top">
+			<div class="row">
+			    <div class="large-8 columns">
+				<h4>Add a Course</h4>
+			    </div>
+			    <div class="large-4 columns">
+				<div class="circle text-center text__teal">
+				    <i class="fi-page-add"></i>
+				</div>
+			    </div>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel panel__middle">
+		    </div>
+		</div>
+	    </div>
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel teal colourblock__bottom">
+		    </div>
+		</div>
+	    </div>
+	</div>
+
+	<div class="large-4 small-12 columns">
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel blue colourblock__top">
+			<div class="row">
+			    <div class="large-8 columns">
+				<h4>Edit a Course</h4>
+			    </div>
+			    <div class="large-4 columns">
+				<div class="circle text-center text__blue">
+				    <i class="fi-page-edit"></i>
+				</div>
+			    </div>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel panel__middle">
+		    </div>
+		</div>
+	    </div>
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel blue colourblock__bottom">
+		    </div>
+		</div>
+	    </div>
+	</div>
+
+	<div class="large-4 small-12 columns">
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel purple colourblock__top">
+			<div class="row">
+			    <div class="large-8 columns">
+				<h4>Change Course Settings</h4>
+			    </div>
+			    <div class="large-4 columns">
+				<div class="circle text-center text__purple">
+				    <i class="fi-unlock"></i>
+				</div>
+			    </div>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel panel__middle">
+		    </div>
+		</div>
+	    </div>
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel purple colourblock__bottom">
+		    </div>
+		</div>
+	    </div>
+	</div>
+    </div>
+
 </div>
 {% endblock %}

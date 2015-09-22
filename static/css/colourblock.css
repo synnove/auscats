@@ -1,0 +1,28 @@
+.panel.colourblock__top, .panel.colourblock__bottom {
+    color: #ffffff;
+    font-weight: bolder;
+}
+
+.panel.colourblock__top.thin, .panel.colourblock__bottom.thin {
+    padding: 0.5rem 1rem;
+}
+
+.panel.panel__middle, .panel.colourblock__bottom {
+    margin-top: 0.2rem;
+}
+
+.panel.colourblock__top h4 {
+    color: #ffffff;
+}
+
+.circle {
+    border-radius: 2000px;
+    background-color: #ffffff;
+    height: 2em;
+    width: 2em;
+    font-size: 2em;
+}
+
+.circle i {
+    vertical-align: middle;
+}

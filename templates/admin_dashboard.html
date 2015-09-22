@@ -75,6 +75,36 @@
 	    </div></div></div>
 	</div>
     </div>
+
+    <div class="row">
+	<div class="large-8 large-offset-2 columns end">
+	    <div class="row" id="admin_err">
+	    <!-- display error messages -->
+	    {% with errors = get_flashed_messages(category_filter=["admin","search"]) %}
+		{% if errors %}
+		<div data-alert class="alert-box warning radius text-center">
+		    {% for message in errors %}
+		    <b>{{ message }}</b><br>
+		    {% endfor %}
+		    <a href="#" class="close">&times;</a>
+		</div>
+		{% endif %}
+	    {% endwith %}
+	    <!-- display success message-->
+	    {% with messages = get_flashed_messages(category_filter=["admin_ok"]) %}
+		{% if messages %}
+		<div data-alert class="alert-box success green radius text-center">
+		    {% for message in messages %}
+		    <b>{{ message }}</b>
+		    {% endfor %}
+		    <a href="#" class="close">&times;</a>
+		</div>
+		{% endif %}
+	    {% endwith %}
+	    </div>
+	</div>
+    </div>
+
     <div class="row quick__filter hidden">
 	<div class="large-10 large-offset-1 end columns">
 	    <div class="row"><div class="large-12 columns"><div class="panel purple colourblock__top thin text-center">
@@ -83,7 +113,39 @@
 	</div>
 	<div class="large-10 large-offset-1 end columns">
 	    <div class="row"><div class="large-12 columns"><div class="panel panel__middle text-center">
-		Quick Filter
+		<form id="search" class="text-left">
+		    <div class="row" data-equalizer="form">
+		    <div class="large-3 small-12 columns" data-equalizer-watch="form">
+			<label>Module
+			<select id= "module">
+			<option value="None">Show all modules</option>
+			{% for module in modules %}
+			<option value="{{ module['MODULE_ID'] }}">{{ module['NAME'] }}</option>
+			{% endfor %}
+			</select>
+			</label>
+		    </div>
+		    <div class="large-3 small-12 columns" data-equalizer-watch="form">
+			<label>Org Unit
+			<select id= "orgunit">
+			<option value="None">Show all org units</option>
+			{% for org_unit in org_units %}
+			<option value="{{ org_unit['UNIT_ID'] }}">{{ org_unit['UNIT_NAME'] }}</option>
+			{% endfor %}
+			</select>
+			</label>
+		    </div>
+		    <div class="large-3 small-12 columns" data-equalizer-watch="form">
+			<label>User
+			<input type="text" id="userid" placeholder="Enter UQ ID" />
+			</label>
+		    </div>
+		    <div class="large-2 columns end text-center" data-equalizer-watch="form">
+			<label><br></label>
+			<input type="submit" class="tiny round teal button" value="Submit" />
+		    </div>
+		    </div>
+		</form>
 	    </div></div></div>
 	</div>
     </div>
@@ -95,7 +157,25 @@
 	</div>
 	<div class="large-10 large-offset-1 end columns">
 	    <div class="row"><div class="large-12 columns"><div class="panel panel__middle text-center">
-		Quick Add Administrator
+		<form id="admins">
+		    <div class="row">
+			<div class="large-6 large-offset-3 end columns">
+			    <input id="admin_id" type="text" placeholder="Enter UQ ID" />
+			    </label>
+			</div>
+			<div class="large-4 large-offset-3 columns text-left">
+			    <input id="write_access" type="checkbox">
+			    <label for="write_access">Write access to modules</label>
+			    <br>
+			    <input id="read_access" type="checkbox">
+			    <label for="read_access">Read access to data</label>
+			</div>
+			<div class="large-2 columns end">
+			    <br>
+			    <input type="submit" class="tiny round teal button" value="Submit" />
+			</div>
+		    </div>
+		</form>
 	    </div></div></div>
 	</div>
     </div>

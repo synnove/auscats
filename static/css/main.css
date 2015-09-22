@@ -84,3 +84,11 @@ table thead tr th, table tr td {
 .edit_course{
     color: #000;
 }
+
+.alert-box.warning, .alert-box.success {
+    margin: 1rem 0 !important;
+}
+
+form#search {
+    margin-left: 4.5rem;
+}

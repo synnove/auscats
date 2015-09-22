@@ -1,6 +1,6 @@
 /* SIDE NAVIGATION BAR */
 .side__navigation {
-    position: absolute;
+    position: fixed;
     background-color: #444555;
     height: 100%;
     width: 15rem;
@@ -76,7 +76,7 @@ ul.side-navigation__content > li > a > i {
 
 /* TOP NAVIGATION BAR */
 .top__navigation {
-    position: absolute;
+    position: fixed;
     background-color: #7C7D92;
     width: 100%;
     padding: 0.5rem 0;

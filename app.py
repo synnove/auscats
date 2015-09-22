@@ -34,12 +34,8 @@ def courseDefault():
 	completed. """
 
     active_modules = db.get_module_info()
-<<<<<<< HEAD
-    modules_completed = db.modules_completed_by_user(user_info['user'])
-    num_active_modules = len(active_modules)
-=======
     modules_completed = db.modules_completed_by_user(g.username)
->>>>>>> feb83ed0f6f58426514307761a05968f2bc99781
+    num_active_modules = len(active_modules)
     num_incomplete = len(active_modules) - len(modules_completed)
     num_complete = len(modules_completed)
     
@@ -123,6 +119,7 @@ def gradePage(module_title):
 
     if g.username not in g.admins:
         return render_template('user_grades.html', name = g.user, 
+		subtitle = "My Grades: " + module_title,
 		correct_answers = correct_answers,
                 number_of_questions = number_of_questions, 
 		percentage_correct = percentage_correct,
@@ -162,6 +159,7 @@ def manageAdmin():
 
     if g.username in g.admins:
 	return render_template('admin_dashboard.html', name = g.user,
+		subtitle = "Manage Administrators",
 		is_admin = True)
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)
@@ -172,6 +170,7 @@ def editCourse():
 
     if g.username in g.admins:
 	return render_template('admin_dashboard.html', name = g.user,
+		subtitle = "Edit a Module",
 		is_admin = True)
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)

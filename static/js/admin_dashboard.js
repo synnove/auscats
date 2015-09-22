@@ -62,6 +62,20 @@ $('#search').bind('submit', function(e) {
     window.location = $url;
 });
 
+$('.filter__trigger').on("click", function(e) {
+    if (!$('.quick__add').hasClass('hidden')) {
+	$('.quick__add').toggleClass('hidden');
+    }
+    $('.quick__filter').toggleClass('hidden');
+});
+
+$('.admin__trigger').on("click", function(e) {
+    if (!$('.quick__filter').hasClass('hidden')) {
+	$('.quick__filter').toggleClass('hidden');
+    }
+    $('.quick__add').toggleClass('hidden');
+});
+
 $(document).on('close.fndtn.alert', function(event) {
     $(document).foundation();
 });

@@ -95,6 +95,25 @@ def reviewModule(module_title):
 		is_admin = False)
     return redirect(url_for('adminDashboard'))
 
+@app.route("/gradebook", methods=['GET', 'POST'])
+def gradeList():
+    """ displays grades to the user by the requested module. """
+
+    modules = db.get_module_info()
+    grades = completed_module_ids = db.modules_completed_by_user(g.username)
+    completed_modules = []
+    for module in modules:
+	if module['MODULE_ID'] in completed_module_ids:
+	    number_of_questions = db.get_total_number_of_questions(module['NAME'])
+	    correct_answers = db.get_number_of_correct_answers(g.username, module['NAME'])
+	    module['GRADE'] = int(correct_answers / float(number_of_questions) * 100)
+	    completed_modules.append(module)
+    if g.username not in g.admins:
+        return render_template('user_gradebook.html', name = g.user, 
+		subtitle = "My Grades", completed_modules = completed_modules,
+		is_admin = False)
+    return redirect(url_for('adminDashboard'))
+
 @app.route("/grades/<module_title>", methods=['GET', 'POST'])
 def gradePage(module_title):
     """ displays grades to the user by the requested module. """

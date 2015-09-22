@@ -11,6 +11,11 @@
     margin-top: 0.2rem;
 }
 
+.panel.colourblock__bottom > a{
+    color: #ffffff;
+    font-weight: bolder;
+}
+
 .panel.colourblock__top h4 {
     color: #ffffff;
 }
@@ -25,4 +30,20 @@
 
 .circle i {
     vertical-align: middle;
+}
+
+.progress.user__grades {
+    height: 10px;
+    margin: 0;
+    width: 100%;
+}
+
+.columns.user__percent {
+    padding: 0;
+    font-size: 0.8em;
+}
+
+.columns.user__bar {
+    padding-top: 0.4rem;
+    padding-left: 3rem;
 }

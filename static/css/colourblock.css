@@ -26,6 +26,10 @@
     margin-bottom: 1rem;
 }
 
+.panel.colourblock__bottom.admin__trigger, .panel.colourblock__bottom.filter__trigger {
+    cursor: pointer;
+}
+
 .panel.colourblock__top h4, .panel.colourblock__top h5 {
     color: #ffffff;
 }

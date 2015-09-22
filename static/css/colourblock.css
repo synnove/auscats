@@ -16,7 +16,7 @@
     font-weight: bolder;
 }
 
-.panel.colourblock__top h4 {
+.panel.colourblock__top h4, .panel.colourblock__top h5 {
     color: #ffffff;
 }
 
@@ -45,5 +45,4 @@
 
 .columns.user__bar {
     padding-top: 0.4rem;
-    padding-left: 3rem;
 }

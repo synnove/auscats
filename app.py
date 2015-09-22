@@ -132,7 +132,7 @@ def gradePage(module_title):
     answers = db.get_quiz_answers()
 
     try:
-	percentage_correct = (correct_answers /float( number_of_questions)) * 100
+	percentage_correct = int((correct_answers /float( number_of_questions)) * 100)
     except ZeroDivisionError:
 	percentage_correct = 0
 

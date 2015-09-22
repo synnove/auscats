@@ -38,13 +38,17 @@ def courseDefault():
 
     active_modules = db.get_module_info()
     modules_completed = db.modules_completed_by_user(user_info['user'])
+    num_active_modules = len(active_modules)
     num_incomplete = len(active_modules) - len(modules_completed)
+    num_complete = len(modules_completed)
     
     if user_info['user'] not in admin_list:
 	return render_template('user_module_list.html', name=user_info['name'],
 		user_id = user_info['user'], active_modules = active_modules, 
 		modules_completed = modules_completed, 
-		num_incomplete = num_incomplete, is_admin = False)
+		num_incomplete = num_incomplete,
+		num_complete = num_complete, 
+		num_active_modules = num_active_modules,  is_admin = False)
     return redirect(url_for('adminDashboard'))
 
 @app.route("/module/<module_title>", methods=['GET', 'POST'])

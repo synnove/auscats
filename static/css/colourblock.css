@@ -16,7 +16,17 @@
     font-weight: bolder;
 }
 
+<<<<<<< HEAD
 .panel.colourblock__top h4, .panel.colourblock__top h5,{
+=======
+.panel.colourblock__bottom.user__percent {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8em;
+    margin-bottom: 1rem;
+}
+
+.panel.colourblock__top h4, .panel.colourblock__top h5 {
+>>>>>>> c1fb35c73f13c7f0f4d249191507f4249a4b9db2
     color: #ffffff;
 }
 

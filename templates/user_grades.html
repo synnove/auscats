@@ -16,7 +16,7 @@
 			<div class="row">
 
                             <div class="large-10 columns text-left">
-	                        <p>You got {{correct_answers}} correct out of the {{number_of_questions}} questions in the {{module_title}} quiz.</p>
+	                        <p>You got {{ num_correct_answers }} correct out of the {{number_of_questions}} questions in the {{module_title}} quiz.</p>
 		            </div>
 		            
 			    <div class="large-2 columns text-right">
@@ -40,42 +40,38 @@
 	</li>
 	
 	<li class="accordion-navigation">
-	    <a href="#answers" class="blue">Quiz Answers</a>
+	    <a href="#answers" class="teal">Quiz Answers</a>
             <div id="answers" class="content">
-            <!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS -->
 		<div class="row">
 		    <div class="large-12 columns">
 			<div class="row">
-			    <div class="row">
-				<div class="large-10 large-offset-1 columns text-justify" data-equalizer="e">
-				    {% for question in quizzes %}
-					<div class="row">                                                              
-					    <div class="large-12 columns">                                             
-						<div class="large-10 columns panel purple colourblock__top thin" data-equalizer-watch="e">
-						    <h5>{{ question['QUESTION'] }}</h5>
-						</div>                                                                 
-						<div class="large-2 columns panel purple colourblock__top thin text-center" data-equalizer-watch="e">
-						    <h5>x%</h5>
-						</div>
-					    </div>                                                                     
-					</div>
-					<div class="row">                                                              
-					    <div class="large-12 columns">                                             
-						<div class="large-12 columns panel panel__middle thin" data-equalizer-watch="e">
-						    <ul class = "quiz">
-							{% for answer in answers %}
-							    {% if answer['QUESTION_ID'] == question ['QUESTION_ID'] %}
-								<li>
-								    &emsp;{{ answer['ANSWER'] }}
-								</li>
-							    {% endif %}		    
-							{% endfor %}
-						    </ul>
-						</div>
-					    </div>                                                                     
-					</div>
-				    {% endfor %}
-				</div>
+			    <div class="large-10 large-offset-1 columns text-justify">
+				{% for question in quizzes %}
+				    <div class="large-12 columns panel blue colourblock__top thin user__question">
+					<div class="large-12 columns">
+					    <h5>{{ question['QUESTION'] }}</h5>
+					</div>                                                                 
+				    </div>
+				    <div class="large-12 columns panel panel__middle">
+					    {% for answer in answers %}
+						{% if answer['QUESTION_ID'] == question['QUESTION_ID'] %}
+						    {% if answer['ANSWER_ID'] in correct_answers %}
+							<i class="fi-check text__teal"></i>
+						    {% else %}
+							<i class="fi-x"></i>
+						    {% endif %}
+						    {% if answer['ANSWER_ID'] in user_answers %}
+							&emsp;<u>{{ answer['ANSWER'] }}</u><br>
+						    {% else %}
+							&emsp;{{ answer['ANSWER'] }}<br>
+						    {% endif %}
+						{% endif %}		    
+					    {% endfor %}
+				    </div>
+				    <div class="large-12 columns purple panel colourblock__bottom thin text-right user__percent">
+					<span>{{ question['SUCCESS'] }} % answered this question correctly</span>
+				    </div>
+				{% endfor %}
 			    </div>
 			</div>
 		    </div>

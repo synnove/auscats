@@ -18,6 +18,7 @@
 
 .blue {
     background-color: #3B83C5 !important;
+    color: #000;
 }
 
 .purple {
@@ -33,4 +34,8 @@
 
 .text__purple {
     color: #7963AC !important;
+}
+
+.text__white{
+    color: #000000 !important;
 }

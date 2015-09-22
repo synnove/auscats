@@ -16,9 +16,14 @@
     font-weight: bolder;
 }
 
-.panel.colourblock__top h4, .panel.colourblock__top h5 {
+.panel.colourblock__top h4, .panel.colourblock__top h5,{
     color: #ffffff;
 }
+
+.panel.colourblock__top h5,{
+    background-color: #000;
+}
+
 
 .circle {
     border-radius: 2000px;
@@ -30,6 +35,7 @@
 
 .circle i {
     vertical-align: middle;
+    padding-right: 5%;
 }
 
 .progress.user__grades {
@@ -45,4 +51,14 @@
 
 .columns.user__bar {
     padding-top: 0.4rem;
+}
+
+.topic_dash{
+    color: #000000;
+
+}
+
+.panel_content{
+    padding: 5%;
+    line-height: 1.5em;
 }

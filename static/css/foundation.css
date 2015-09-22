@@ -2767,7 +2767,7 @@ meta.foundation-mq-topbar {
     .panel.callout a:not(.button) {
       color: #222222; }
       .panel.callout a:not(.button):hover, .panel.callout a:not(.button):focus {
-        color: #370546; }
+        color: #2F6D6E; }
   .panel.radius {
     border-radius: 3px; }
 
@@ -3303,9 +3303,9 @@ ul.pagination {
   display: block;
   margin-bottom: 0 !important; }
 .accordion .accordion-navigation.active > a, .accordion dd.active > a {
-  background: #49075e; }
+  background: #53C0C1; }
 .accordion .accordion-navigation > a, .accordion dd > a {
-  background: #49075e;
+  background: #53C0C1;
   color: #ffffff;
   display: block;
   font-family: "Ubuntu", Helvetica, Roboto, Arial, sans-serif;
@@ -3315,7 +3315,7 @@ ul.pagination {
   padding: 0.5rem; }
 
       .accordion .accordion-navigation > a:hover, .accordion dd > a:hover {
-        background: #370546; }
+        background: #2F6D6E; }
     .accordion .accordion-navigation > .content, .accordion dd > .content {
       display: none;
       padding: 0.9375em; }

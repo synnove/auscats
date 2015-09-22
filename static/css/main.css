@@ -19,8 +19,11 @@
     font-size: 1em;
 }
 
+
 .pricing-table {
-    border: 1px solid #bbbbbb;
+    height: 650px;
+    padding-bottom: 10%;
+    
 }
 
 .pricing-table .title {
@@ -76,4 +79,8 @@ table thead tr th, table tr td {
 
 .quiz-feedback {
     margin-bottom: 1rem !important;
+}
+
+.edit_course{
+    color: #000;
 }

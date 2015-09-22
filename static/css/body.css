@@ -9,10 +9,11 @@ p {
     font-family: 'Ubuntu', 'Roboto', sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6{
     color: #555555;
     font-weight: bolder;
 }
+
 
 hr {
     margin: 0.5rem 0;

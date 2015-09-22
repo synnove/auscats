@@ -1,15 +1,44 @@
 {% extends "layout.html" %}
 
+{% block scripts %}
+<link rel="stylesheet" href="../static/css/colourblock.css" />
+{% endblock %}
+
 {% block content %}
 <div class="main__page">
-    <div class="row" data-equalizer="blocks">
-	<div class="large-7 small-12 columns text-center">
-	    <ul class="pricing-table">
-		<li class="price text-left">View/ Edit Courses</li>
-		<li class="description text-left" data-equalizer-watch="blocks">
-		<ul class="accordion" data-accordion>
+    <!-- <div class="row" data-equalizer="blocks"> -->
+
+<!--     <div class="row"> -->
+	<div class="large-4 small-10 columns">
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel teal colourblock__top">
+			<div class="row">
+			    <div class="large-8 columns" class="teal">
+				<h4>View/ Edit Courses</h4>
+			    </div>
+			    <div class="large-4 columns">
+				<div class="circle text-center text__teal">
+					<i class="fi-page-add"></i>
+				</div>
+			    </div>
+			</div>
+		    </div>
+		</div>
+	    </div>
+
+
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel panel__middle">
+<!-- 			<li class="description text-left" data-equalizer-watch="blocks"> -->
+			<div class='panel_content'>
+			<b>Welcome to your Edit and View section</b>
+			<p> In this section you will be able to generate a new module, edit it or modify each module's visibility</p>
+			<p> Please select from the following option the modules you want to work with</p></div>				
+			<ul class="accordion" data-accordion>
 		    <li class="accordion-navigation">
-			<a href="#recent_mods"><p><b>Recently Updated Modules</b></p></a>
+			<a href="#recent_mods"><b>Recently Updated Modules</b></a>
 			<div id="recent_mods" class="content active">
 			    <table>
 				<thead>
@@ -30,7 +59,7 @@
 			</div>
 		    </li>
 		    <li class="accordion-navigation">
-			<a href="#req_mods"><p><b>Modules Requiring Update</b></p></a>
+			<a href="#req_mods" id="topic_dash"><b>Modules Requiring Update</b></a>
 			<div id="req_mods" class="content">
 			    <table>
 				<thead>
@@ -52,135 +81,195 @@
 		    </li>
 		</ul>
 		</li>
-		<a href="/edit">
-		    <li class="title text-right light-purple">
-		    <span class="t-align">More Options&emsp;</span>
-		    <i class="fi-pencil"></i></li>
-		</a>
-	    </ul>
-	</div>
-	<div class="large-5 small-12 columns text-center">
-	    <ul class="pricing-table">
-		<li class="price text-left">Manage Administrators</li>
-		<li class="description text-left" data-equalizer-watch="blocks">
-		<form id="admins">
-		    <div class="row" id="admin_err">
-			<!-- display error messages -->
-			{% with errors = get_flashed_messages(category_filter=["admin"]) %}
-			    {% if errors %}
-				<div data-alert class="alert-box warning radius text-center">
-				    {% for message in errors %}
-					<b>{{ message }}</b><br>
-				    {% endfor %}
-				    <a href="#" class="close">&times;</a>
-				</div>
-			    {% endif %}
-			{% endwith %}
-			<!-- display success message-->
-			{% with messages = get_flashed_messages(category_filter=["admin_ok"]) %}
-			    {% if messages %}
-				<div data-alert class="alert-box success green radius text-center">
-				    {% for message in messages %}
-					<b>{{ message }}</b>
-				    {% endfor %}
-				    <a href="#" class="close">&times;</a>
-				</div>
-			    {% endif %}
-			{% endwith %}
+		</div>
+		</div>
+	    </div>
+
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel teal colourblock__bottom">
 		    </div>
+		</div>
+	    </div>
+	</div>
+
+
+		<div class="large-4 small-10 columns">
 		    <div class="row">
 			<div class="large-12 columns">
-			    <label><b>Add new Administrator</b>
-				<input id="admin_id" type="text" placeholder="Enter UQ ID" />
-			    </label>
-			</div>
-		    </div>
-		    <div class="row">
-			<div class="large-12 columns">
-			<label><b>Select Permissions</b></label>
-			<input id="write_access" type="checkbox">
-			<label for="write_access">Write access to modules</label>
-			<br>
-			<input id="read_access" type="checkbox">
-			<label for="read_access">Read access to data</label>
-			</div>
-		    </div>
-		    <div class="row">
-			<div class="large-12 columns text-right">
-			    <input type="submit" class="tiny round green button" value="Submit" />
-			</div>
-		    </div>
-		</form>
-		</li>
-		<a href="/admin">
-		    <li class="title text-right light-purple">
-		    <span class="t-align">More Options&emsp;</span>
-		    <i class="fi-wrench"></i>
-		    </li>
-		</a>
-	    </ul>
-	</div>
-    </div>
-    <div class="row">
-	<div class="large-12 small-12 columns text-center">
-	    <ul class="pricing-table">
-		<li class="title text-right light-purple">
-		<span class="t-align">Advanced Search&emsp;</span>
-		<i class="fi-magnifying-glass"></i></li>
-		<li class="price text-left">Filter By:
-		</li>
-		<li class="description text-left">
-		{% with errors = get_flashed_messages(category_filter=["search"]) %}
-		    {% if errors %}
-			<div class="row">
-			    <div class="large-8 large-offset-2 columns">
-				<div data-alert class="alert-box warning radius text-center" tabindex="0" aria-live="assertive" role="alertdialog">
-				    {% for message in errors %}
-					<b>{{ message }}</b>
-				    {% endfor %}
-				    <button tabindex="0" class="close" aria-label="Close Alert">&times;</button>
+			    <div class="panel blue colourblock__top">
+				<div class="row">
+				    <div class="large-8 columns">
+					<h4>Manage Administrators</h4>
+				    </div>
+				    <div class="large-4 columns">
+					<div class="circle text-center text__blue">
+					    <i class="fi-page-edit"></i>
+					</div>
+				    </div>
 				</div>
 			    </div>
 			</div>
-		    {% endif %}
-		{% endwith %}
-		<form id="search">
-		    <div class="row" data-equalizer="form">
-			<div class="large-4 small-12 columns" data-equalizer-watch="form">
-			    <label>Module
-			    <select id= "module">
-			    <option value="None">Show all modules</option>
-			    {% for module in modules %}
-			    <option value="{{ module['MODULE_ID'] }}">{{ module['NAME'] }}</option>
-			    {% endfor %}
-			    </select>
-			    </label>
-			</div>
-			<div class="large-4 small-12 columns" data-equalizer-watch="form">
-			    <label>Org Unit
-			    <select id= "orgunit">
-			    <option value="None">Show all org units</option>
-			    {% for org_unit in org_units %}
-			    <option value="{{ org_unit['UNIT_ID'] }}">{{ org_unit['UNIT_NAME'] }}</option>
-			    {% endfor %}
-			    </select>
-			    </label>
-			</div>
-			<div class="large-3 small-12 columns" data-equalizer-watch="form">
-			    <label>User
-				<input type="text" id="userid" placeholder="Enter UQ ID" />
-			    </label>
-			</div>
-			<div class="large-1 small-12 columns text-right bottom" data-equalizer-watch="form">
-			    <label><br></label>
-			    <input type="submit" class="tiny round green button" value="Submit" />
+		    </div>
+		    <div class="row">
+			<div class="large-12 columns">
+			    <div class="panel panel__middle">
+<!-- 				<li class="description text-left" data-equalizer-watch="blocks"> -->
+				<form id="admins">
+				    <div class="row" id="admin_err">
+					<!-- display error messages -->
+					{% with errors = get_flashed_messages(category_filter=["admin"]) %}
+					    {% if errors %}
+						<div data-alert class="alert-box warning radius text-center">
+						    {% for message in errors %}
+							<b>{{ message }}</b><br>
+						    {% endfor %}
+						    <a href="#" class="close">&times;</a>
+						</div>
+					    {% endif %}
+					{% endwith %}
+					<!-- display success message-->
+					{% with messages = get_flashed_messages(category_filter=["admin_ok"]) %}
+					    {% if messages %}
+						<div data-alert class="alert-box success green radius text-center">
+						    {% for message in messages %}
+							<b>{{ message }}</b>
+						    {% endfor %}
+						    <a href="#" class="close">&times;</a>
+						</div>
+					    {% endif %}
+					{% endwith %}
+				    </div>
+				    <div class="row">
+					<div class="large-12 columns">
+						<div class='panel_content'>
+						<b>Create New Adminstrator Credentials</b>
+						<p> Generate new administrator's credentials for your team. You can select the level of permissions you want to give to each user.</p>
+						<p><b> Tip:</b> With <b>Write Access</b> permissions, the user will be able to edit modules and content. <b>Read Access</b> permissions gives the user the chance to download the raw data from the interactions collected within this website. You can generate credentials with both attributes, or limited ones, depending on the user's needs.</p>
+						</div>	
+						<label><b>Add new Administrator</b>
+						<input id="admin_id" type="text" placeholder="Enter UQ ID" />
+					    </label>
+					</div>
+				    </div>
+				    <div class="row">
+						<div class="large-12 columns">
+						<label><b>Select Permissions</b></label>
+						<input id="write_access" type="checkbox">
+						<label for="write_access">Write access to modules</label>
+						<br>
+						<input id="read_access" type="checkbox">
+						<label for="read_access">Read access to data</label>
+					</div>
+				    </div>
+				    <div class="row">
+					<div class="large-12 columns text-right">
+					    <input type="submit" class="tiny round green button" value="Submit" />
+					</div>
+				    </div>
+				</form>
+				</li>
+			    </div>
 			</div>
 		    </div>
-		</form>
-		</li>
-	    </ul>
+		    <div class="row">
+			<div class="large-12 columns">
+			    <div class="panel blue colourblock__bottom">
+					<a href="/admin">
+					    <li class="title text-right light-purple">
+					    <span class="t-align">More Options&emsp;</span>
+					    <i class="fi-wrench"></i>
+					    </li>
+					</a>
+			    </div>
+			</div>
+		    </div>
+		</div>
+
+	<div class="large-4 small-10 columns">
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel purple colourblock__top">
+			<div class="row">
+			    <div class="large-8 columns">
+					<h4>Filter By Raw Data</h4>
+			    </div>
+			    <div class="large-4 columns">
+					<div class="circle text-center text__purple">
+					    <i class="fi-unlock"></i>
+					</div>
+			    </div>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel panel__middle">
+				<div class='panel_content'>
+				<b>Filter Raw Data Within The System</b>
+					<p>Do you need to analyse the raw data we have collected? No problem. We offer you the option of downloading the raw data into a .csv file</p>
+					<p>You can filter the data within the system acording to your needs</p>
+				</div>
+			<li class="description text-left">
+			{% with errors = get_flashed_messages(category_filter=["search"]) %}
+			    {% if errors %}
+				<div class="row">
+				    <div class="large-8 large-offset-2 columns">
+					<div data-alert class="alert-box warning radius text-center" tabindex="0" aria-live="assertive" role="alertdialog">
+					    {% for message in errors %}
+						<b>{{ message }}</b>
+					    {% endfor %}
+					    <button tabindex="0" class="close" aria-label="Close Alert">&times;</button>
+					</div>
+				    </div>
+				</div>
+			    {% endif %}
+			{% endwith %}
+			<form id="search">
+			    <div class="row" data-equalizer="form">
+					<div class="large-4 small-12 columns" data-equalizer-watch="form">
+					    <label>Module
+					    <select id= "module">
+					    <option value="None">Show all modules</option>
+					    {% for module in modules %}
+					    <option value="{{ module['MODULE_ID'] }}">{{ module['NAME'] }}</option>
+					    {% endfor %}
+					    </select>
+					    </label>
+					</div>
+					<div class="large-4 small-12 columns" data-equalizer-watch="form">
+					    <label>Org Unit
+					    <select id= "orgunit">
+					    <option value="None">Show all org units</option>
+					    {% for org_unit in org_units %}
+					    <option value="{{ org_unit['UNIT_ID'] }}">{{ org_unit['UNIT_NAME'] }}</option>
+					    {% endfor %}
+					    </select>
+					    </label>
+					</div>
+					<div class="large-3 small-12 columns" data-equalizer-watch="form">
+					    <label>User
+						<input type="text" id="userid" placeholder="Enter UQ ID" />
+					    </label>
+					</div>
+				    <div class="row">
+					<div class="large-12 columns text-right bottom">
+					    <input type="submit" class="tiny round green button" value="Submit" />
+					</div>
+				    </div>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	    <div class="row">
+		<div class="large-12 columns">
+		    <div class="panel purple colourblock__bottom">
+		    </div>
+		</div>
+	    </div>
 	</div>
-    </div>
-</div>
+
+<!-- </div> -->
 <script src="../static/js/admin_dashboard.js"></script>
 {% endblock %}

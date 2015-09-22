@@ -11,14 +11,15 @@
     margin-top: 0.2rem;
 }
 
+.panel.panel__middle {
+    padding: 1rem;
+}
+
 .panel.colourblock__bottom > a{
     color: #ffffff;
     font-weight: bolder;
 }
 
-<<<<<<< HEAD
-.panel.colourblock__top h4, .panel.colourblock__top h5,{
-=======
 .panel.colourblock__bottom.user__percent {
     padding: 0.2rem 0.5rem;
     font-size: 0.8em;
@@ -26,14 +27,8 @@
 }
 
 .panel.colourblock__top h4, .panel.colourblock__top h5 {
->>>>>>> c1fb35c73f13c7f0f4d249191507f4249a4b9db2
     color: #ffffff;
 }
-
-.panel.colourblock__top h5,{
-    background-color: #000;
-}
-
 
 .circle {
     border-radius: 2000px;
@@ -65,10 +60,8 @@
 
 .topic_dash{
     color: #000000;
-
 }
 
 .panel_content{
-    padding: 5%;
     line-height: 1.5em;
 }

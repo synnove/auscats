@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+<link rel="stylesheet" href="../static/css/colourblock.css" />
+{% endblock %}
+
+{% block content %}
+<div class="main__page">
+    {% if completed_modules %}
+	<div class="row">
+    {% set count = 0 %}
+    {% set colour = "teal" %}
+    {% for module in completed_modules %}
+	{% if count%2 == 0 %}
+	    <div class="row">
+	{% endif %}
+	{% if count%3 == 0 %}
+	    {% set colour = "teal" %}
+	{% elif count%3 == 1 %}
+	    {% set colour = "blue" %}
+	{% else %}
+	    {% set colour = "purple" %}
+	{% endif %}
+	<div class="large-6 columns">
+	    <div class="large-12 columns panel {{ colour }} colourblock__top thin text-center">
+		<h4>{{ module['NAME'] }}</h4>
+	    </div>
+	    <div class="large-12 columns panel panel__middle">
+		<div class="row">
+		    <div class="large-9 large-offset-1 columns user__bar">
+			<div class="progress large-12 user__grades">       
+			    <span class="meter {{ colour }}" style="width:{{ module['GRADE'] }}%"></span>
+			</div>
+		    </div>
+		    <div class="large-1 end columns text-left user__percent">{{ module['GRADE'] }}%</div>
+		</div>
+	    </div>
+	    <div class="large-12 columns panel {{ colour }} colourblock__bottom thin text-right">
+		<a href="grades/{{ module['NAME']}}">View Details</a>
+	    </div>
+	</div>
+	{% set count = count + 1 %}
+	{% if count%2 == 0 %}
+	    </div>
+	{% endif %}
+    {% endfor %}
+	</div>
+    {% else %}
+    <div class="row">
+	<div class="large-12 columns panel panel__middle text-center">
+	    No grades available.
+	</div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

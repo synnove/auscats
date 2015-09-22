@@ -1,11 +1,14 @@
 {% extends "layout.html" %}
+{% block scripts %}
+<link rel="stylesheet" href="../static/css/colourblock.css" />
+{% endblock %}
 
 {% block content %}
 <div class="main__page">
     <div class="small-10 small-offset-1 columns">
 	<ul class="accordion" data-accordion>
-        <li class="accordion-navigation text-center">
-        <a href="#complete">{{module_title}} Grade</a>
+        <li class="accordion-navigation">
+        <a href="#complete" class="teal">{{module_title}} Grade</a>
 	<div id="complete" class="content active">
 	    <div class="row">
 		<div class="large-12 columns">
@@ -13,17 +16,22 @@
 			<div class="row">
 
                             <div class="large-10 columns text-left">
-	                        <p>You got {{correct_answers}} correct out of the {{number_of_questions}} questions in the {{module_title}} quiz</p>
+	                        <p>You got {{correct_answers}} correct out of the {{number_of_questions}} questions in the {{module_title}} quiz.</p>
 		            </div>
 		            
 			    <div class="large-2 columns text-right">
-			    	<a href="/modules" class="button tiny round green">Main Page</a>
+			    	<a href="/modules" class="button tiny round blue">Main Page</a>
 			    </div>
 			</div>
 
-			<div class="progress large-10 large-offset-1 round">
-			    <span class="meter" style="width:{{percentage_correct }}%"></span>
-		        </div>
+			<div class="row">                                                  
+			    <div class="large-9 columns user__bar">                       
+				<div class="progress large-12 user__grades">               
+				    <span class="meter blue" style="width:{{ percentage_correct }}%"></span>
+				</div>                                                     
+			    </div>                                                         
+			    <div class="large-1 end columns text-left user__percent">{{ percentage_correct }}%</div>
+			</div>
 		   
 		    </div>
 		</div>
@@ -31,28 +39,29 @@
 	</div>
 	</li>
 	
-	<li class="accordion-navigation text-center">
-	    <a href="#complete">Quiz Answers</a>
-            <div id="complete" class="content">
+	<li class="accordion-navigation">
+	    <a href="#answers" class="blue">Quiz Answers</a>
+            <div id="answers" class="content">
             <!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS -->
-		    <div class="row">
-			<div class="large-12 columns">
-			    <div class="panel">
-				<div class="row">
-				    <div class="large-7 columns text-left">
-					<h3>Quiz Answers</h3>
-                                    </div>
-				
-                                    <div class="row">
-					<div class="large-10 large-offset-1 columns text-justify">
-					    <p>
-				            <!-- QUIZ SEGMENT -->
-				            {% for question in quizzes %}
-			                    <section data-state="quiz">
-						<h3>{{ question['QUESTION'] }}</h3>
-						<div class="q_err">
+		<div class="row">
+		    <div class="large-12 columns">
+			<div class="row">
+			    <div class="row">
+				<div class="large-10 large-offset-1 columns text-justify" data-equalizer="e">
+				    {% for question in quizzes %}
+					<div class="row">                                                              
+					    <div class="large-12 columns">                                             
+						<div class="large-10 columns panel purple colourblock__top thin" data-equalizer-watch="e">
+						    <h5>{{ question['QUESTION'] }}</h5>
+						</div>                                                                 
+						<div class="large-2 columns panel purple colourblock__top thin text-center" data-equalizer-watch="e">
+						    <h5>x%</h5>
 						</div>
-						<form id = "{{ question['QUESTION_ID'] }}" class="question">
+					    </div>                                                                     
+					</div>
+					<div class="row">                                                              
+					    <div class="large-12 columns">                                             
+						<div class="large-12 columns panel panel__middle thin" data-equalizer-watch="e">
 						    <ul class = "quiz">
 							{% for answer in answers %}
 							    {% if answer['QUESTION_ID'] == question ['QUESTION_ID'] %}
@@ -62,15 +71,15 @@
 							    {% endif %}		    
 							{% endfor %}
 						    </ul>
-						</form>
-					    </section>
-					    {% endfor %}
-                                        </div>
-                                    </div>
+						</div>
+					    </div>                                                                     
+					</div>
+				    {% endfor %}
 				</div>
 			    </div>
 			</div>
-		    <div/>
+		    </div>
+		</div>
             </div>
         </li>
 	</ul>

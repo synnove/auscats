@@ -30,22 +30,27 @@ def frontPage():
 
 @app.route("/modules")
 def courseDefault():
-    """ Default user page: displays list of modules either in progress or
-	completed. """
+    """ Default user page: displays list of modules in progress,
+	completed, or scheduled. """
 
     active_modules = db.get_module_info()
     modules_completed = db.modules_completed_by_user(g.username)
     num_active_modules = len(active_modules)
     num_incomplete = len(active_modules) - len(modules_completed)
     num_complete = len(modules_completed)
-    
+    modules_started = db.get_user_progress(g.username)   
+    modules_in_progress = list(set(modules_started)-set(modules_completed))
+    num_in_progress = len(modules_in_progress)    
+ 
     if g.username not in g.admins:
 	return render_template('user_module_list.html', name=g.user,
 		subtitle="My Modules", user_id = g.username, 
 		active_modules = active_modules, 
-		modules_completed = modules_completed, 
+		modules_completed = modules_completed,
+		modules_in_progress = modules_in_progress,
 		num_incomplete = num_incomplete,
-		num_complete = num_complete, 
+		num_complete = num_complete,
+		num_in_progress = num_in_progress, 
 		num_active_modules = num_active_modules,  is_admin = False)
     return redirect(url_for('adminDashboard'))
 

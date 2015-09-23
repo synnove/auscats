@@ -118,12 +118,24 @@ def modules_completed_by_user(user_id):
     modules_completed = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT A.MODULE_ID FROM MODULES M,(SELECT MODULE_ID,COUNT(MODULE_ID) AS COUNT FROM vw_USER_ANSWERS WHERE USER_ID = %s GROUP BY MODULE_ID) AS A WHERE COUNT = M.NUM_QUESTIONS", [user_id])
+    cur.execute("SELECT DISTINCT A.MODULE_ID FROM MODULES M,(SELECT MODULE_ID,COUNT(MODULE_ID) AS COUNT FROM vw_USER_ANSWERS WHERE USER_ID = %s GROUP BY MODULE_ID) AS A WHERE COUNT = M.NUM_QUESTIONS", [user_id])
     rows = cur.fetchall()
     for row in rows:
 	modules_completed.append(row['MODULE_ID'])
     conn.close()
     return modules_completed
+
+def get_user_progress(user_id):
+    """ get list of modules started by the user; module could be completed or not"""
+    user_progress = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT MODULE_ID FROM USER_PROGRESS WHERE USER_ID=%s", [user_id])
+    rows = cur.fetchall()
+    for row in rows:
+	user_progress.append(row['MODULE_ID'])
+    conn.close()
+    return user_progress
 
 def get_quiz_questions_by_module(module_id):
     """ get list of questions per module """
@@ -155,8 +167,13 @@ def get_number_of_correct_answers(user_id, module_title):
     cur = conn.cursor()
     cur.execute("SELECT COUNT(QUESTION_ID) AS QUESTIONS_CORRECT FROM vw_USER_CORRECT_ANSWERS WHERE USER_ID = %s AND MODULE_ID IN (SELECT MODULE_ID FROM MODULES WHERE NAME = %s) GROUP BY USER_ID, MODULE_ID", [user_id, module_title])
     rows = cur.fetchall()
-    for row in rows:
-	correct_answers = row['QUESTIONS_CORRECT']
+    
+    if (rows):
+	for row in rows:
+	    correct_answers = row['QUESTIONS_CORRECT']
+    else:
+        correct_answers = 0
+    
     conn.close()
     return correct_answers
 

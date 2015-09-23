@@ -27,23 +27,42 @@
                 </ul>
 
                 <div class="tabs-content">
-                    <!-- ONGOING COURSES TAB SECTION-->
+                    <!-- COURSES IN PROGRESS TAB SECTION-->
                     <div class="content active" id="panel-1">
+			{% if num_in_progress >= 1 %}
+			<h3 class="subheader">You have {{ num_in_progress }} modules in progress</h3>
                         <div class=panel>
                             <div class="row">
                                 <div class="small-12 columns">
-                                    <h3 class="subheader">You have 3 modules in progress</h3>
                                     <!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS OF MODULES IN PROGRESS -->
-                                    <h5 class="project">Module 1</h5>
-                                    <div class="progress">
-                                        <span class="meter blue" style="width:65%">
-                                            <p class="percent">x%</p>
-                                        </span>
-                                    </div>
+                                    {% for module_id in modules_in_progress %}
+					{% for module in active_modules %}
+					    {% if module_id == module['MODULE_ID'] %}
+						 <div class="large-10 columns text-left">
+                                                    <h5>{{ module['NAME'] }}</h5>
+                                                </div>
+
+                                                <div class="large-2 columns text-right">
+                                                        <a href="/module/{{module['NAME']}}" class="button tiny round">Continue</a>
+                                                </div>
+						<div class="progress">
+	                                            <!-- ADD PERCENTAGE PROGRESS -->
+						     <span class="meter blue" style="width:65%">
+							<p class="percent">x%</p>
+						    </span>
+					        </div>					        
+					    {% endif %}
+					{% endfor %}
+				    {% endfor %}
                                     <!-- END FOR LOOP -->
                                 </div>
                             </div>
                         </div>
+			{% else %}
+                            <div id="incomplete" class="content text-center">
+                                <h3 class="subheader" >No Modules in Progress!</h3>
+                            </div>
+			{% endif %}
                     </div>
                     <!-- END OF ONGOING COURSES TAB SECTION-->
 
@@ -54,38 +73,31 @@
                             <div id="incomplete" class="content active">
                                 <div class="panel">
                                     <h3 class="subheader" >You have {{ num_incomplete }}  modules Scheduled</h3>
-                                    <!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS -->
-                                    {% for module in active_modules %}
-                                        <!-- NEED TO ADD CONDITION FOR MODULE NOT STARTED -->
-                                        {% if module['MODULE_ID'] not in modules_completed %}
-                                        <div class="row" >
-                                            <div class="large-12 columns">
-                                                <div class="row">
-                                                    <div class="large-10 columns text-left">
-                                                        <h3>{{ module['NAME'] }}</h3>
-                                                    </div>
-
-                                                    <div class="large-2 columns text-right">
-                                                        <a href="/module/{{module['NAME']}}" class="button tiny round">Start</a>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="large-10 large-offset-1 columns text-justify">
-                                                        <p>{{ module['BLURB'] }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {% if module != active_modules[-1] %}
-                                        <hr>
-                                        {% endif %}
-                                        
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </div>
+    				    <div id="complete" class="content">
+	                                <div class="row">
+					<!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS -->
+					{% for module in active_modules %}
+					    <!-- NEED TO ADD CONDITION FOR MODULE NOT STARTED -->
+					    {% if module['MODULE_ID'] not in modules_completed %}
+						<div class="large-12 columns">
+						    <div class="row">
+							<div class="medium-4 columns">
+							    <div class="profile-card">
+								<img src="http://zurb.com/ink/images/inky-computer.svg" alt="Inky">
+								<div class="profile-info">
+								    <h4 class="subheader">{{ module['NAME'] }}</h4>
+								    <p><a href="/module/{{module['NAME']}}">Start</a></p>
+								</div>
+							    </div>
+							</div>
+						    </div>
+						</div>
+					    {% endif %}
+					{% endfor %}
+					</div>
+				    </div>                           
+				</div>
+			    </div>
                             {% else %}
                                 <div id="incomplete" class="content text-center">
                                     <h3 class="subheader" >All modules completed!</h3>
@@ -97,8 +109,8 @@
                     <!-- COMPLETED COURSES SECTION-->
                     <div class="content" id="panel-3">
                         <div class="row">
-                            <div class="panel">
                             {% if modules_completed %}
+			    <div class="panel">
                             <h3 class="subheader">You have completed {{num_complete}} Modules</h3>
                                 <div id="complete" class="content">
                                     <div class="row">
@@ -106,14 +118,13 @@
                                     {% for module in active_modules %}
                                         {% if module['MODULE_ID'] in modules_completed %}
                                             <div class="large-12 columns">
-                                                <div class="row">
+						<div class="row"> 
                                                     <div class="medium-4 columns">
                                                         <div class="profile-card">
                                                             <img src="http://zurb.com/ink/images/inky-computer.svg" alt="Inky">
-                                                            <div class="profile-info">
-                                                                <h4 class="subheader">{{ module['NAME'] }}</h4>
-                                                                <p>{{ module['BLURB'] }}</p>
-                                                                <p><a href="/review/{{module['NAME']}}">Review</a> | <a href="/grades/{{module['NAME']}}">Grades</a></p>
+								<div class="profile-info">
+		
+                                                                <h4 class="subheader">{{ module['NAME'] }}</h4>																<p><a href="/review/{{module['NAME']}}">Review</a> | <a href="/grades/{{module['NAME']}}">Grades</a></p>
                                                             </div>
                                                         </div>
                                                     </div>   
@@ -123,10 +134,16 @@
                                     {% endfor %}
                                     </div>
                                 </div>
+			    </div>
+                            {% else %}
+                                <div id="incomplete" class="content text-center">
+                                    <h3 class="subheader" >You haven't completed any modules!</h3>
+                                </div>
                             {% endif %}
-                            </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </div>

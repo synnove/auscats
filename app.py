@@ -189,16 +189,56 @@ def adminDashboard():
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)
 
+#Mayi is working in this one
 @app.route("/admin")
 def manageAdmin():
     """ add, modify and remove admin users """
 
     if g.username in g.admins:
-	return render_template('admin_dashboard.html', name = g.user,
-		subtitle = "Manage Administrators",
-		is_admin = True)
-    return render_template('unauthorized.html', name=g.user, 
+	   return render_template('admin_manage.html', name = g.user,
+	   subtitle = "Manage Administrators",
+	   is_admin = True)
+    return render_template('unauthorized.html', name=g.user,
 	    subtitle = "Not Authorized", is_admin = False)
+
+
+#Mayi is working in this one
+@app.route("/add")
+def addCourse():
+    """ add new course """
+
+    if g.username in g.admins:
+        return render_template('add.html', name = g.user,
+        subtitle = "Add Course",
+        is_admin = True)
+    return render_template('unauthorized.html', name=g.user,
+        subtitle = "Not Authorized", is_admin = False)
+
+#Mayi is working in this one
+@app.route("/editView")
+def editViewCourse():
+    """ Edit or View previous courses """
+
+    if g.username in g.admins:
+        return render_template('editView.html', name = g.user,
+        subtitle = "Edit or View Courses",
+        is_admin = True)
+    return render_template('unauthorized.html', name=g.user,
+        subtitle = "Not Authorized", is_admin = False)
+
+#Mayi is working in this one
+@app.route("/change")
+def changeCourse():
+    """ Change status of previous courses """
+
+    if g.username in g.admins:
+        return render_template('change.html', name = g.user,
+        subtitle = "Change Courses Statuts",
+        is_admin = True)
+    return render_template('unauthorized.html', name=g.user,
+        subtitle = "Not Authorized", is_admin = False)
+
+
 
 @app.route("/drawingboard/<course_id>/<rev_id>/<slide_no>")
 def editCourse():

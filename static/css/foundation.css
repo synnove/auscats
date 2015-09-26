@@ -3136,7 +3136,10 @@ meta.foundation-mq-topbar {
     .tabs dd > a,
     .tabs .tab-title > a {
       display: block;
-      background-color: #5d1773;
+      /*background-color: #5d1773; previously purple, now teal*/
+      background-color: #53C0C1;
+
+
       color: #ffffff;
       font-family: "Ubuntu", Helvetica, Roboto, Arial, sans-serif;
       font-size: 1rem;
@@ -3144,10 +3147,12 @@ meta.foundation-mq-topbar {
       padding: 0.5rem 2rem; }
       .tabs dd > a:hover,
       .tabs .tab-title > a:hover {
-        background-color: #370546; }
+/*        background-color: #370546; }previously purple, now teal*/
+        background-color: #387A82; }
     .tabs dd.active a,
     .tabs .tab-title.active a {
-      background-color: #49075e;
+      /*background-color: #49075e; marching purple of the admin interaction*/
+      background-color: #3B83C5;      
       color: #ffffff; }
   .tabs.radius dd:first-child a,
   .tabs.radius .tab:first-child a {
@@ -3484,7 +3489,9 @@ a {
   line-height: inherit;
   text-decoration: none; }
   a:hover, a:focus {
-    color: #370546; }
+/*    color: #370546; }*/
+    color: #53C0C1; }
+
   a img {
     border: none; }
 

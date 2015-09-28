@@ -47,9 +47,14 @@
                                                 </div>
 						<div class="progress">
 	                                            <!-- ADD PERCENTAGE PROGRESS -->
-						     <span class="meter blue" style="width:65%">
-							<p class="percent">x%</p>
+						     
+						    {% for slide in last_viewed_slide %}
+							{% if slide['MODULE_ID'] == module_id %}
+						    <span class="meter blue" style="width:65%">
+							<p class="percent">{{ slide['LAST_VIEWED'] / module['NUM_QUESTIONS'] * 100 }} </p>
 						    </span>
+							{% endif %}
+						    {% endfor %}
 					        </div>					        
 					    {% endif %}
 					{% endfor %}
@@ -60,7 +65,7 @@
                         </div>
 			{% else %}
                             <div id="incomplete" class="content text-center">
-                                <h3 class="subheader" >No Modules in Progress!</h3>
+                                <h3 class="subheader">No Modules in Progress!</h3>
                             </div>
 			{% endif %}
                     </div>
@@ -69,16 +74,15 @@
                     <!-- SCHEDULED COURSES SECTION-->
                      <div class="content" id="panel-2">
                         <div class="row">
-                            {% if num_incomplete >= 1 %}
+                            {% if num_scheduled >= 1 %}
                             <div id="incomplete" class="content active">
                                 <div class="panel">
-                                    <h3 class="subheader" >You have {{ num_incomplete }}  modules Scheduled</h3>
+                                    <h3 class="subheader" >You have {{ num_scheduled }}  modules Scheduled</h3>
     				    <div id="complete" class="content">
 	                                <div class="row">
 					<!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS -->
-					{% for module in active_modules %}
-					    <!-- NEED TO ADD CONDITION FOR MODULE NOT STARTED -->
-					    {% if module['MODULE_ID'] not in modules_completed %}
+					{% for module in active_modules %}					   
+					    {% if (module['MODULE_ID'] not in (modules_completed)) and (module['MODULE_ID'] not in (modules_in_progress)) %}
 						<div class="large-12 columns">
 						    <div class="row">
 							<div class="medium-4 columns">
@@ -100,7 +104,7 @@
 			    </div>
                             {% else %}
                                 <div id="incomplete" class="content text-center">
-                                    <h3 class="subheader" >All modules completed!</h3>
+                                    <h3 class="subheader" >No modules scheduled!</h3>
                                 </div>
                             {% endif %}
                         </div>

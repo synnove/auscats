@@ -125,17 +125,30 @@ def modules_completed_by_user(user_id):
     conn.close()
     return modules_completed
 
-def get_user_progress(user_id):
+def get_modules_started_by_user(user_id):
     """ get list of modules started by the user; module could be completed or not"""
-    user_progress = list()
+    modules_started = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("SELECT MODULE_ID FROM USER_PROGRESS WHERE USER_ID=%s", [user_id])
     rows = cur.fetchall()
     for row in rows:
-	user_progress.append(row['MODULE_ID'])
+	modules_started.append(row['MODULE_ID'])
     conn.close()
-    return user_progress
+    return modules_started
+
+def get_last_viewed_slide_by_user(user_id):
+    """ get list of last viewed slide for modules in progress by user """
+    last_viewed_slides = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT MODULE_ID, LAST_VIEWED FROM USER_PROGRESS WHERE USER_ID=%s", [user_id])
+    rows = cur.fetchall()
+    for row in rows:
+	last_viewed_slides.append(row)
+    conn.close()
+    return last_viewed_slides
+
 
 def get_quiz_questions_by_module(module_id):
     """ get list of questions per module """

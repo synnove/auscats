@@ -1,0 +1,262 @@
+<!--WE CAN DELETE THIS ONE-->
+
+{% extends "layout.html" %}
+
+{% block scripts %}
+<link rel="stylesheet" href="../static/css/colourblock.css" />
+<link rel="stylesheet" href="../static/css/editmodules.css" />
+{% endblock %}
+
+{% block content %}
+<div class="main__page">
+    <div class="row" data-equalizer>
+	<div class="large-4 small-4 columns">
+	    <div class="row"><div class="large-12 columns"><div class="panel teal colourblock__top">
+		<div class="row">
+		    <div class="large-6 columns" class="teal">
+			<h4>WE CAN DELETE THIS ONE!!</h4>
+		    </div>
+		    <div class="large-4 columns">
+			<div class="circle text-center text__teal"><i class="fi-page-add"></i></div>
+		    </div>
+		</div>
+	    </div></div></div>
+	    <div class="row"><div class="large-12 columns"><div class="panel panel__middle">
+		<div class='panel_content' data-equalizer-watch>
+		    <p> In this section you will be able to generate a new module, edit it or modify each module's visibility</p>
+		</div>				
+	    </div></div></div>
+	    <div class="row"><div class="large-12 columns"><div class="panel teal colourblock__bottom thin text-center">
+		Edit Last Changed Module
+	    </div></div></div>
+	    <a href="/admin_edit" class="button">Back</a>
+	</div>
+
+	<div class="large-8 small-8 columns">
+	    <div class="row"><div class="large-14 columns"><div class="panel teal colourblock__top">
+	    </div></div></div>
+	    <div class="row"><div class="large-14 columns"><div class="panel panel__middle">
+	    <div class="container">
+
+
+<div class="row">
+<div class="small-10 medium-12 columns">
+
+	<div class="large-14 large-centered columns">
+	<dl class="tabs g-1" data-tab data-options="scroll_to_content:false" data-options="deep_linking:true" >
+	    <dd class="active"><a href="#panel2-1">Select Module</a></dd>
+	    <dd><a href="#panel2-2">Select Slide</a></dd>
+	    <dd><a href="#panel2-3">Modify Content</a></dd>
+	    <dd><a href="#panel2-4">Modify Interactive Scenario</a></dd>
+	    <dd><a href="#panel2-5">Modify Quiz</a></dd>
+	    <dd><a href="#panel2-6">Preview Full Module</a></dd>     
+	</dl>
+
+  <div class="tabs-content">
+    <div class="content active" id="panel2-1">  
+      <h3 class="text-center">Select a module to view or edit</h3>
+      <div class="row"><div class="large-12 columns"><div class="panel panel__middle text-center">
+		<form id="search" class="text-left">
+		    <div class="row" data-equalizer="form">
+		    <div class="large-9 small-12 columns" data-equalizer-watch="form">
+			<label>Module
+			<select id= "module">
+			<option value="None">Show all modules</option>
+			{% for module in modules %}
+			<option value="{{ module['MODULE_ID'] }}">{{ module['NAME'] }}</option>
+			{% endfor %}
+			</select>
+			</label>
+		    </div>
+		    <div class="large-2 columns end text-center" data-equalizer-watch="form">
+			<label><br></label>
+			<a href="#panel2-2" class="button">Next</a>
+		    </div>
+		    </div>
+		</form>
+	    </div></div></div>
+    </div>
+    
+    <div class="content" id="panel2-2">      
+<!--       <form class="row"> -->
+        <div class="large-12 column large-centered">
+      <h3 class="text-center">Select which element you want to view/edit</h3>
+      <div class="row"><div class="large-12 columns"><div class="panel panel__middle text-left">
+		<form id="search" class="text-left">
+		    <div class="row" data-equalizer="form">
+		    <div class="large-8 small-12 columns" data-equalizer-watch="form">
+			<label>Slides
+			<select id= "slide">
+			<option value="None">Show all slides in this module</option>
+			{% for slide in slidess %}
+			<option value="{{ slide['SLIDE_ID'] }}">{{ slide['NAME'] }}</option>
+			{% endfor %}
+			</select>
+			</label>
+		    </div>
+		    <div class="large-2 columns end text-center" data-equalizer-watch="form">
+			<label><br></label>
+			<a href="#panel2-2" class="button">Next</a>
+		    </div>
+		    </div>
+		</form>
+		</div></div></div>	
+      	<div class="row"><div class="large-12 columns"><div class="panel panel__middle text-left">		
+		<form id="search" class="text-left">
+		    <div class="row" data-equalizer="form">
+		    <div class="large-8 small-12 columns" data-equalizer-watch="form">
+			<label>Interactive Scenario
+			<select id= "slide">
+			<option value="None">Show all scenarios in this module</option>
+			{% for scenario in scenarios %}
+			<option value="{{ scenario['scenario_ID'] }}">{{ scenario['NAME'] }}</option>
+			{% endfor %}
+			</select>
+			</label>
+		    </div>
+		    <div class="large-2 columns end text-center" data-equalizer-watch="form">
+			<label><br></label>
+			<a href="#panel2-2" class="button">Next</a>
+		    </div>
+		    </div>
+		</form>
+		</div></div></div>
+      	<div class="row"><div class="large-12 columns"><div class="panel panel__middle text-left">		
+		<form id="search" class="text-left">
+		    <div class="row" data-equalizer="form">
+		    <div class="large-8 small-12 columns" data-equalizer-watch="form">
+			<label>Quiz
+			<select id= "slide">
+			<option value="None">Show all questionss in this quiz</option>
+			{% for question in quiz %}
+			<option value="{{ quiz['question_ID'] }}">{{ quiz['NAME'] }}</option>
+			{% endfor %}
+			</select>
+			</label>
+		    </div>
+		    <div class="large-2 columns end text-center" data-equalizer-watch="form">
+			<label><br></label>
+			<a href="#panel2-2" class="button">Next</a>
+		    </div>
+		    </div>
+		</form>
+		</div></div></div>
+		</form>				
+    </div>
+		</form>	    
+</div>
+
+    <div class="content" id="panel2-3">      
+      <form class="row">
+        <div class="large-11 column large-centered">
+      <h3 class="text-center">View or Edit the Information in this Slide</h3>
+      <div class="row"><div class="large-12 columns"><div class="panel panel__middle text-left">
+			<form>        	       	
+    		<h4>Slide [ID]</h4>
+            <label>Retrieve Title from Slide Here
+              <input type="text" placeholder="Write new content here" />
+            </label>
+		    <label>Retrieve Content from Slide Here
+		      <textarea placeholder="Write new content here"></textarea>
+		    </label>
+            <label>Retrieve Image from Slide Here
+              <input type="text" placeholder="Add an embedded link for an image (optional)" />
+            </label>
+	        <p> Your word count is: 450 [char count] </p>
+            <input type="button" value="Submit" class="button radius small"/>
+		</form>
+	    </div></div></div>
+    </div>
+    </div>
+
+<div class="content" id="panel2-4">      
+      <form class="row">
+        <div class="large-11 column large-centered">
+      <h3 class="text-center">View or Edit the Interactive Scenario</h3>
+      <div class="row"><div class="large-12 columns"><div class="panel panel__middle text-left">
+			<form>        	       	
+    		<h4>Interactive Scenario [ID]</h4>
+            <label>Post Title from Interactive Scenario Here
+              <input type="text" placeholder="Write new content here" />
+            </label>
+            <label>Post Image for Interactive Scenario
+              <input type="text" placeholder="Add an embedded link for an image (optional)" />
+            </label>
+		    <label>Post Description of the Scenario Here:
+		      <textarea placeholder="Write new content here"></textarea>
+		    </label>
+            <label>Description of Option 1
+              <input type="text" placeholder="Write new content here" />
+            </label>
+            <label>Description of Option 2
+              <input type="text" placeholder="Write new content here"/>
+            </label>
+            <label>Description of Option 3
+              <input type="text" placeholder="Write new content here" />
+            </label>
+		    <div class="large-12 columns">
+		      <label>Which is the correct Answer?</label>
+		      <input id="checkbox1" type="checkbox"><label for="checkbox1">Option 1</label>
+		      <input id="checkbox2" type="checkbox"><label for="checkbox2">Option 2</label>
+		      <input id="checkbox3" type="checkbox"><label for="checkbox3">Option 3</label>
+		    </div>
+		</section>
+		</form>
+	    <p> Your word count is:[650 char count] should be 500 or less </p>
+ 		</div></div></div>
+        <input type="button" value="Submit" class="button radius small"/>
+	    </div>
+    </div>
+
+    <div class="content" id="panel2-5">      
+      <form class="row">
+        <div class="large-11 column large-centered">
+      <h3 class="text-center">View or Edit the Quiz</h3>
+      <div class="row"><div class="large-12 columns"><div class="panel panel__middle text-left">
+			<form>        	       	
+    		<h4>Quiz [ID]</h4>
+		    <label>Post Question 1
+		      <textarea placeholder="Write new content here"></textarea>
+		    </label>
+            <label>Description of Option 1
+              <input type="text" placeholder="Write new content here" />
+            </label>
+            <label>Description of Option 2
+              <input type="text" placeholder="Write new content here"/>
+            </label>
+            <label>Description of Option 3
+              <input type="text" placeholder="Write new content here" />
+            </label>
+		    <div class="large-12 columns">
+		      <label>Which is the correct Answer?</label>
+		      <input id="checkbox1" type="checkbox"><label for="checkbox1">Option 1</label>
+		      <input id="checkbox2" type="checkbox"><label for="checkbox2">Option 2</label>
+		      <input id="checkbox3" type="checkbox"><label for="checkbox3">Option 3</label>
+		    </div>
+		</section>
+		</form>
+	    <p> Your word count is:[650 char count] should be 500 or less </p>
+ 		</div></div></div>
+        <input type="button" value="Submit" class="button radius small"/>
+	    </div>
+    </div>
+
+    <div class="content" id="panel2-6">      
+      <form class="row">
+        <div class="large-11 column large-centered">
+      <h3 class="text-center">Preview</h3>
+      <div class="row"><div class="large-12 columns"><div class="panel panel__middle text-left">
+
+	    <p> Preview your Module in Reveal? </p>
+ 		</div></div></div>
+        <input type="button" value="Submit" class="button radius small"/>
+	    </div>
+    </div>
+
+
+	    </div></div></div>
+
+    </div>
+</div>
+<script src="../static/js/admin_dashboard.js"></script>
+{% endblock %}

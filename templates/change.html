@@ -1,0 +1,85 @@
+<!--Mayi is working in this one-->
+
+{% extends "layout.html" %}
+
+{% block scripts %}
+<link rel="stylesheet" href="../static/css/colourblock.css" />
+<link rel="stylesheet" href="../static/css/editmodules.css" />
+{% endblock %}
+
+{% block content %}
+<div class="main__page">
+    <div class="row" data-equalizer>
+	<div class="large-4 small-4 columns">
+	    <div class="row"><div class="large-12 columns"><div class="panel teal colourblock__top">
+		<div class="row">
+		    <div class="large-6 columns" class="teal">
+			<h4>Change Course Visibility</h4>
+		    </div>
+		    <div class="large-4 columns">
+			<div class="circle text-center text__teal"><i class="fi-unlock"></i></div>
+		    </div>
+		</div>
+	    </div></div></div>
+	    <div class="row"><div class="large-12 columns"><div class="panel panel__middle">
+		<div class='panel_content' data-equalizer-watch>
+		    <p> In this section you will be able to generate a new module, edit it or modify each module's visibility</p>
+		</div>				
+	    </div></div></div>
+	    <div class="row"><div class="large-12 columns"><div class="panel teal colourblock__bottom thin text-center"><a href="/edit"><i class="fi-arrow-left"></i>  Back</a></div></div></div>
+<!-- 	    <a href="/edit" class="button">Back</a> -->
+	</div>
+
+	<div class="large-8 small-8 columns">
+	    <div class="row"><div class="large-14 columns"><div class="panel teal colourblock__top">
+	    </div></div></div>
+	    <div class="row"><div class="large-14 columns"><div class="panel panel__middle">
+	    <div class="container">
+
+	<div class="row">
+	<div class="small-10 medium-12 columns">
+
+		<div class="large-12 large-centered columns">
+		      <h3 class="text-center">Select Visibility of Course</h3>
+		      <div class="row"><div class="large-12 columns text-center"><div class="panel panel__middle text-center">
+				<form class='custom'>
+				<div> 
+				<h4> Choose the Courses you want to keep visible</h4>      	       	
+				<label>Users will only be able to interact with courses that are marked as visible</label>
+					<div class="row"><div class="large-12 large-centered columns"><div class="text-center">
+						<input id="checkbox1" type="checkbox"><label for="checkbox1">[Retrieve name of course 1, created in DD/MM/YY]</label><br></br>
+						<input id="checkbox2" type="checkbox"><label for="checkbox2">[Retrieve name of course 1, created in DD/MM/YY]</label><br></br>
+						<input id="checkbox3" type="checkbox"><label for="checkbox3">[Retrieve name of course 1, created in DD/MM/YY]</label><br></br>
+						<input id="checkbox4" type="checkbox"><label for="checkbox4">[Retrieve name of course 1, created in DD/MM/YY]</label><br></br>
+					</div></div></div>
+				</div>   
+				</form>
+			    </div></div></div>
+		</div>
+
+		<div class="large-12 large-centered columns">
+			<div class="row"><div class="large-12 columns text-center"><div class="panel panel__middle text-center">
+			   	<div class="switch round">
+					<p>Make Courses Visible</p>
+					<input id="switchName" type="checkbox">
+					<label for="switchName">
+						<span class="switch-on">ON</span>
+						<span class="switch-off">OFF</span>
+					</label>
+				</div>
+				<input type="button" value="Submit" class="button radius small"/>
+			</div></div></div>
+		</div>
+
+	</div>
+	</div>
+
+		</div>
+		</div></div></div>
+</div>
+</div>
+</div>
+
+
+<script src="../static/js/admin_dashboard.js"></script>
+{% endblock %}

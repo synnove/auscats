@@ -1,0 +1,312 @@
+<!--Mayi is working in this one-->
+
+{% extends "layout.html" %}
+
+{% block scripts %}
+<link rel="stylesheet" href="../static/css/colourblock.css" />
+<link rel="stylesheet" href="../static/css/editmodules.css" />
+{% endblock %}
+
+{% block content %}
+<div class="main__page">
+    <div class="row" data-equalizer>
+	<div class="large-4 small-4 columns">
+	    <div class="row"><div class="large-12 columns"><div class="panel teal colourblock__top">
+		<div class="row">
+		    <div class="large-6 columns" class="teal">
+			<h4>Manage Administrators</h4>
+		    </div>
+		    <div class="large-4 columns">
+			<div class="circle text-center text__teal"><i class="fi-torsos-all"></i></div>
+		    </div>
+		</div>
+	    </div></div></div>
+	    <div class="row"><div class="large-12 columns"><div class="panel panel__middle">
+		<div class='panel_content' data-equalizer-watch>
+		    <p> In this section you will be able to manage all the administrator's credentials</p>
+		</div>				
+	    </div></div></div>
+	    <div class="row"><div class="large-12 columns"><div class="panel teal colourblock__bottom thin text-center"><a href="/edit"><i class="fi-arrow-left"></i>  Back</a></div></div></div>
+<!-- 	    <a href="/edit" class="button">Back</a> -->
+	</div>
+
+	<div class="large-8 small-8 columns">
+	    <div class="row"><div class="large-14 columns"><div class="panel teal colourblock__top">
+	    </div></div></div>
+	    <div class="row"><div class="large-14 columns"><div class="panel panel__middle">
+	    <div class="container">
+
+
+<div class="row">
+<div class="small-10 medium-12 columns">
+
+	<div class="large-14 large-centered columns">
+	<dl class="tabs g-1" data-tab data-options="scroll_to_content:false" data-options="deep_linking:true" >
+	    <dd class="active"><a href="#panel2-1">1) Create New Administrator</a></dd>
+	    <dd><a href="#panel2-2">2) Manage'Write' Credencials</a></dd>
+	    <dd><a href="#panel2-3">3) Manage 'Read' Credencials</a></dd>
+	    <dd><a href="#panel2-4">4) Manage 'Write and Read' Credencials</a></dd>    
+	</dl>
+
+  <div class="tabs-content">
+    <div class="content active" id="panel2-1">  
+      <h3 class="text-center">Create New Administrator</h3>
+		<div class="large-16 large-centered columns">
+	    <div class="row"><div class="large-12 columns"><div class="panel panel__middle text-center">
+		<form id="admins">
+		    <div class="row">
+			<div class="large-16 large-centered columns">
+			    <input id="admin_id" type="text" placeholder="Enter UQ ID" />
+			    </label>
+			</div>
+			<div class="large-16 large-centered columns">
+			    <input id="write_access" type="checkbox">
+			    <label for="write_access">Write access to modules</label>
+			    <br>
+			    <input id="read_access" type="checkbox">
+			    <label for="read_access">Read access to data</label>
+			</div>
+			<div class="large-16 large-centered columns">
+			    <br>
+			    <input type="submit" class="tiny round teal button text-center" value="Delete" />
+			</div>
+		    </div>
+		</form>
+	    </div></div></div>
+	</div>
+	</div>
+
+    <div class="content" id="panel2-2">      
+        <div class="large-14 column large-centered">
+		<div class="large-16 large-centered columns">
+      	<div class="row"><div class="large-12 columns"><div class="panel panel__middle text-center">
+		<form id="admins">
+		    <div class="row">
+			<div class="large-16 large-centered columns"> 
+				<h4> View all Users holding 'Write' Credentials</h4>
+				<table class="twelve">
+				  <thead>
+				    <tr>
+				      <th>UQ ID</th>
+				      <th>First Name</th>
+				      <th>Surname</th>
+				      <th>Delete</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <td>UQ ID 1</td>
+				      <td>Maria</td>
+				      <td>Cervantes</td>
+				      <td><input id="checkbox1" type="checkbox"><label for="checkbox1"></label><br></br></td>
+				    </tr>
+				    <tr>
+				      <td>UQ ID 2</td>
+				      <td>Crystal</td>
+				      <td>Chua</td>
+				      <td><input id="checkbox1" type="checkbox"><label for="checkbox1"></label><br></br></td>
+				    </tr>
+				    <tr>
+				      <td>UQ ID 3</td>
+				      <td>Nizar</td>
+				      <td>El Berjawi</td>
+				      <td><input id="checkbox1" type="checkbox"><label for="checkbox1"></label><br></br></td>
+				    </tr>
+				    <tr>
+				      <td>UQ ID 4</td>
+				      <td>Linda</td>
+				      <td>Pan</td>
+				      <td><input id="checkbox1" type="checkbox"><label for="checkbox1"></label><br></br></td>
+				    </tr>
+				    <tr>
+				      <td>UQ ID 5</td>
+				      <td>Daniel</td>
+				      <td>Aguirre-Davies</td>
+				      <td><input id="checkbox1" type="checkbox"><label for="checkbox1"></label><br></br></td>
+				    </tr>
+				    <tr>
+				      <td>UQ ID 6</td>
+				      <td>Jaishankar</td>
+				      <td>Swaminathan</td>
+				      <td><input id="checkbox1" type="checkbox"><label for="checkbox1"></label><br></br></td>
+				    </tr>    
+				  </tbody>
+				</table>
+				</div>   
+				<ul class="pagination">
+				  <li class="arrow unavailable"><a href="">&laquo;</a></li>
+				  <li class="current"><a href="">1</a></li>
+				  <li><a href="">2</a></li>
+				  <li class="unavailable"><a href="">&hellip;</a></li>
+				  <li><a href="">6</a></li>
+				  <li><a href="">7</a></li>
+				  <li class="arrow"><a href="">&raquo;</a></li>
+				</ul>
+				<p> * When selecting them, you are choosing to delete the user(s)</p>
+				<input type="submit" class="tiny round teal button text-center" value="Delete" />
+    	</div></div>
+		</form>				
+    </div></div>	    
+</div>
+</div>
+</div>
+
+
+	    <div class="content" id="panel2-3">      
+	        <div class="large-14 column large-centered">
+			<div class="large-16 large-centered columns">
+	      	<div class="row"><div class="large-12 columns"><div class="panel panel__middle text-center">
+			<form id="admins">
+			    <div class="row">
+				<div class="large-16 large-centered columns"> 
+					<h4> View all Users holding 'Read' Credentials</h4>
+					<table class="twelve">
+					  <thead>
+					    <tr>
+					      <th>UQ ID</th>
+					      <th>First Name</th>
+					      <th>Surname</th>
+					      <th>Delete</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <td>UQ ID 1</td>
+					      <td>Maria</td>
+					      <td>Cervantes</td>
+					      <td><input id="checkbox1" type="checkbox"><label for="checkbox1"></label><br></br></td>
+					    </tr>
+					    <tr>
+					      <td>UQ ID 2</td>
+					      <td>Crystal</td>
+					      <td>Chua</td>
+					      <td><input id="checkbox2" type="checkbox"><label for="checkbox2"></label><br></br></td>
+					    </tr>
+					    <tr>
+					      <td>UQ ID 3</td>
+					      <td>Nizar</td>
+					      <td>El Berjawi</td>
+					      <td><input id="checkbox3" type="checkbox"><label for="checkbox3"></label><br></br></td>
+					    </tr>
+					    <tr>
+					      <td>UQ ID 4</td>
+					      <td>Linda</td>
+					      <td>Pan</td>
+					      <td><input id="checkbox4" type="checkbox"><label for="checkbox4"></label><br></br></td>
+					    </tr>
+					    <tr>
+					      <td>UQ ID 5</td>
+					      <td>Daniel</td>
+					      <td>Aguirre-Davies</td>
+					      <td><input id="checkbox5" type="checkbox"><label for="checkbox5"></label><br></br></td>
+					    </tr>
+					    <tr>
+					      <td>UQ ID 6</td>
+					      <td>Jaishankar</td>
+					      <td>Swaminathan</td>
+					      <td><input id="checkbox6" type="checkbox"><label for="checkbox6"></label><br></br></td>
+					    </tr>    
+					  </tbody>
+					</table>
+					</div>   
+					<ul class="pagination">
+					  <li class="arrow unavailable"><a href="">&laquo;</a></li>
+					  <li class="current"><a href="">1</a></li>
+					  <li><a href="">2</a></li>
+					  <li class="unavailable"><a href="">&hellip;</a></li>
+					  <li><a href="">6</a></li>
+					  <li><a href="">7</a></li>
+					  <li class="arrow"><a href="">&raquo;</a></li>
+					</ul>
+					<p> * When selecting them, you are choosing to delete the user(s)</p>
+					<input type="submit" class="tiny round teal button text-center" value="Delete" />
+	    	</div></div>
+			</form>				
+	    </div></div>	    
+		</div>
+		</div>
+		</div>
+
+	    <div class="content" id="panel2-4">      
+	        <div class="large-14 column large-centered">
+			<div class="large-16 large-centered columns">
+	      	<div class="row"><div class="large-12 columns"><div class="panel panel__middle text-center">
+			<form id="admins">
+			    <div class="row">
+				<div class="large-16 large-centered columns"> 
+					<h4> View all Users holding 'Write and Read' Credentials</h4>
+					<div class="large-8 large-centered columns">
+					<table class="twelve">
+					  <thead>
+					    <tr>
+					      <th>UQ ID</th>
+					      <th>First Name</th>
+					      <th>Surname</th>
+					      <th>Delete</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <td>UQ ID 1</td>
+					      <td>Maria</td>
+					      <td>Cervantes</td>
+					      <td><input id="checkbox1" type="checkbox"><label for="checkbox1"></label><br></br></td>
+					    </tr>
+					    <tr>
+					      <td>UQ ID 2</td>
+					      <td>Crystal</td>
+					      <td>Chua</td>
+					      <td><input id="checkbox2" type="checkbox"><label for="checkbox2"></label><br></br></td>
+					    </tr>
+					    <tr>
+					      <td>UQ ID 3</td>
+					      <td>Nizar</td>
+					      <td>El Berjawi</td>
+					      <td><input id="checkbox3" type="checkbox"><label for="checkbox3"></label><br></br></td>
+					    </tr>
+					    <tr>
+					      <td>UQ ID 4</td>
+					      <td>Linda</td>
+					      <td>Pan</td>
+					      <td><input id="checkbox4" type="checkbox"><label for="checkbox4"></label><br></br></td>
+					    </tr>
+					    <tr>
+					      <td>UQ ID 5</td>
+					      <td>Daniel</td>
+					      <td>Aguirre-Davies</td>
+					      <td><input id="checkbox5" type="checkbox"><label for="checkbox5"></label><br></br></td>
+					    </tr>
+					    <tr>
+					      <td>UQ ID 6</td>
+					      <td>Jaishankar</td>
+					      <td>Swaminathan</td>
+					      <td><input id="checkbox6" type="checkbox"><label for="checkbox6"></label><br></br></td>
+					    </tr>    
+					  </tbody>
+					</table>
+					</div></div>   
+					<ul class="pagination">
+					  <li class="arrow unavailable"><a href="">&laquo;</a></li>
+					  <li class="current"><a href="">1</a></li>
+					  <li><a href="">2</a></li>
+					  <li class="unavailable"><a href="">&hellip;</a></li>
+					  <li><a href="">6</a></li>
+					  <li><a href="">7</a></li>
+					  <li class="arrow"><a href="">&raquo;</a></li>
+					</ul>
+					<p> * When selecting them, you are choosing to delete the user(s)</p>
+					<input type="submit" class="tiny round teal button text-center" value="Delete" />
+	    	</div></div>
+			</form>				
+	    </div></div>	    
+		</div>
+		</div>
+		</div>
+
+
+	    </div></div></div>
+
+    </div>
+</div>
+<script src="../static/js/admin_dashboard.js"></script>
+{% endblock %}

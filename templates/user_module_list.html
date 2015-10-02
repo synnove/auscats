@@ -1,5 +1,10 @@
 {% extends "layout.html" %}
 
+{% block scripts %}
+    <link rel="stylesheet" href="../static/css/colourblock.css" />
+{% endblock %}
+
+
 {% block content %}
 <div class="main__page">
     <div class="row">
@@ -18,9 +23,10 @@
     </div>
 
     <div class="row">
-        <div class="row collapse">
+        <div>
             <div class="small-12 columns">
-                <ul class="tabs" data-tab>
+            
+	        <ul class="tabs" data-tab>
                     <li class="tab-title"><a href="#panel-1"><i class="fi-play"></i>Ongoing</a></li>
                     <li class="tab-title"><a href="#panel-2"><i class="fi-calendar"></i>Scheduled</a></li>
                     <li class="tab-title"><a href="#panel-3"><i class="fi-loop"></i>Completed</a></li>
@@ -71,44 +77,67 @@
                     </div>
                     <!-- END OF ONGOING COURSES TAB SECTION-->
 
-                    <!-- SCHEDULED COURSES SECTION-->
-                     <div class="content" id="panel-2">
+		    <!-- SCHEDULED COURSE TAB SECTION -->
+                    <div class="content" id="panel-2">
                         <div class="row">
                             {% if num_scheduled >= 1 %}
-                            <div id="incomplete" class="content active">
-                                <div class="panel">
-                                    <h3 class="subheader" >You have {{ num_scheduled }}  modules Scheduled</h3>
-    				    <div id="complete" class="content">
-	                                <div class="row">
-					<!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS -->
-					{% for module in active_modules %}					   
-					    {% if (module['MODULE_ID'] not in (modules_completed)) and (module['MODULE_ID'] not in (modules_in_progress)) %}
+                            <div class="content active"> 
+				<h3 class="subheader" >You have {{ num_scheduled }}  modules Scheduled</h3>
+				<div class="content">
+				    <!-- FOR LOOP TO GENERATE CLASS INFO BLOCKS -->
+				    {% for module in active_modules %}
+					{% if (module['MODULE_ID'] not in (modules_completed)) and (module['MODULE_ID'] not in (modules_in_progress)) %}
+					<div class="large-4 small-10 columns">
+					    
+					    <div class="row">
 						<div class="large-12 columns">
-						    <div class="row">
-							<div class="medium-4 columns">
-							    <div class="profile-card">
-								<img src="http://zurb.com/ink/images/inky-computer.svg" alt="Inky">
-								<div class="profile-info">
-								    <h4 class="subheader">{{ module['NAME'] }}</h4>
-								    <p><a href="/module/{{module['NAME']}}">Start</a></p>
+						    <div class="panel purple colourblock__top">
+							<div class="row">
+							    <div class="large-8 columns" class="teal">
+								<h4>{{ module['NAME'] }}</h4>
+							    </div>
+							    
+							    <div class="large-4 columns">
+								<div class="circle text-center text__teal">
+								    <i class="fi-page-add"></i>
 								</div>
 							    </div>
 							</div>
 						    </div>
 						</div>
-					    {% endif %}
-					{% endfor %}
+					    </div>
+					    
+					    <div class="row">
+						<div class="large-12 columns">
+						    <div class="panel panel__middle">
+							<div class='panel_content' data-equalizer-watch>
+							    <p>{{ module['BLURB'] }}</p>
+							</div>
+						    </div>
+						</div>
+					    </div>
+					    
+					    <div class="row">  
+						<div class="large-12 columns">
+						    <div class="panel purple colourblock__bottom thin text-center">
+							<a class="panel purple colourblock__bottom thin text-center" href="/module/{{module['NAME']}}">Start</a>
+						    </div>
+						</div>
+					    </div>
+					    
 					</div>
-				    </div>                           
+					{% endif %}
+				    {% endfor %}
 				</div>
-			    </div>
-                            {% else %}
-                                <div id="incomplete" class="content text-center">
-                                    <h3 class="subheader" >No modules scheduled!</h3>
-                                </div>
-                            {% endif %}
-                        </div>
+                            </div>
+			</div>
+                        {% else %}
+                            <div id="incomplete" class="content text-center">
+                                <h3 class="subheader" >No modules scheduled!</h3>
+                            </div>
+                        {% endif %}
                     </div>
+		    <!-- END OF SCHEDULED COURSES SECTION -->
 
                     <!-- COMPLETED COURSES SECTION-->
                     <div class="content" id="panel-3">
@@ -153,4 +182,5 @@
         </div>
     </div>
 </div>
+<script src="../static/js/admin_dashboard.js"></script>
 {% endblock %}

@@ -19,32 +19,30 @@
     font-size: 1em;
 }
 
-
-.pricing-table {
-    height: 650px;
-    padding-bottom: 10%;
-    
-}
-
-.pricing-table .title {
+.tabs .tab-title > a {
     font-weight: bold;
-    padding: 0.3rem 1rem;
-}
-
-.pricing-table .price {
-    color: #888888;
-    background-color: #ffffff;
-    padding: 1rem;
-}
-
-.pricing-table .description {
-    background-color: #ffffff;
+    font-size: 1em;
     padding: 0.5rem 2rem;
-    padding-top: 0;
+}
+
+li.tab-title > a > i {
+    padding-right: 1em;
+}
+
+.tabs-content {
+    background-color: #ffffff;
+    border: 2px solid #7C7D92;
+    padding: 0.5rem 3rem;
+    height: 30rem;
+    overflow-y: auto;
+}
+
+h3.subheader {
+    font-weight: bolder;
 }
 
 .progress {
-    background-color: #CCCCCC;
+    background-color: #cccccc;
 }
 
 .progress p {

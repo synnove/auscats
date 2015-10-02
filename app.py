@@ -35,23 +35,28 @@ def courseDefault():
 
     active_modules = db.get_module_info()
     modules_completed = db.modules_completed_by_user(g.username)
-    num_active_modules = len(active_modules)
-    num_incomplete = len(active_modules) - len(modules_completed)
-    num_complete = len(modules_completed)
-    modules_started = db.get_user_progress(g.username)   
+    modules_started = db.get_modules_started_by_user(g.username)
+    last_viewed_slide = db.get_last_viewed_slide_by_user(g.username)
     modules_in_progress = list(set(modules_started)-set(modules_completed))
-    num_in_progress = len(modules_in_progress)    
- 
+    num_active_modules = len(active_modules)
+    num_complete = len(modules_completed)
+    num_started = len(modules_started)
+    num_in_progress = len(modules_in_progress)
+    num_scheduled = num_active_modules - num_complete - num_in_progress
+        
     if g.username not in g.admins:
 	return render_template('user_module_list.html', name=g.user,
 		subtitle="My Modules", user_id = g.username, 
 		active_modules = active_modules, 
 		modules_completed = modules_completed,
+		modules_started = modules_started,
 		modules_in_progress = modules_in_progress,
-		num_incomplete = num_incomplete,
-		num_complete = num_complete,
-		num_in_progress = num_in_progress, 
-		num_active_modules = num_active_modules,  is_admin = False)
+		num_active_modules = num_active_modules,
+                num_complete = num_complete,
+		num_started = num_started,
+		num_in_progress = num_in_progress,
+		num_scheduled = num_scheduled,
+		last_viewed_slide = last_viewed_slide,  is_admin = False)
     return redirect(url_for('adminDashboard'))
 
 @app.route("/module/<module_title>", methods=['GET', 'POST'])

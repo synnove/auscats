@@ -23,7 +23,7 @@
     </div>
 
     <div class="row">
-	<div class="large-6 large-offset-3 small-12 columns">
+	<div class="large-11 large-offset-1 small-12 columns">
 	    <ul class="tabs" data-tab>
 		<li class="tab-title"><a href="#panel-1" class="teal"><i class="fi-play"></i>Ongoing</a></li>
 		<li class="tab-title"><a href="#panel-2" class="blue"><i class="fi-calendar"></i>Scheduled</a></li>
@@ -74,7 +74,7 @@
 			    <div class="medium-6 columns">
 				<div class="profile-card">
 				    <h4 class="subheader" data-equalizer-watch>{{ module['NAME'] }}</h4>
-				    <p><a href="/module/{{module['NAME']}}">Start</a></p>
+				    <p class="blue profile-text"><a href="/module/{{module['NAME']}}">Start</a></p>
 				</div>
 			    </div>
 			{% endif %}
@@ -96,7 +96,7 @@
 			<div class="medium-6 columns">
 			    <div class="profile-card">
 				<h4 class="subheader" data-equalizer-watch="title">{{ module['NAME'] }}</h4>
-				<p><a href="/review/{{module['NAME']}}">Review</a> | <a href="/grades/{{module['NAME']}}">Grades</a></p>
+				<p class="purple profile-text"><a href="/review/{{module['NAME']}}">Review</a> | <a href="/grades/{{module['NAME']}}">Grades</a></p>
 			    </div>
 			</div>   
 		    {% endif %}

@@ -22,11 +22,11 @@
 .tabs .tab-title > a {
     font-weight: bold;
     font-size: 1em;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 2rem;
 }
 
 li.tab-title > a > i {
-    padding-right: 0.5em;
+    padding-right: 1em;
 }
 
 .tabs-content {

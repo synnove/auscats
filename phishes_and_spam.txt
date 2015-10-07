@@ -1,38 +1,38 @@
  [title] Phsishing
  [title] Phishing Basics    
--[contents] Phishing is an online form of pretexting, a kind of deception in which an attacker pretends to be someone else in order to obtain sensitive information from the victim.
-+[contents] Phishing is a way of fraudulently acquiring sensitive information using social engineering and technical subterfuge. 
-+ It tries to trick users with official-looking messages on Credit cards, Bank accounts, eBay, PayPal etc. 
-+ Some phishing e-mails also contain malicious or unwanted software that can track your activities or slow your computer.
-+ Also known as "brand spoofing".
+ [contents] Phishing is an online form of pretexting, a kind of deception in which an attacker pretends to be someone else in order to obtain sensitive information from the victim.
+ Phishing is a way of fraudulently acquiring sensitive information using social engineering and technical subterfuge. 
+ It tries to trick users with official-looking messages on Credit cards, Bank accounts, eBay, PayPal etc. 
+ Some phishing e-mails also contain malicious or unwanted software that can track your activities or slow your computer.
+ Also known as "brand spoofing".
  
  [title] How to Avoid Phishing
  [title] Do's
--[contents] Ensure that your Internet browser is up to date and security patches applied.
-+[contents] Avoid responding any unknown email or giving your financial information to that mail. Unless the e-mail is digitally signed, it could be fake.
-+ Phishers typically ask for information such as usernames, passwords, credit card numbers, social security numbers, etc.
-+ Phisher e-mails are typically not personalized, while valid messages from your bank or e-commerce company are generally personalized.
-+ Always ensure that you're using a secure website when submitting credit card or other sensitive information via your Web browser.
-+ To make sure you're on a secure Web server, check the beginning of the Web address in your browsers address bar - it should be "https://" rather than just http://.
-+ Regularly log into your online accounts.  Don't leave them for a long period of time. Regularly check your bank, credit and debit card statements to ensure that all transactions are legitimate.  If anything is suspicious, contact your bank and all card issuers.
+ [contents] Ensure that your Internet browser is up to date and security patches applied.
+  Avoid responding any unknown email or giving your financial information to that mail. Unless the e-mail is digitally signed, it could be fake.
+  Phishers typically ask for information such as usernames, passwords, credit card numbers, social security numbers, etc.
+  Phisher e-mails are typically not personalized, while valid messages from your bank or e-commerce company are generally personalized.
+  Always ensure that you're using a secure website when submitting credit card or other sensitive information via your Web browser.
+  To make sure you're on a secure Web server, check the beginning of the Web address in your browsers address bar - it should be "https://" rather than just http://.
+  Regularly log into your online accounts.  Don't leave them for a long period of time. Regularly check your bank, credit and debit card statements to ensure that all transactions are legitimate.  If anything is suspicious, contact your bank and all card issuers.
 
  
  [title] Don't
--[contents] Don't assume that you can correctly identify a website as legitimate by just looking at it. 
-+ [contents] Don't use the links in an e-mail to get to any web page, if you think that the message might not be authentic. Log in the website directly by typing in the Web address in your browser. 
-+ Avoid filling out forms in e-mail messages that ask for personal financial information.
-+ You should only communicate information such as credit card numbers or account information via a secure website or the telephone
+ [contents] Don't assume that you can correctly identify a website as legitimate by just looking at it. 
+ Don't use the links in an e-mail to get to any web page, if you think that the message might not be authentic. Log in the website directly by typing in the Web address in your browser. 
+ Avoid filling out forms in e-mail messages that ask for personal financial information.
+ You should only communicate information such as credit card numbers or account information via a secure website or the telephone
 
  [title] Examples for interactive scenario
  [title] 1. Disguised hyperlinks and sender address-
--[contents] Appear similar to the genuine institution site. Sender address of the email also appears as originated from the targeted company
+ [contents] Appear similar to the genuine institution site. Sender address of the email also appears as originated from the targeted company
 
  [title] 2. Content appears genuine
--[contents] Scam emails include logos, styling, contact and copyright information identical to those used by the targeted institution. 
+ [contents] Scam emails include logos, styling, contact and copyright information identical to those used by the targeted institution. 
  
  [title] 3. Generic Greetings
--[contents] Sending mails that look trustworthy to user
-+ Send the same email to millions of users, requesting them to fill in personal details	
-+ Messages have an urgent note 
-+ Click on a link which is embedded in your email.
-+ Use generic greetings such as "Dear account holder" or "Dear [targeted institution] customer".    
+ [contents] Sending mails that look trustworthy to user
+  Send the same email to millions of users, requesting them to fill in personal details	
+  Messages have an urgent note 
+  Click on a link which is embedded in your email.
+  Use generic greetings such as "Dear account holder" or "Dear [targeted institution] customer".    

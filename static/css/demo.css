@@ -2,8 +2,9 @@
 
 .ns-box {
 	position: absolute;
+	margin: 5%;
 	background: rgba(42,45,50,0.85);
-	padding: 32px;
+	padding: 22px;
 	line-height: 1.2;
 	z-index: 2;
 	pointer-events: none;
@@ -85,8 +86,10 @@
 
 .ns-box2 , .ns-box3 {
 	position: fixed;
+	margin-top: 25%;
+	margin-right: 5%;
 	background: rgba(42,45,50,0.85);
-	padding: 22px;
+	padding: 32px;
 	line-height: 1.2;
 	z-index: 2;
 	pointer-events: none;
@@ -167,7 +170,7 @@
 .ns-effect-boxspinner {
 	width: 250px; 
 	height: 50px;
-	top: 20%;
+	top: 35%;
 	left: 2%;
 	/* to change the color of the rotating box*/
 	background: #74AB3F;
@@ -203,11 +206,11 @@
 .ns-effect-boxspinner.ns-show {
 	-webkit-animation-name: animFade, animSpin, animExpand;
 	animation-name: animFade, animSpin, animExpand;
-	-webkit-animation-duration: 0.9s, 1.2s, 0.3s;
-	animation-duration: 0.9s, 1.2s, 0.3s;
-	-webkit-animation-delay: 0s, 0s, 2.4s;
-	animation-delay: 0s, 0s, 2.4s;
-	-webkit-animation-iteration-count: 1, 2, 1;
+	-webkit-animation-duration: 0.9s, 0.5s, 0.1s;
+	animation-duration: 0.9s, 0.5s, 0.1s;
+	-webkit-animation-delay: 0s, 0.2s, 2.4s;
+	animation-delay: 0s, 0.2s, 2.4s;
+	-webkit-animation-iteration-count: 0.5, 0.5, 0.5;
 	animation-iteration-count: 1, 2, 1;
 	-webkit-animation-timing-function: ease-in-out, ease, cubic-bezier(0.7,0,0.3,1);
 	animation-timing-function: ease-in-out, ease, cubic-bezier(0.7,0,0.3,1);
@@ -301,14 +304,13 @@
 .ns-effect-boxspinner2{
 	width: 250px; 
 	height: 50px;
-	top: 20%;
+	top: 35%;
 	right: 2%;
 	/* to change the color of the rotating box*/
 	background: #BB302C;
 	font-weight: 700;
 	border-radius: 5px;
-	outline: 1px solid transparent;
-	
+	outline: 1px solid transparent;	
 }
 
 .ns-effect-boxspinner2 .ns-close::before,
@@ -337,11 +339,11 @@
 .ns-effect-boxspinner2.ns-show{
 	-webkit-animation-name: animFade, animSpin, animExpand;
 	animation-name: animFade, animSpin, animExpand;
-	-webkit-animation-duration: 0.9s, 1.2s, 0.3s;
-	animation-duration: 0.9s, 1.2s, 0.3s;
-	-webkit-animation-delay: 0s, 0s, 2.4s;
-	animation-delay: 0s, 0s, 2.4s;
-	-webkit-animation-iteration-count: 1, 2, 1;
+	-webkit-animation-duration: 0.9s, 0.5s, 0.1s;
+	animation-duration: 0.9s, 0.5s, 0.1s;
+	-webkit-animation-delay: 0s, 0.2s, 2.4s;
+	animation-delay: 0s, 0.2s, 2.4s;
+	-webkit-animation-iteration-count: 0.5, 0.5, 0.5;
 	animation-iteration-count: 1, 2, 1;
 	-webkit-animation-timing-function: ease-in-out, ease, cubic-bezier(0.7,0,0.3,1);
 	animation-timing-function: ease-in-out, ease, cubic-bezier(0.7,0,0.3,1);
@@ -436,15 +438,14 @@
 /* Box spinner (from http://tobiasahlin.com/spinkit/) */
 .ns-effect-boxspinner3 {
 	width: 250px; 
-	height: 90px;
-	top: 30px;
-	right: 30px;
+	height: 50px;
+	top: 40%;
+	right: 2%;
 	/* to change the color of the rotating box*/
 	background: #BB302C;
 	font-weight: 700;
 	border-radius: 5px;
 	outline: 1px solid transparent;
-	
 }
 
 .ns-effect-boxspinner3 .ns-close::before,
@@ -473,11 +474,11 @@
 .ns-effect-boxspinner3.ns-show {
 	-webkit-animation-name: animFade, animSpin, animExpand;
 	animation-name: animFade, animSpin, animExpand;
-	-webkit-animation-duration: 0.9s, 1.2s, 0.3s;
-	animation-duration: 0.9s, 1.2s, 0.3s;
-	-webkit-animation-delay: 0s, 0s, 2.4s;
-	animation-delay: 0s, 0s, 2.4s;
-	-webkit-animation-iteration-count: 1, 2, 1;
+	-webkit-animation-duration: 0.9s, 0.5s, 0.1s;
+	animation-duration: 0.9s, 0.5s, 0.1s;
+	-webkit-animation-delay: 0s, 0.2s, 2.4s;
+	animation-delay: 0s, 0.2s, 2.4s;
+	-webkit-animation-iteration-count: 0.5, 0.5, 0.5;
 	animation-iteration-count: 1, 2, 1;
 	-webkit-animation-timing-function: ease-in-out, ease, cubic-bezier(0.7,0,0.3,1);
 	animation-timing-function: ease-in-out, ease, cubic-bezier(0.7,0,0.3,1);

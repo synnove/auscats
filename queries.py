@@ -68,17 +68,26 @@ def get_module_edit_info(id):
     info = cur.fetchone()
     return info
 
-def add_new_module_profile(name, blurb):
+def add_new_module_profile(name, blurb, username):
     conn = do_mysql_connect()
     cur = conn.cursor()
     try:
 	cur.execute("INSERT INTO MODULES (NAME, BLURB) VALUES (%s, %s)", 
 		[name, blurb])
 	conn.commit()
+	mid = get_module_id_from_name(name)
+	add_new_module_content(mid, username)
 	return 0
     except MySQLdb.Error as e:
 	conn.rollback()
     conn.close()
+
+def add_new_module_content(mid, username):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, EDITOR) VALUES (%s, %s, %s)", 
+	    [mid, 0, username])
+    conn.commit()
 
 def edit_module_profile(mid, name, blurb):
     conn = do_mysql_connect()

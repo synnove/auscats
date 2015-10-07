@@ -241,7 +241,7 @@ def admin_add_new_module():
     """ returns module info to be edited """
     name = request.args.get('name', -1, type=unicode)
     blurb = request.args.get('blurb', -1, type=unicode)
-    result = db.add_new_module_profile(name, blurb)
+    result = db.add_new_module_profile(name, blurb, g.username)
     return jsonify(result=result)
 
 @app.route("/change_module_status", methods=['GET', 'POST'])

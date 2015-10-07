@@ -47,12 +47,12 @@ $("#new__module__form").on("submit", function(e){
 	name: $("#new__module__form input[type='text']").val(),
 	blurb: $("#new__module__form textarea").val()
     }, function(data) {
-	$('#module__info').load(document.URL +  ' #module__info');
+	$('#add__modal').foundation('reveal', 'close');
 	if (data.result == 0) {
-	    $msg = "Answer correct!";
+	    $msg = "Successfully created new module";
 	    $type = "teal"
 	} else {
-	    $msg = "Invalid answer. Try again?";
+	    $msg = "Could not create new module";
 	    $type = "warning"
 	}
 	$(".module_err").html(function() {
@@ -71,13 +71,12 @@ $("#module__profile__form").on("submit", function(e){
 	name: $("#module__profile__form input[type='text']").val(),
 	blurb: $("#module__profile__form textarea").val()
     }, function(data) {
-	$('#module__info').load(document.URL +  ' #module__info');
 	$('#profile__modal').foundation('reveal', 'close');
 	if (data.result == 0) {
 	    $msg = "Successfully edited module profile!";
 	    $type = "teal"
 	} else {
-	    $msg = "Invalid answer. Try again?";
+	    $msg = "Could not edit module profile";
 	    $type = "warning"
 	}
 	$(".module_err").html(function() {
@@ -91,8 +90,6 @@ $("#module__profile__form").on("submit", function(e){
 
 function refresh() {
     $(document).foundation();
-    $(document).on('close.fndtn.alert', function(event) {
-	window.location = '/module-manager';
-    });
     $(document).foundation('reflow');
+    setTimeout(function(){window.location.reload(true);}, 500);
 }

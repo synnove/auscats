@@ -9,6 +9,7 @@ Reveal.initialize({
         history: true,                                                              
         overview: false,                                                            
         transition: 'convex',                                                       
+	showNotes: false,
         mouseWheel: false                                                           
 });
 
@@ -97,7 +98,6 @@ $('.question').bind('submit', function(e) {
 	    aid: $("input[type='radio']:checked").val(),
 	    qid: $(this).closest(".question").attr("id"),
 	}, function(data) {
-	    console.log(data.result)
 	    if (data.result == 0) {
 		$msg = "Answer correct!";
 		$type = "success"
@@ -134,4 +134,5 @@ $('.quiz_submit').on('click', '.next', function(e) {
 
 Reveal.addEventListener( 'slidechanged', function( event ) {
     $("input[type='radio']").prop('checked', false);
+    var lastPage = Reveal.getState().indexh;
 });

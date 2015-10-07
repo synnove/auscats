@@ -2,137 +2,125 @@
 
 {% block scripts %}
 <link rel="stylesheet" href="../static/css/colourblock.css" />
+<script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
 {% endblock %}
 
 {% block content %}
 <div class="main__page">
     <div class="row">
+	<div class="module_err"></div>
+    </div>
+    <div class="row" data-equalizer>
+	<div class="large-4 small-12 columns">
+	    <div class="row"><div class="large-12 columns"><div class="panel teal colourblock__top clickable add__module" data-equalizer-watch>
+		<div class="row">
+		    <div class="large-8 columns">
+			<h4>Add a Course</h4>
+		    </div>
+		    <div class="large-4 columns">
+			<div class="circle text-center text__teal">
+			    <i class="fi-page-add"></i>
+			</div>
+		    </div>
+		</div>
+	    </div></div></div>
+	</div>
+	<div class="large-8 small-12 columns">
+	    <div class="row"><div class="large-12 columns"><div class="panel text-justify" data-equalizer-watch>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean bibendum odio in varius vehicula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+	    </div></div></div>
+	</div>
+    </div>
+    <div class="row text-center">
 	<div class="large-12 columns">
-	    <div class="large-3 columns panel blue colourblock__top thin">
-		Last Modified: 
+	    <div class="large-4 large-offset columns panel blue colourblock__top thin text-left">
+		Course Title 
 	    </div>
-	    <div class="large-9 columns panel blue colourblock__top thin">
-		stuff here
+	    <div class="large-2 columns panel blue colourblock__top thin">
+		Last Modified
+	    </div>
+	    <div class="large-2 end columns panel blue colourblock__top thin">
+		Status
+	    </div>
+	    <div class="large-2 end columns panel blue colourblock__top thin">
+		Edit Content
+	    </div>
+	    <div class="large-2 end columns panel blue colourblock__top thin">
+		Edit Profile
 	    </div>
 	</div>
+	{% for module in modules %}
+	<div class="large-12 columns" data-equalizer>
+	    <div class="large-4 columns panel listing text-left" data-equalizer-watch>
+		{{ module['NAME'] }}
+	    </div>
+	    <div class="large-2 columns panel listing" data-equalizer-watch>
+		<span data-tooltip aria-haspopup="true" class="has-tip" title="Edited by: {{ module['EDITOR'] }}">{{ module['LAST_UPDATED'] }}</span>
+	    </div>
+	    <div class="large-2 end columns panel listing" data-equalizer-watch>
+		{% if module['STATUS'] == 'ACTIVE' %}
+		<a href="{{ module['MODULE_ID'] }}" class="teeny radius secondary button status__mod">Deactivate</a>
+		{% else %}
+		<a href="{{ module['MODULE_ID'] }}" class="teeny radius teal button status__mod">Activate</a>
+		{% endif %}
+	    </div>
+	    <div class="large-2 end columns panel listing" data-equalizer-watch>
+		<a href="" class="teeny radius purple button">Edit Content</a>
+	    </div>
+	    <div class="large-2 end columns panel listing" data-equalizer-watch>
+		<form class="open__profile__modal" id="{{ module['MODULE_ID'] }}">
+		    <input type="submit" class="teeny radius purple button" value="Edit Profile">
+		</form>
+	    </div>
+	</div>
+	{% endfor %}
     </div>
-    <div class="row">
-	<div class="large-12 columns">
-	    <div class="large-3 columns panel purple colourblock__bottom thin">
-		Last Modified: 
-	    </div>
-	    <div class="large-9 columns panel purple colourblock__bottom thin">
-		stuff here
-	    </div>
-	</div>
-    </div>
-
-    <div class="row">
-	<div class="large-4 small-12 columns">
-	    <div class="row">
-		<div class="large-12 columns">
-		    <div class="panel teal colourblock__top">
-			<div class="row">
-			    <div class="large-8 columns">
-				<h4>Add a Course</h4>
-			    </div>
-			    <div class="large-4 columns">
-				<div class="circle text-center text__teal">
-				    <i class="fi-page-add"></i>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		</div>
-	    </div>
-	    <div class="row">
-		<div class="large-12 columns">
-		    <div class="panel panel__middle">
-		    </div>
-		</div>
-	    </div>
-	    <div class="row">
-		<div class="large-12 columns">
-		    <div class="panel teal colourblock__bottom">
-		    <a href="/add">
-			<i class="fi-page-add"></i>
-			<span>Add a New Course</span>
-		    </a>
-		    </div>
-		</div>
-	    </div>
-	</div>
-
-	<div class="large-4 small-12 columns">
-	    <div class="row">
-		<div class="large-12 columns">
-		    <div class="panel blue colourblock__top">
-			<div class="row">
-			    <div class="large-8 columns">
-				<h4>Edit a Course</h4>
-			    </div>
-			    <div class="large-4 columns">
-				<div class="circle text-center text__blue">
-				    <i class="fi-page-edit"></i>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		</div>
-	    </div>
-	    <div class="row">
-		<div class="large-12 columns">
-		    <div class="panel panel__middle">
-		    </div>
-		</div>
-	    </div>
-	    <div class="row">
-		<div class="large-12 columns">
-		    <div class="panel blue colourblock__bottom">
-		    <a href="/editView">
-			<i class="fi-page-edit"></i>
-			<span>Edit a Existing Course</span>
-		    </a>
-		    </div>
-		</div>
-	    </div>
-	</div>
-
-	<div class="large-4 small-12 columns">
-	    <div class="row">
-		<div class="large-12 columns">
-		    <div class="panel purple colourblock__top">
-			<div class="row">
-			    <div class="large-8 columns">
-				<h4>Change Course Settings</h4>
-			    </div>
-			    <div class="large-4 columns">
-				<div class="circle text-center text__purple">
-				    <i class="fi-unlock"></i>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		</div>
-	    </div>
-	    <div class="row">
-		<div class="large-12 columns">
-		    <div class="panel panel__middle">
-		    </div>
-		</div>
-	    </div>
-	    <div class="row">
-		<div class="large-12 columns">
-		    <div class="panel purple colourblock__bottom">
-		    <a href="/change">
-			<i class="fi-unlock"></i>
-			<span>Change Course Visibility</span>
-		    </a>
-		    </div>
-		</div>
-	    </div>
-	</div>
-    </div>
-
 </div>
+<div id="add__modal" class="reveal-modal text-center large" data-reveal aria-labelledby="new__module" aria-hidden="true" role="dialog">
+    <h3 id="new__module">Add New Module</h3>
+    <form class="text-left" id="new__module__form">
+	<div class="large-8 large-offset-2 end columns">
+	    <label>Module Name
+	    <input type="text" required/>
+	    </label>
+	</div>
+	<div class="large-8 large-offset-2 end columns">
+	    <label>Short Description
+	    <textarea placeholder="Tell us about your module!" required></textarea>
+	    </label>
+	</div>
+	<div class="large-8 large-offset-2 end columns text-center">
+	    <div class="row">
+	    <input type="submit" value="Save" class="large-4 large-offset-1 columns tiny radius teal button">
+	    <input type="submit" value="Save and Continue" class="large-4 large-offset-2 end columns tiny radius blue button">
+	    </div>
+	</div>
+    </form>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+<div id="profile__modal" class="reveal-modal text-center large" data-reveal aria-labelledby="module__profile" aria-hidden="true" role="dialog">
+    <h3 id="module__profile">Edit Course Profile</h3>
+    <form class="text-left" id="module__profile__form">
+	<input type="hidden" name="id" value=""/>
+	<div class="large-8 large-offset-2 end columns">
+	    <label>Module Name
+		<input type="text" value="" required/>
+	    </label>
+	</div>
+	<div class="large-8 large-offset-2 end columns">
+	    <label>Short Description
+		<textarea maxlength="500" required></textarea>
+	    </label>
+	</div>
+	<div class="large-8 large-offset-2 end columns text-center">
+	    <div class="row">
+	    <input type="submit" value="Save" class="large-4 large-offset-4 columns tiny radius teal button">
+	    </div>
+	</div>
+    </form>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+<script src="../static/js/admin_edit_modules.js"></script>
 {% endblock %}

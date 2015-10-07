@@ -76,6 +76,18 @@ $('.admin__trigger').on("click", function(e) {
     $('.quick__add').toggleClass('hidden');
 });
 
+$('.manage__modules').on("click", function(e) {
+    window.location = "/module-manager";
+});
+
+$('.manage__administrators').on("click", function(e) {
+    window.location = "/admin";
+});
+
+$('.view__statistics').on("click", function(e) {
+    window.location = "/stats";
+});
+
 $(document).on('close.fndtn.alert', function(event) {
     $(document).foundation();
 });

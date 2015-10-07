@@ -3931,7 +3931,7 @@ blockquote p {
     float: none !important; }
 
 .tooltip {
-  background: #49075e;
+  background: #444555;
   color: #FFFFFF;
   display: none;
   font-size: 0.875rem;
@@ -3944,7 +3944,7 @@ blockquote p {
   z-index: 1006;
   left: 50%; }
   .tooltip > .nub {
-    border-color: transparent transparent #49075e transparent;
+    border-color: transparent transparent #444555 transparent;
     border: solid 5px;
     display: block;
     height: 0;
@@ -3974,10 +3974,10 @@ blockquote p {
 
 @media only screen and (min-width: 40.0625em) {
   .tooltip > .nub {
-    border-color: transparent transparent #49075e transparent;
+    border-color: transparent transparent #444555 transparent;
     top: -10px; }
   .tooltip.tip-top > .nub {
-    border-color: #49075e transparent transparent transparent;
+    border-color: #444555 transparent transparent transparent;
     bottom: -10px;
     top: auto; }
   .tooltip.tip-left, .tooltip.tip-right {

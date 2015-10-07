@@ -6,10 +6,9 @@
     <title>{{ pagetitle }}</title>
     {% block scripts %}
     {% endblock %}
+    <link rel="icon" type="image/png" href="../static/img/icon.png">
     <link rel="stylesheet" href="../static/css/foundation.css" />
     <link rel="stylesheet" href="../static/css/foundation-icons.css" />
-    <link rel="stylesheet" href="../static/css/module_tabs.css" />
-    <link rel="stylesheet" href="../static/css/module_tabs.scss" />
 
     <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
     <script src="../static/js/vendor/jquery.js"></script>
@@ -19,12 +18,13 @@
     <script src="../static/js/foundation/foundation.alert.js"></script>
     <script src="../static/js/classie.js"></script>                           
     <script src="../static/js/notificationFx.js"></script>
-    <link rel="stylesheet" href="../static/css/demo.css" />
-    <link rel="stylesheet" href="../static/css/colourlog.css" />
     <link rel="stylesheet" href="../static/css/body.css" />
     <link rel="stylesheet" href="../static/css/layout.css" />
     <link rel="stylesheet" href="../static/css/main.css" />
-  </head>
+    <link rel="stylesheet" href="../static/css/colourlog.css" />
+    <link rel="stylesheet" href="../static/css/colourblock.css" />
+    <link rel="stylesheet" href="../static/css/module_tabs.css" />
+    <link rel="stylesheet" href="../static/css/demo.css" />
 
     <body>
     <!-- side navbar -->
@@ -38,9 +38,13 @@
 		<i class="fi-clipboard-pencil"></i>
 		<span>View Dashboard</span>
 	    </a></li>
-	    <li><a href="/edit">
+	    <li><a href="/module-manager">
 		<i class="fi-widget"></i>
-		<span>Edit Courses</span>
+		<span>Manage Courses</span>
+	    </a></li>
+	    <li><a href="/stats">
+		<i class="fi-graph-trend"></i>
+		<span>View Statistics</span>
 	    </a></li>
 	    <li><a href="/admin">
 		<i class="fi-torsos-all"></i>

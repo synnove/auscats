@@ -1,6 +1,7 @@
 import MySQLdb.cursors
 import hashlib
 from random import randrange
+from datetime import datetime
 
 unit_names = ["Cat Care Specialists", "IT Infrastructure Group",
 	"Grouper Group", "Tuna Group", "Salmon Group", "Stray Pig News",
@@ -45,17 +46,85 @@ def get_module_names():
     conn.close()
     return modules
 
-def get_admin_module_info(status):
+def get_admin_module_info():
     """ get module information for administrators """
     modules = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM vw_ADMIN_MODULE_INFO WHERE STATUS = %s", [status])
+    cur.execute("SELECT * FROM vw_ADMIN_MODULE_INFO ORDER BY STATUS ASC, MODULE_ID ASC")
     rows = cur.fetchall()
     for row in rows:
+	row['LAST_UPDATED'] = row['LAST_UPDATED'].strftime('%d-%m-%Y')
 	modules.append(row)
     conn.close()
     return modules
+
+def get_module_edit_info(id):
+    """ get module name and blurb to display in profile edit module """
+
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT NAME, BLURB FROM vw_ADMIN_MODULE_INFO WHERE MODULE_ID = %s", [id]);
+    info = cur.fetchone()
+    return info
+
+def add_new_module_profile(name, blurb, username):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    try:
+	cur.execute("INSERT INTO MODULES (NAME, BLURB) VALUES (%s, %s)", 
+		[name, blurb])
+	conn.commit()
+	mid = get_module_id_from_name(name)
+	add_new_module_content(mid, username)
+	return 0
+    except MySQLdb.Error as e:
+	conn.rollback()
+    conn.close()
+
+def add_new_module_content(mid, username):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, EDITOR) VALUES (%s, %s, %s)", 
+	    [mid, 0, username])
+    conn.commit()
+
+def edit_module_profile(mid, name, blurb):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    try:
+	cur.execute("UPDATE MODULES SET NAME = %s, BLURB = %s WHERE MODULE_ID = %s", 
+		[name, blurb, mid])
+	conn.commit()
+	return 0
+    except MySQLdb.Error as e:
+	conn.rollback()
+    return e
+    conn.close()
+
+def get_module_status(mid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT STATUS FROM MODULES WHERE MODULE_ID = %s", [mid])
+    row = cur.fetchone()
+    conn.close()
+    return row['STATUS']
+
+def toggle_module_status(mid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    status = get_module_status(mid)
+    try:
+	if status == 'ACTIVE':
+	    cur.execute("UPDATE MODULES SET STATUS = %s WHERE MODULE_ID = %s", ["INACTIVE", mid])
+	else:
+	    cur.execute("UPDATE MODULES SET STATUS = %s WHERE MODULE_ID = %s", ["ACTIVE", mid])
+	conn.commit()
+	return 0
+    except MySQLdb.Error as e:
+	conn.rollback()
+    return e
+    conn.close()
 
 def get_last_updated_module():
     """ get module information for administrators """

@@ -19,10 +19,16 @@
     font-size: 1em;
 }
 
+.button.teeny{
+    padding: 0.2rem 1.5rem;
+    font-size: 0.7em;
+}
+
 .tabs .tab-title > a {
     font-weight: bold;
     font-size: 1em;
     padding: 0.5rem 2rem;
+    border-right: 2px solid #f0f0f0;
 }
 
 li.tab-title > a > i {
@@ -31,8 +37,11 @@ li.tab-title > a > i {
 
 .tabs-content {
     background-color: #ffffff;
-    border: 2px solid #7C7D92;
     padding: 0.5rem 3rem;
+}
+
+.tabs-content.user-modules {
+    border: 1px solid #7C7D92;
     height: 30rem;
     overflow-y: auto;
 }

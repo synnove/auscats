@@ -16,20 +16,21 @@ def load_user():
     g.username = user_info['user']
     g.user = user_info['name'].split(" ")[0]
     g.admins = db.get_admin_user_list()
+    g.appname = "AusCERT Security Training"
 
 # USER PAGES
 @app.route("/")
-def frontPage():
+def default_page():
     """ Main page (equivalent of index.html).
 	Admin users redirect to administrator dashboard.
 	Regular users redirect to list of modules."""
 
     if g.username in g.admins:
-	return redirect(url_for('adminDashboard'))
-    return redirect(url_for('courseDefault'))
+	return redirect(url_for('admin_dashboard'))
+    return redirect(url_for('user_module_list'))
 
 @app.route("/modules")
-def courseDefault():
+def user_module_list():
     """ Default user page: displays list of modules in progress,
 	completed, or scheduled. """
 
@@ -45,8 +46,10 @@ def courseDefault():
     num_scheduled = num_active_modules - num_complete - num_in_progress
         
     if g.username not in g.admins:
-	return render_template('user_module_list.html', name=g.user,
-		subtitle="My Modules", user_id = g.username, 
+	return render_template('user_module_list.html', 
+		pagetitle = g.appname + " - My Modules",
+		subtitle = "My Modules", 
+		user_id = g.username, name = g.user,
 		active_modules = active_modules, 
 		modules_completed = modules_completed,
 		modules_started = modules_started,
@@ -56,11 +59,11 @@ def courseDefault():
 		num_started = num_started,
 		num_in_progress = num_in_progress,
 		num_scheduled = num_scheduled,
-		last_viewed_slide = last_viewed_slide,  is_admin = False)
-    return redirect(url_for('adminDashboard'))
+		last_viewed_slide = last_viewed_slide, is_admin = False)
+    return redirect(url_for('admin_dashboard'))
 
 @app.route("/module/<module_title>", methods=['GET', 'POST'])
-def coursePage(module_title):
+def user_module_slideshow(module_title):
     """ Displays a module to the user. Currently content is stored in .txt
 	files and parsed, will eventually shift to using database. """
     modules_list = db.get_module_names()
@@ -68,7 +71,7 @@ def coursePage(module_title):
     # check url is valid
     if module_title.lower() not in modules_list:
 	flash("Invalid module title.", "invalid")
-	return redirect(url_for('courseDefault'))
+	return redirect(url_for('user_module_list'))
 
     # get module content
     lecture_file = module_title.lower().replace(" ", "_") + ".txt"
@@ -78,14 +81,17 @@ def coursePage(module_title):
     answers = db.get_quiz_answers()
     
     if g.username not in g.admins:
-	return render_template('user_module.html', name = g.user, 
-		subtitle = "Module: " + module_title, slides = slides, 
-		module_title = module_title, quizzes = quizzes, 
-		answers = answers, is_admin = False)
-    return redirect(url_for('adminDashboard'))
+	return render_template('user_module.html', 
+		pagetitle = g.appname + " - " + module_title,
+		subtitle = "Module: " + module_title, 
+		name = g.user,
+		module_title = module_title, slides = slides,
+		quizzes = quizzes, answers = answers, 
+		is_admin = False)
+    return redirect(url_for('admin_dashboard'))
 
 @app.route("/review/<module_title>", methods=['GET', 'POST'])
-def reviewModule(module_title):
+def user_module_review(module_title):
     """ Displays a module to the user. Currently content is stored in .txt
 	files and parsed, will eventually shift to using database. """
     modules_list = db.get_module_names()
@@ -93,7 +99,7 @@ def reviewModule(module_title):
     # check url is valid
     if module_title.lower() not in modules_list:
 	flash("Invalid module title.", "invalid")
-	return redirect(url_for('courseDefault'))
+	return redirect(url_for('user_module_list'))
 
     # get module content
     lecture_file = module_title.lower().replace(" ", "_") + ".txt"
@@ -103,10 +109,10 @@ def reviewModule(module_title):
 	return render_template('user_module_review.html', name = g.user, 
 		slides = slides, subtitle = "Review: " + module_title,
 		is_admin = False)
-    return redirect(url_for('adminDashboard'))
+    return redirect(url_for('admin_dashboard'))
 
 @app.route("/gradebook", methods=['GET', 'POST'])
-def gradeList():
+def user_grade_list():
     """ displays grades to the user by the requested module. """
 
     modules = db.get_module_info()
@@ -119,20 +125,23 @@ def gradeList():
 	    module['GRADE'] = int(correct_answers / float(number_of_questions) * 100)
 	    completed_modules.append(module)
     if g.username not in g.admins:
-        return render_template('user_gradebook.html', name = g.user, 
-		subtitle = "My Grades", completed_modules = completed_modules,
+	return render_template('user_gradebook.html', 
+		pagetitle = g.appname + " - My Grades",
+		subtitle = "My Grades", 
+		name = g.user,
+		completed_modules = completed_modules,
 		is_admin = False)
-    return redirect(url_for('adminDashboard'))
+    return redirect(url_for('admin_dashboard'))
 
 @app.route("/grades/<module_title>", methods=['GET', 'POST'])
-def gradePage(module_title):
+def user_grade_details(module_title):
     """ displays grades to the user by the requested module. """
     modules_list = db.get_module_names()
 
     # check url is valid
     if module_title.lower() not in modules_list:
 	flash("Invalid module title.", "invalid")
-	return redirect(url_for('courseDefault'))
+	return redirect(url_for('user_module_list'))
 
     modules = db.get_module_info()
     num_correct_answers = db.get_number_of_correct_answers(g.username, module_title)
@@ -166,7 +175,7 @@ def gradePage(module_title):
 		percentage_correct = percentage_correct,
 		quizzes = quizzes, answers = answers, 
 		module_title = module_title, modules = modules, is_admin = False)
-    return redirect(url_for('adminDashboard'))
+    return redirect(url_for('admin_dashboard'))
 
 @app.route("/check_answer", methods=['GET', 'POST'])
 def check_answer():
@@ -179,7 +188,7 @@ def check_answer():
 
 # ADMIN PAGES
 @app.route("/dashboard")
-def adminDashboard():
+def admin_dashboard():
     """ main admin user page """
 
     modules = db.get_module_info()
@@ -187,88 +196,87 @@ def adminDashboard():
     last_updated = db.get_last_updated_module()
 
     if g.username in g.admins:
-	return render_template('admin_dashboard.html', subtitle="Administrator Dashboard",
-		name = g.user, modules = modules,
-		last_updated = last_updated, org_units = org_units, 
+	return render_template('admin_dashboard.html', 
+		pagetitle = g.appname + " - My Dashboard",
+		subtitle = "Administrator Dashboard", 
+		name = g.user,
+		modules = modules,
+		last_updated = last_updated,
+		org_units = org_units, 
 		is_admin = True)
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)
 
-#Mayi is working in this one
 @app.route("/admin")
-def manageAdmin():
+def admin_manage_users():
     """ add, modify and remove admin users """
 
     if g.username in g.admins:
-	   return render_template('admin_manage.html', name = g.user,
-	   subtitle = "Manage Administrators",
-	   is_admin = True)
+	return render_template('admin_manage.html', 
+		pagetitle = g.appname + " - Manage Administrators",
+		subtitle = "Manage Administrators", 
+		name = g.user, 
+		is_admin = True)
     return render_template('unauthorized.html', name=g.user,
 	    subtitle = "Not Authorized", is_admin = False)
 
+@app.route("/get_module_edit_info", methods=['GET', 'POST'])
+def module_edit_info():
+    """ returns module info to be edited """
+    mid = request.args.get('mid', -1, type=int)
+    results = db.get_module_edit_info(mid)
+    return jsonify(blurb=results['BLURB'], name=results['NAME'])
 
-#Mayi is working in this one
-@app.route("/add")
-def addCourse():
-    """ add new course """
+@app.route("/edit_module_profile", methods=['GET', 'POST'])
+def admin_edit_module_profile():
+    """ returns module info to be edited """
+    mid = request.args.get('mid', -1, type=int)
+    name = request.args.get('name', -1, type=unicode)
+    blurb = request.args.get('blurb', -1, type=unicode)
+    result = db.edit_module_profile(mid, name, blurb)
+    return jsonify(result=result)
 
-    if g.username in g.admins:
-        return render_template('add.html', name = g.user,
-        subtitle = "Add Course",
-        is_admin = True)
-    return render_template('unauthorized.html', name=g.user,
-        subtitle = "Not Authorized", is_admin = False)
+@app.route("/add_module_profile", methods=['GET', 'POST'])
+def admin_add_new_module():
+    """ returns module info to be edited """
+    name = request.args.get('name', -1, type=unicode)
+    blurb = request.args.get('blurb', -1, type=unicode)
+    result = db.add_new_module_profile(name, blurb, g.username)
+    return jsonify(result=result)
 
-#Mayi is working in this one
-@app.route("/editView")
-def editViewCourse():
-    """ Edit or View previous courses """
+@app.route("/change_module_status", methods=['GET', 'POST'])
+def admin_change_module_status():
+    """ returns module info to be edited """
+    mid = request.args.get('mid', -1, type=int)
+    result = db.toggle_module_status(mid)
+    return jsonify(result=result)
 
-    if g.username in g.admins:
-        return render_template('editView.html', name = g.user,
-        subtitle = "Edit or View Courses",
-        is_admin = True)
-    return render_template('unauthorized.html', name=g.user,
-        subtitle = "Not Authorized", is_admin = False)
-
-#Mayi is working in this one
 @app.route("/change")
-def changeCourse():
+def admin_edit_course_status():
     """ Change status of previous courses """
 
     if g.username in g.admins:
-        return render_template('change.html', name = g.user,
-        subtitle = "Change Courses Statuts",
+        return render_template('admin_module_status.html', name = g.user,
+        subtitle = "Change Course Status",
         is_admin = True)
     return render_template('unauthorized.html', name=g.user,
         subtitle = "Not Authorized", is_admin = False)
 
-
-
-@app.route("/drawingboard/<course_id>/<rev_id>/<slide_no>")
-def editCourse():
-    """ page for modifying module content """
-
-    if g.username in g.admins:
-	return render_template('admin_dashboard.html', name = g.user,
-		subtitle = "Edit a Module",
-		is_admin = True)
-    return render_template('unauthorized.html', name=g.user, 
-	    subtitle = "Not Authorized", is_admin = False)
-
-@app.route("/edit")
-def editCourseList():
+@app.route('/module-manager')
+def admin_list_courses(act=None, module_title=None):
     """ lists modules that administrators can edit """
 
-    active_modules = db.get_admin_module_info("ACTIVE")
-    inactive_modules = db.get_admin_module_info("INACTIVE")
-
     if g.username in g.admins:
-	return render_template('admin_edit.html', name = g.user,
-		active_modules = active_modules, subtitle = "Manage Courses",
-		inactive_modules = inactive_modules, is_admin = True)
+	    modules = db.get_admin_module_info()
+	    return render_template('admin_edit.html', 
+		    pagetitle = g.appname + " - Manage Modules",
+		    subtitle = "Manage Modules", 
+		    name = g.user, 
+		    modules = modules,
+		    is_admin = True)
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)
+
 
 @app.route("/download/<filters>", methods=['GET', 'POST'])
 def download_csv(filters):
@@ -289,7 +297,7 @@ def download_csv(filters):
 	response.headers["Content-Disposition"] = "attachment; filename=results.csv"
 	return response
     flash("No results for requested filters.", "search")
-    return redirect(url_for('adminDashboard'))
+    return redirect(url_for('admin_dashboard'))
 
 @app.route("/admin_mod/<attrs>", methods=['GET', 'POST'])
 def admin_mod(attrs):
@@ -300,7 +308,7 @@ def admin_mod(attrs):
 	info = item.split("=")
 	admin_perms[info[0]] = info[1]
     parse_admin_mod_directive(admin_perms)
-    return redirect(url_for('adminDashboard'))
+    return redirect(url_for('admin_dashboard'))
 
 # MISCELLANEOUS HELPER FUNCTIONS
 
@@ -351,10 +359,10 @@ def parse_admin_mod_directive(admin_perms):
 	    status = add_administrator(admin_id, admin_perms)
 	    if status == -1:
 		flash("Administrator already exists.", "admin")
-		return redirect(url_for('adminDashboard'))
+		return redirect(url_for('admin_dashboard'))
 	    elif status == 0:
 		flash("Administrator successfully added.", "admin_ok")
-		return redirect(url_for('adminDashboard'))
+		return redirect(url_for('admin_dashboard'))
 	elif action == "modify":
 	    pass
 	    # call other function
@@ -362,7 +370,7 @@ def parse_admin_mod_directive(admin_perms):
 	    pass
 	    # call delete function
     thing = str(action) + " " + str(admin_id)
-    return redirect(url_for('adminDashboard'))
+    return redirect(url_for('admin_dashboard'))
 
 def add_administrator(admin_id, admin_perms):
     """ adds an administrator with the specified permissions """
@@ -376,7 +384,7 @@ def add_administrator(admin_id, admin_perms):
 		flash("Permission " + perm_type + 
 			" already exists for administrator " + 
 			admin_id + ".", "admin")
-		return redirect(url_for('adminDashboard'))
+		return redirect(url_for('admin_dashboard'))
     return 0
 
 # DO NOT TOUCH THIS SECTION DO NOT DO IT I WILL KNOW AND I WILL SMACK YOU

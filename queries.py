@@ -317,6 +317,35 @@ def log_user_answer(uid, dn, qid, aid):
 	    return 1
     return -1
 
+def check_module_started(username, mid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("Select * FROM USER_PROGRESS WHERE USER_ID = %s AND MODULE_ID = %s", [username, mid])
+    if cur.rowcount == 1:
+	return True
+    return False
+
+def get_last_viewed_slide(username, mid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT LAST_VIEWED FROM USER_PROGRESS WHERE USER_ID = %s AND MODULE_ID = %s", [username, mid])
+    row = cur.fetchone()
+    conn.close()
+    return row['LAST_VIEWED']
+    pass
+
+def log_user_progress(username, mid, slide):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    if check_module_started(username, mid):
+	last = get_last_viewed_slide(username, mid)
+	if slide > last:
+	    cur.execute("UPDATE USER_PROGRESS SET LAST_VIEWED = %s WHERE MODULE_ID = %s AND USER_ID = %s", [slide, mid, username])
+    else:
+	cur.execute("INSERT INTO USER_PROGRESS (LAST_VIEWED, MODULE_ID, USER_ID) VALUES (%s, %s, %s)", [slide, mid, username])
+    conn.commit()
+    conn.close()
+
 # QUERIES FOR GETTING INFORMATION ABOUT ADMIN-RELATED THINGS
 def get_admin_user_list():
     """ get list of administrators """

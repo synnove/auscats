@@ -82,6 +82,7 @@ def user_module_slideshow(module_title):
     
     if g.username not in g.admins:
 	return render_template('user_module.html', 
+		module_id = module_id,
 		pagetitle = g.appname + " - " + module_title,
 		subtitle = "Module: " + module_title, 
 		name = g.user,
@@ -104,6 +105,7 @@ def user_module_review(module_title):
     # get module content
     lecture_file = module_title.lower().replace(" ", "_") + ".txt"
     slides = parse_lecture_content(lecture_file)
+    module_id = db.get_module_id_from_name(module_title)
     
     if g.username not in g.admins:
 	return render_template('user_module_review.html', name = g.user, 
@@ -186,6 +188,15 @@ def check_answer():
     result = db.log_user_answer(g.username, user_info['dn'], qid, aid)
     return jsonify(result=result)
 
+@app.route("/update_user_progress", methods=['GET', 'POST'])
+def update_progress():
+    """ checks the user's answer """
+    name = request.args.get('name', -1, type=unicode)
+    slide = request.args.get('slide', -1, type=int)
+    mid = db.get_module_id_from_name(name)    
+    result = db.log_user_progress(g.username, mid, slide)
+    return jsonify(result=result)
+
 # ADMIN PAGES
 @app.route("/dashboard")
 def admin_dashboard():
@@ -251,17 +262,6 @@ def admin_change_module_status():
     result = db.toggle_module_status(mid)
     return jsonify(result=result)
 
-@app.route("/change")
-def admin_edit_course_status():
-    """ Change status of previous courses """
-
-    if g.username in g.admins:
-        return render_template('admin_module_status.html', name = g.user,
-        subtitle = "Change Course Status",
-        is_admin = True)
-    return render_template('unauthorized.html', name=g.user,
-        subtitle = "Not Authorized", is_admin = False)
-
 @app.route('/module-manager')
 def admin_list_courses(act=None, module_title=None):
     """ lists modules that administrators can edit """
@@ -276,7 +276,6 @@ def admin_list_courses(act=None, module_title=None):
 		    is_admin = True)
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)
-
 
 @app.route("/download/<filters>", methods=['GET', 'POST'])
 def download_csv(filters):

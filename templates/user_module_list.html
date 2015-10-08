@@ -74,7 +74,7 @@
 			    <div class="medium-6 columns">
 				<div class="profile-card">
 				    <h4 class="subheader" data-equalizer-watch>{{ module['NAME'] }}</h4>
-				    <p class="blue profile-text"><a href="/module/{{module['NAME']}}">Start</a></p>
+				    <a href="/module/{{module['NAME']}}" class="blue profile-text">Start</a>
 				</div>
 			    </div>
 			{% endif %}
@@ -96,7 +96,8 @@
 			<div class="medium-6 columns">
 			    <div class="profile-card">
 				<h4 class="subheader" data-equalizer-watch="title">{{ module['NAME'] }}</h4>
-				<p class="purple profile-text"><i class="fi-results"></i><a href="/review/{{module['NAME']}}">Review</a>   ||   <i class="fi-trophy"></i><a href="/grades/{{module['NAME']}}">Grades</a></p>
+				<a href="/review/{{module['NAME']}}" class="purple profile-text">Review</a>
+				<a href="/grades/{{module['NAME']}}" class="purple profile-text">Grades</a>
 			    </div>
 			</div>   
 		    {% endif %}

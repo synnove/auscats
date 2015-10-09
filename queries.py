@@ -334,7 +334,7 @@ def get_last_viewed_slide(username, mid):
     return row['LAST_VIEWED']
     pass
 
-def log_user_progress(username, mid, slide):
+def log_user_progress(username, mid, slide,total_slides):
     conn = do_mysql_connect()
     cur = conn.cursor()
     if check_module_started(username, mid):

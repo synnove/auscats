@@ -45,17 +45,15 @@
 			    <div class="medium-6 columns">
                                 <div class="profile-card">
                                     <h4 class="subheader" data-equalizer-watch>{{ module['NAME'] }}</h4>
-				    <!--
 				    <div class="progress">
-                                        { % for slide in last_viewed_slide %}
-                                            { % if slide['MODULE_ID'] == module_id %}
+                                        {% for slide in last_viewed_slide %}
+                                            {% if slide['MODULE_ID'] == module_id %}
                                                 <span class="meter blue" style="width:65%; height: 100%">
-                                                    <p class="percent">{ { slide['LAST_VIEWED'] / module['NUM_QUESTIONS'] * 100 }} </p>
+                                                    <p class="percent">{{ slide['LAST_VIEWED'] / module['NUM_QUESTIONS'] * 100 }}</p>
                                                 </span>
-                                            { % endif %}
-                                        { % endfor %}
-                                    </div>
-				    -->
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>		    
 				     <p class="blue profile-text"><a href="/module/{{module['NAME']}}" >Continue</a></p> 
 				</div>
                             </div>        

@@ -20,15 +20,10 @@
     text-align: center;
     text-transform: uppercase; }
 
-.profile-text {
-    margin-top: 2rem;
-    padding: 0.5rem 0;
+a.profile-text {
+    margin: 2rem 0;
+    padding: 0.3rem 1.5rem;
     border-radius: 5px;
-    color: #ffffff;
-}
-
-.profile-text > a {
-    font-weight: bolder;
     color: #ffffff;
 }
 
@@ -56,18 +51,3 @@
   font-family: tahoma,arial,helvetica;
   font-size: 12px;
   color: white; }
-
-.meter.blue {
-  background: cornflowerblue; }
-
-.meter.red {
-  background: #e74c3c; }
-
-.meter.orange {
-  background: #e67e22; }
-
-.meter.green {
-  background: #2ecc71; }
-
-.meter.purple {
-  background: #9b59b6; 

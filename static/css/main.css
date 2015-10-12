@@ -96,6 +96,10 @@ table thead tr th, table tr td {
     margin: 1rem 0 !important;
 }
 
+ul.breadcrumbs li.current a {
+    font-weight: bolder;
+}
+
 form#search {
     margin-left: 4.5rem;
 }

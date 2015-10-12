@@ -277,6 +277,20 @@ def admin_list_courses(act=None, module_title=None):
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)
 
+@app.route('/drawingboard/<module_title>')
+def admin_edit_course_content(module_title):
+    """ lists modules that administrators can edit """
+
+    if g.username in g.admins:
+	    modules = db.get_admin_module_info()
+	    return render_template('admin_drawingboard.html', 
+		    pagetitle = g.appname + " - Edit Module Content",
+		    subtitle = "Drawingboard: " + module_title, 
+		    name = g.user, 
+		    is_admin = True)
+    return render_template('unauthorized.html', name=g.user, 
+	    subtitle = "Not Authorized", is_admin = False)
+
 @app.route("/download/<filters>", methods=['GET', 'POST'])
 def download_csv(filters):
     """ retrieves a .csv file to download """

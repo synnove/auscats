@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+<link rel="stylesheet" href="../static/css/colourblock.css" />
+<script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="main__page" data-equalizer>
+    <div class="row text-center">
+	<ul class="breadcrumbs">
+	    <li class="current"><a id="lecture">Lecture</a></li>
+	    <li><a id="interactive">Interactive</a></li>
+	    <li><a id="quiz">Quiz</a></li>
+	</ul>
+    </div>
+    <div class="row text-left edit__lecture">
+	<div class="colourblock__top panel panel__middle thin teal">
+	    Lecture Section
+	</div>
+	<div class="panel panel__middle" data-equalizer-watch>
+	    thing
+	</div>
+    </div>
+    <div class="row text-left edit__interactive hidden">
+	<div class="colourblock__top panel panel__middle thin blue">
+	    Interactive Section
+	</div>
+	<div class="panel panel__middle" data-equalizer-watch>
+	    thing<br>
+	    stuff
+	</div>
+    </div>
+    <div class="row text-left edit__quiz hidden">
+	<div class="colourblock__top panel panel__middle thin purple">
+	    Quiz Section
+	</div>
+	<div class="panel panel__middle" data-equalizer-watch>
+	    thing
+	</div>
+    </div>
+</div>
+<script src="../static/js/admin_edit_content.js"></script>
+{% endblock %}

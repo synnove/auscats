@@ -40,8 +40,7 @@
 		<div class="row"><div class="small-12 columns">
 		    {% for module_id in modules_in_progress %}
 			{% for module in active_modules %}
-			    {% if module_id == module['MODULE_ID'] and (module_id not in modules_completed) %}
-				
+			    {% if module_id == module['MODULE_ID'] and (module_id not in modules_completed) %}	
 			    <div class="medium-6 columns">
                                 <div class="profile-card">
                                     <h4 class="subheader" data-equalizer-watch>{{ module['NAME'] }}</h4>

@@ -132,11 +132,11 @@ $('.quiz_submit').on('click', '.next', function(e) {
     Reveal.next();
 });
 
-Reveal.addEventListener( 'slidechanged', function( event ) {
+Reveal.addEventListener('slidechanged', function(e) {
     $("input[type='radio']").prop('checked', false);
-    $.getJSON($SCRIPT_ROOT + '/update_user_progress',
+    $.getJSON($SCRIPT_ROOT + '/update_user_progress', {
 	slide: Reveal.getState().indexh,
-	name: $.trim($('p.title').text().split(":")[1])
+	name: $.trim($('p.title').text().split(":")[1]),
     }, function(data) {
     });
 });

@@ -281,12 +281,24 @@ def admin_list_courses(act=None, module_title=None):
 def admin_edit_course_content(module_title):
     """ lists modules that administrators can edit """
 
+    # check url is valid
+    modules_list = db.get_all_module_names()
+    if module_title.lower() not in modules_list:
+	flash("Invalid module title.", "invalid")
+	return redirect(url_for('admin_list_courses'))
+
+    module_id = db.get_module_id_from_name(module_title);
+    questions = db.get_quiz_questions_by_module(module_id);
+    answers = db.get_quiz_answers();
+    correct_answers = db.get_correct_answers();
+
     if g.username in g.admins:
 	    modules = db.get_admin_module_info()
 	    return render_template('admin_drawingboard.html', 
 		    pagetitle = g.appname + " - Edit Module Content",
 		    subtitle = "Drawingboard: " + module_title, 
-		    name = g.user, 
+		    name = g.user, questions = questions,
+		    answers = answers, correct_answers = correct_answers,
 		    is_admin = True)
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)

@@ -96,10 +96,28 @@ table thead tr th, table tr td {
     margin: 1rem 0 !important;
 }
 
-ul.breadcrumbs li.current a {
+ul.breadcrumbs li.current {
     font-weight: bolder;
+}
+
+ul.breadcrumbs li {
+    cursor: pointer;
 }
 
 form#search {
     margin-left: 4.5rem;
+}
+
+.accordion.edit__module__content .accordion-navigation a {
+    font-size: 1em;
+    background-color: #7C7D92;
+    padding: 0.2rem 0.5rem;
+}
+
+.accordion.edit__module__content .accordion-navigation span i {
+    margin-right: 1rem;
+}
+
+.accordion.edit__module__content div.content {
+    padding: 0.2rem 3rem;
 }

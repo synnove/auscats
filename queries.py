@@ -46,6 +46,18 @@ def get_module_names():
     conn.close()
     return modules
 
+def get_all_module_names():
+    """ get list of module names to check against"""
+    modules = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT NAME FROM MODULES")
+    rows = cur.fetchall()
+    for row in rows:
+	modules.append(row['NAME'].lower())
+    conn.close()
+    return modules
+
 def get_admin_module_info():
     """ get module information for administrators """
     modules = list()

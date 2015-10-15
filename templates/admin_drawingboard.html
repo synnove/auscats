@@ -3,9 +3,6 @@
 {% block scripts %}
 <link rel="stylesheet" href="../static/css/colourblock.css" />
 <link rel="stylesheet" href="../static/css/quill.snow.css" />
-<script type=text/javascript>
-    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-</script>
 {% endblock %}
 
 {% block content %}
@@ -22,26 +19,61 @@
 	    Lecture Section
 	</div>
 	<div class="panel panel__middle lecture__content">
-	    <div id="full-toolbar">
-		<button title="Bold" class="ql-format-button ql-bold"></button>   
-		<span class="ql-format-separator"></span>
-		<button title="Italic" class="ql-format-button ql-italic"></button>
-		<span class="ql-format-separator"></span>
-		<button title="Underline" class="ql-format-button ql-underline"></button>
-		<span class="ql-format-separator"></span>
-		<button title="Strikethrough" class="ql-format-button ql-strike"></button>
-		<span class="ql-format-separator"></span>
-		<button title="Link" class="ql-format-button ql-link"></button>   
-		<span class="ql-format-separator"></span>
-		<button title="Image" class="ql-format-button ql-image"></button>
-		<span class="ql-format-separator"></span>
-		<button title="Bullet" class="ql-format-button ql-bullet"></button>
-		<span class="ql-format-separator"></span>
-		<button title="List" class="ql-format-button ql-list"></button>
-	    </div>
-	    <div id="full-editor">
-		hellooooo?
-	    </div>
+	    <ul class="accordion edit__module__content" data-accordion>
+		{% for slide in slides %}
+		    <li class="accordion-navigation">
+			<a href="#slide__{{ slide['ID'] }}">
+			    <span><i class="fi-plus"></i></span>{{ slide['TITLE'] }}</a>
+			<div id="slide__{{ slide['ID'] }}" class="content">
+			    {% for answer in answers %}
+				<div class="full-toolbar">
+				    <button title="Bold" class="ql-format-button ql-bold"></button>   
+				    <span class="ql-format-separator"></span>
+				    <button title="Italic" class="ql-format-button ql-italic"></button>
+				    <span class="ql-format-separator"></span>
+				    <button title="Underline" class="ql-format-button ql-underline"></button>
+				    <span class="ql-format-separator"></span>
+				    <button title="Strikethrough" class="ql-format-button ql-strike"></button>
+				    <span class="ql-format-separator"></span>
+				    <button title="Link" class="ql-format-button ql-link"></button>   
+				    <span class="ql-format-separator"></span>
+				    <button title="Image" class="ql-format-button ql-image"></button>
+				    <span class="ql-format-separator"></span>
+				    <button title="Bullet" class="ql-format-button ql-bullet"></button>
+				    <span class="ql-format-separator"></span>
+				    <button title="List" class="ql-format-button ql-list"></button>
+				</div>
+				<div class="full-editor">
+				</div>
+			    {% endfor %}
+			</div>
+		    </li>
+		{% endfor %}
+		<li class="accordion-navigation">
+		    <a href="#lecture__new"><span><i class="fi-pencil"></i></span>New Slide</a>
+		    <div id="lecture__new" class="content">
+			<div class="full-toolbar">
+			    <button title="Bold" class="ql-format-button ql-bold"></button>   
+			    <span class="ql-format-separator"></span>
+			    <button title="Italic" class="ql-format-button ql-italic"></button>
+			    <span class="ql-format-separator"></span>
+			    <button title="Underline" class="ql-format-button ql-underline"></button>
+			    <span class="ql-format-separator"></span>
+			    <button title="Strikethrough" class="ql-format-button ql-strike"></button>
+			    <span class="ql-format-separator"></span>
+			    <button title="Link" class="ql-format-button ql-link"></button>   
+			    <span class="ql-format-separator"></span>
+			    <button title="Image" class="ql-format-button ql-image"></button>
+			    <span class="ql-format-separator"></span>
+			    <button title="Bullet" class="ql-format-button ql-bullet"></button>
+			    <span class="ql-format-separator"></span>
+			    <button title="List" class="ql-format-button ql-list"></button>
+			</div>
+			<div class="full-editor">
+			</div>
+		    </div>
+		</li>
+	    </ul>
 	</div>
     </div>
     <div class="row text-left edit__interactive hidden">
@@ -66,7 +98,7 @@
 			<div id="question__{{ question['QUESTION_ID'] }}" class="content">
 			    {% for answer in answers %}
 				{% if answer['QUESTION_ID'] == question['QUESTION_ID'] %}
-				    {{ answer['ANSWER'] }}<br>
+				    <div class="edit" id="q{{ question['QUESTION_ID'] }}_a{{ answer['ANSWER_ID'] }}">{{ answer['ANSWER'] }}</div>
 				{% endif %}
 			    {% endfor %}
 			</div>
@@ -82,15 +114,28 @@
 	</div>
     </div>
 </div>
+{% endblock %}
+{% block jscripts %}
+<script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
 <script src="../static/js/admin_edit_content.js"></script>
 <script src="../static/js/quill.js"></script>
+<script src="../static/js/jquery.jeditable.js"></script>
 <script>
-    var fullEditor = new Quill('#full-editor', {
-	modules: {
-	'toolbar': { container: '#full-toolbar' },
-	'link-tooltip': true
-	},
-	theme: 'snow'
+    $(document).ready(function() {
+	var fullEditor = new Quill('.full-editor', {
+	    modules: {
+	    'toolbar': { container: '.full-toolbar' },
+	    'link-tooltip': true
+	    },
+	    theme: 'snow'
+	});
+    });
+</script>
+<script>
+    $(document).ready(function() {
+	$('.edit').editable('');
     });
 </script>
 {% endblock %}

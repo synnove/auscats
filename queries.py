@@ -346,12 +346,12 @@ def get_last_viewed_slide(username, mid):
     return row['LAST_VIEWED']
     pass
 
-def log_user_progress(username, mid, slide,total_slides):
+def log_user_progress(username, mid, slide):
     conn = do_mysql_connect()
     cur = conn.cursor()
     if check_module_started(username, mid):
 	last = get_last_viewed_slide(username, mid)
-	if slide > last:
+	if slide == (last + 1):
 	    cur.execute("UPDATE USER_PROGRESS SET LAST_VIEWED = %s WHERE MODULE_ID = %s AND USER_ID = %s", [slide, mid, username])
     else:
 	cur.execute("INSERT INTO USER_PROGRESS (LAST_VIEWED, MODULE_ID, USER_ID) VALUES (%s, %s, %s)", [slide, mid, username])

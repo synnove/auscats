@@ -138,5 +138,6 @@ Reveal.addEventListener('slidechanged', function(e) {
 	slide: Reveal.getState().indexh,
 	name: $.trim($('p.title').text().split(":")[1]),
     }, function(data) {
+	console.log(data.result);
     });
 });

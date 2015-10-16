@@ -121,3 +121,7 @@ form#search {
 .accordion.edit__module__content div.content {
     padding: 0.2rem 3rem;
 }
+
+div.edit form input{
+    font-family: 'Ubuntu';
+}

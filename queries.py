@@ -182,12 +182,12 @@ def get_correct_answers():
     conn.close()
     return answers
 
-def get_answers_by_user(uid):
+def get_quiz_answers_by_user(uid):
     """ get list of correct answers """
     answers = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM GRADEBOOK WHERE USER_ID = %s", [uid])
+    cur.execute("SELECT * FROM GRADEBOOK WHERE USER_ID = %s AND QUESTION_TYPE = %s", [uid, "QUIZ"])
     rows = cur.fetchall()
     for row in rows:
 	answers.append(row['ANSWER_ID'])
@@ -199,7 +199,7 @@ def modules_completed_by_user(user_id):
     modules_completed = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT DISTINCT A.MODULE_ID FROM MODULES M,(SELECT MODULE_ID,COUNT(MODULE_ID) AS COUNT FROM vw_USER_ANSWERS WHERE USER_ID = %s GROUP BY MODULE_ID) AS A WHERE COUNT = M.NUM_QUESTIONS", [user_id])
+    cur.execute("SELECT DISTINCT A.MODULE_ID FROM MODULES M,(SELECT MODULE_ID,COUNT(MODULE_ID) AS COUNT FROM vw_USER_QUIZ_ANSWERS WHERE USER_ID = %s GROUP BY MODULE_ID) AS A WHERE COUNT = M.NUM_QUESTIONS", [user_id])
     rows = cur.fetchall()
     for row in rows:
 	modules_completed.append(row['MODULE_ID'])
@@ -281,16 +281,16 @@ def get_total_number_of_questions(module_title):
     conn.close()
     return number_of_questions
 
-def check_answer_exists(uid, qid):
+def check_quiz_answer_exists(uid, qid):
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("Select * FROM GRADEBOOK WHERE USER_ID = %s AND QUESTION_ID = %s",
-	    [uid, qid])
+    cur.execute("Select * FROM GRADEBOOK WHERE USER_ID = %s AND QUESTION_ID = %s AND QUESTION_TYPE = %s",
+	    [uid, qid, "QUIZ"])
     if cur.rowcount == 1:
 	return True
     return False
 
-def check_answer_valid(qid, aid):
+def check_quiz_answer_valid(qid, aid):
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("Select * FROM QUIZ_ANSWERS WHERE QUESTION_ID = %s AND ANSWER_ID = %s",
@@ -299,19 +299,19 @@ def check_answer_valid(qid, aid):
 	return True
     return False
 
-def add_answer_to_gradebook(uid, orgunit, qid, aid):
+def add_answer_to_gradebook(uid, orgunit, qid, aid, question_type):
     conn = do_mysql_connect()
     cur = conn.cursor()
     try:
-	cur.execute("INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_ID, ANSWER_ID) VALUES (%s, %s, %s, %s)", 
-		[uid, orgunit, qid, aid])
+	cur.execute("INSERT INTO GRADEBOOK (USER_ID, ORG_UNIT, QUESTION_TYPE, QUESTION_ID, ANSWER_ID) VALUES (%s, %s, %s, %s, %s)", 
+		[uid, orgunit, question_type, qid, aid])
 	conn.commit()
 	return 0
     except MySQLdb.Error as e:
 	conn.rollback()
     conn.close()
 
-def check_answer_correct(aid):
+def check_quiz_answer_correct(aid):
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("Select * FROM CORRECT_ANSWERS WHERE ANSWER_ID = %s", [aid])
@@ -319,12 +319,12 @@ def check_answer_correct(aid):
 	return True
     return False
 
-def log_user_answer(uid, dn, qid, aid):
-    if not check_answer_exists(uid, qid):
-	if check_answer_valid(qid, aid):
+def log_user_quiz_answer(uid, dn, qid, aid, question_type):
+    if not check_quiz_answer_exists(uid, qid):
+	if check_quiz_answer_valid(qid, aid):
 	    orgunit = dn[0].split(",")[1][3:]
-	    add_answer_to_gradebook(uid, orgunit, qid, aid)
-	    if check_answer_correct(aid):
+	    add_answer_to_gradebook(uid, orgunit, qid, aid, question_type)
+	    if check_quiz_answer_correct(aid):
 		return 0
 	    return 1
     return -1
@@ -386,7 +386,7 @@ def get_data_for_csv(num, filters):
     data = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    sql = "SELECT * FROM vw_USER_ANSWERS"
+    sql = "SELECT * FROM vw_USER_QUIZ_ANSWERS"
     if num >= 1:
 	attrs = list(filters.keys())
 	for attr in attrs:
@@ -429,6 +429,15 @@ def check_orgunit_exists(orgunit):
     if cur.rowcount == 1:
 	return True
     return False
+
+def update_answer_value(aid, new_value):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("UPDATE QUIZ_ANSWERS SET ANSWER = %s WHERE ANSWER_ID = %s", 
+	    [new_value, aid])
+    conn.commit()
+    conn.close()
+    return 0
 
 def do_admin_add(admin_id):
     """ add a user to the administrator list """
@@ -477,6 +486,8 @@ def do_admin_add_perms(admin_id, permission):
 	    conn.rollback()
     conn.close()
     return -1
+
+# DATABASE CONNECTION
 
 def read_mysql_password():
     """ reads password from file """

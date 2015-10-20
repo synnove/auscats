@@ -3,18 +3,22 @@
 {% block scripts %}
 <link rel="stylesheet" href="../static/css/colourblock.css" />
 <link rel="stylesheet" href="../static/css/quill.snow.css" />
+<link rel="stylesheet" href="../static/css/upload.css" />
+<script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
 {% endblock %}
 
 {% block content %}
 <div class="main__page" data-equalizer>
     <div class="row text-center">
 	<ul class="breadcrumbs">
-	    <li class="current" id="lecture">Lecture</li>
-	    <li id="interactive">Interactive</li>
-	    <li id="quiz">Quiz</li>
+	    <li><a class="current" id="edit__lecture" href="#lecture">Lecture</a></li>
+	    <li><a id="edit__interactive" href="#interactive">Interactive</a></li>
+	    <li><a id="edit__quiz" href="#quiz">Quiz</a></li>
 	</ul>
     </div>
-    <div class="row text-left edit__lecture">
+    <div class="row text-left" id="lecture">
 	<div class="colourblock__top panel panel__middle thin teal">
 	    Lecture Section
 	</div>
@@ -76,16 +80,56 @@
 	    </ul>
 	</div>
     </div>
-    <div class="row text-left edit__interactive hidden">
+    <div class="row text-left hidden" id="interactive">
 	<div class="colourblock__top panel panel__middle thin blue">
 	    Interactive Section
 	</div>
 	<div class="panel panel__middle">
-	    thing<br>
-	    stuff
+	    <ul class="accordion edit__module__content" data-accordion>
+		{% for int_q in interactive_questions %}
+		    <li class="accordion-navigation">
+			<a href="#question_{{ int_q['INT_Q_ID'] }}">
+			    <span><i class="fi-plus"></i></span>{{ int_q['QUESTION'] }}</a>
+			<div id="question_{{ int_q['INT_Q_ID'] }}" class="content">
+			    {% for int_ans in interactive_answers %}
+				{% if int_ans['INT_Q_ID'] == int_q['INT_Q_ID'] %}
+				    <div class="edit" id="q{{ int_q['INT_Q_ID'] }}_a{{ int_a['INT_ANSWER_ID'] }}">{{ int_a['INT_ANSWER'] }}</div>
+				{% endif %}
+			    {% endfor %}
+			    <br>
+			    <div class="edit" id="int_q{{ question['INT_Q_ID'] }}_correct">{{ question['CORRECT_MESSAGE'] }}</div>
+			    <div class="edit" id="int_q{{ question['INT_Q_ID'] }}_wrong">{{ question['WRONG_MESSAGE'] }}</div>
+			</div>
+		    </li>
+		{% endfor %}
+		<li class="accordion-navigation">
+		    <a href="#int_q_new"><span><i class="fi-pencil"></i></span>New Interactive Question</a>
+		    <div id="int_q_new" class="content">
+			<div class="row">
+			    <div class="large-7 columns">
+				<div class="image-preview">
+				    <label for="int_q_new_media" class="image-label">Choose File</label>
+				    <input type="file" name="image" class="image-upload" id="int_q_new_media"/>
+				</div>
+			    </div>
+			    <div class="large-5 columns">
+				<br>
+				<div class="edit" id="int_q_new_1">Answer 1</div>
+				<div class="edit" id="int_q_new_2">Answer 2</div>
+				<div class="edit" id="int_q_new_3">Answer 3</div>
+			    </div>
+			    <div class="large-12 columns">
+				<br>
+				<div class="edit_area" id="int_q_new_correct">Message to display when user answers correctly</div>
+				<div class="edit_area" id="int_q_new_wrong">Message to display when user answers incorrectly</div>
+			    </div>
+			</div>
+		    </div>
+		</li>
+	    </ul>
 	</div>
     </div>
-    <div class="row text-left edit__quiz hidden">
+    <div class="row text-left hidden" id="quiz">
 	<div class="colourblock__top panel panel__middle thin purple">
 	    Quiz Section
 	</div>
@@ -93,9 +137,10 @@
 	    <ul class="accordion edit__module__content" data-accordion>
 		{% for question in questions %}
 		    <li class="accordion-navigation">
-			<a href="#question__{{ question['QUESTION_ID'] }}">
+			<a href="#question_{{ question['QUESTION_ID'] }}">
 			    <span><i class="fi-plus"></i></span>{{ question['QUESTION'] }}</a>
-			<div id="question__{{ question['QUESTION_ID'] }}" class="content">
+			<div id="question_{{ question['QUESTION_ID'] }}" class="content">
+			    <div class="edit question" id="q{{ question['QUESTION_ID'] }}">{{ question['QUESTION'] }}</div>
 			    {% for answer in answers %}
 				{% if answer['QUESTION_ID'] == question['QUESTION_ID'] %}
 				    <div class="edit" id="q{{ question['QUESTION_ID'] }}_a{{ answer['ANSWER_ID'] }}">{{ answer['ANSWER'] }}</div>
@@ -105,8 +150,8 @@
 		    </li>
 		{% endfor %}
 		<li class="accordion-navigation">
-		    <a href="#question__new"><span><i class="fi-pencil"></i></span>New Question</a>
-		    <div id="question__new" class="content">
+		    <a href="#question_new"><span><i class="fi-pencil"></i></span>New Question</a>
+		    <div id="question_new" class="content">
 			<div class="edit" id="q_new_1">Answer 1</div>
 			<div class="edit" id="q_new_2">Answer 2</div>
 			<div class="edit" id="q_new_3">Answer 3</div>
@@ -138,9 +183,29 @@
 </script>
 <script>
     $(document).ready(function() {
-	$('.edit').editable('http://www.example.com/save.php', {
+	$('.edit').editable($SCRIPT_ROOT + '/edit_question', {
 	    indicator : 'Saving...',
 	    tooltip   : 'Click to edit...',
+	});
+	$('.edit_area').editable($SCRIPT_ROOT + '/edit_question', {
+	    type      : 'textarea',
+	    cancel    : 'Cancel',
+	    submit    : 'OK',
+	    indicator : 'Saving...',
+	    tooltip   : 'Click to edit...'
+	});
+    });
+</script>
+<script src="../static/js/jquery.uploadPreview.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+	$.uploadPreview({
+	    input_field: ".image-upload",   // Default: .image-upload
+	    preview_box: ".image-preview",  // Default: .image-preview
+	    label_field: ".image-label",    // Default: .image-label
+	    label_default: "Choose File",   // Default: Choose File
+	    label_selected: "Change File",  // Default: Change File
+	    no_label: false                 // Default: false
 	});
     });
 </script>

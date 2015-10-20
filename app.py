@@ -152,7 +152,7 @@ def user_grade_details(module_title):
     quizzes = db.get_quiz_questions_by_module(module_id)
     answers = db.get_quiz_answers()
     correct_answers = db.get_correct_answers()
-    user_answers= db.get_answers_by_user(g.username)
+    user_answers= db.get_quiz_answers_by_user(g.username)
     stats = db.get_question_statistics()
     for quiz in quizzes:
 	for stat in stats:
@@ -179,13 +179,13 @@ def user_grade_details(module_title):
 		module_title = module_title, modules = modules, is_admin = False)
     return redirect(url_for('admin_dashboard'))
 
-@app.route("/check_answer", methods=['GET', 'POST'])
+@app.route("/check_quiz_answer", methods=['GET', 'POST'])
 def check_answer():
     """ checks the user's answer """
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     qid = request.args.get('qid', -1, type=int)
     aid = request.args.get('aid', -1, type=int)
-    result = db.log_user_answer(g.username, user_info['dn'], qid, aid)
+    result = db.log_user_quiz_answer(g.username, user_info['dn'], qid, aid, "QUIZ")
     return jsonify(result=result)
 
 @app.route("/update_user_progress", methods=['GET', 'POST'])
@@ -302,6 +302,19 @@ def admin_edit_course_content(module_title):
 		    is_admin = True)
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)
+
+@app.route("/edit_question", methods=['GET', 'POST'])
+def admin_edit_question():
+    """ modifies the contents of an answer or question """
+    info = request.form['id']
+    new_value = request.form['value']
+    if (info.startswith("question")):
+	pass
+    else:
+	qid = info.split("_")[0][1:]
+	aid = info.split("_")[1][1:]
+	db.update_answer_value(aid, new_value)
+    return new_value
 
 @app.route("/download/<filters>", methods=['GET', 'POST'])
 def download_csv(filters):

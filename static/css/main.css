@@ -15,13 +15,17 @@
 }
 
 .button.tiny{
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 1rem;
     font-size: 1em;
 }
 
 .button.teeny{
     padding: 0.2rem 1.5rem;
     font-size: 0.7em;
+}
+
+button.spaaace{
+    margin-right: 0.5rem;
 }
 
 .tabs .tab-title > a {
@@ -96,11 +100,11 @@ table thead tr th, table tr td {
     margin: 1rem 0 !important;
 }
 
-ul.breadcrumbs li.current {
+ul.breadcrumbs a.current {
     font-weight: bolder;
 }
 
-ul.breadcrumbs li {
+ul.breadcrumbs a {
     cursor: pointer;
 }
 
@@ -124,4 +128,9 @@ form#search {
 
 div.edit form input{
     font-family: 'Ubuntu';
+}
+
+div.edit.question {
+    font-weight: bolder;
+    font-size: 1.3em;
 }

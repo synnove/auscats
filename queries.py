@@ -256,6 +256,44 @@ def get_quiz_answers():
     conn.close()
     return quiz_answers
 
+def get_int_questions_by_module(module_id):
+    """ get list of interactive questions per module """
+    int_questions_by_module = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM INTERACTIVE_QUESTIONS WHERE MODULE_ID = %s", [module_id])
+    rows = cur.fetchall()
+    for row in rows:
+	int_questions_by_module.append(row)
+    conn.close()
+    return int_questions_by_module
+    
+def get_int_answers():
+    """ get list of all answers to interactive questions"""
+    int_answers = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    # modify this to only get answers for one module's questions
+    cur.execute("SELECT * FROM INTERACTIVE_ANSWERS")
+    rows = cur.fetchall()
+    for row in rows:
+	int_answers.append(row)
+    conn.close()
+    return int_answers
+
+def get_int_correct_answers():
+    """ get list of all correct answers to interactive questions"""
+    correct_answers = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    # modify this to only get answers for one module's questions
+    cur.execute("SELECT * FROM INTERACTIVE_CORRECT")
+    rows = cur.fetchall()
+    for row in rows:
+	correct_answers.append(row)
+    conn.close()
+    return correct_answers
+
 def get_number_of_correct_answers(user_id, module_title):
     conn = do_mysql_connect()
     cur = conn.cursor()
@@ -435,6 +473,71 @@ def update_answer_value(aid, new_value):
     cur = conn.cursor()
     cur.execute("UPDATE QUIZ_ANSWERS SET ANSWER = %s WHERE ANSWER_ID = %s", 
 	    [new_value, aid])
+    conn.commit()
+    conn.close()
+    return 0
+
+def update_max_q_num(mid):
+    pass
+
+def add_new_question(mid, new_question):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (%s, %s)", 
+	    [mid, new_question])
+    new_q_id = cur.lastrowid
+    conn.commit()
+    conn.close()
+    return new_q_id
+
+def add_new_answer(qid, new_answer):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (%s, %s)", 
+	    [qid, new_answer])
+    new_ans_id = cur.lastrowid
+    conn.commit()
+    conn.close()
+    return new_ans_id
+
+def add_new_correct_answer(qid, aid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    # put some checks in m8
+    cur.execute("INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (%s, %s)", 
+	    [qid, aid])
+    new_ans_id = cur.lastrowid
+    conn.commit()
+    conn.close()
+    return 0
+
+def add_new_int_question(mid, new_question, img_link, correct_msg, incorrect_msg):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("INSERT INTO INTERACTIVE_QUESTIONS (MODULE_ID, QUESTION, MEDIA_LINK, MEDIA_TYPE, CORRECT_MESSAGE, ERROR_MESSAGE) VALUES (%s, %s, %s, %s, %s, %s)", 
+	    [mid, new_question, img_link, "IMG", correct_msg, incorrect_msg])
+    new_q_id = cur.lastrowid
+    conn.commit()
+    conn.close()
+    return new_q_id
+
+def add_new_int_answer(qid, new_answer):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("INSERT INTO INTERACTIVE_ANSWERS (INT_Q_ID, INT_ANSWER) VALUES (%s, %s)", 
+	    [qid, new_answer])
+    new_ans_id = cur.lastrowid
+    conn.commit()
+    conn.close()
+    return new_ans_id
+
+def add_new_correct_int_answer(qid, aid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    # put some checks in m8
+    cur.execute("INSERT INTO INTERACTIVE_CORRECT (INT_Q_ID, INT_ANSWER_ID) VALUES (%s, %s)", 
+	    [qid, aid])
+    new_ans_id = cur.lastrowid
     conn.commit()
     conn.close()
     return 0

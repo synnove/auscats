@@ -55,7 +55,7 @@
 		{% endfor %}
 		<li class="accordion-navigation">
 		    <a href="#lecture__new"><span><i class="fi-pencil"></i></span>New Slide</a>
-		    <div id="lecture__new" class="content">
+		    <div id="lecture__new" class="content active">
 			<div class="full-toolbar">
 			    <button title="Bold" class="ql-format-button ql-bold"></button>   
 			    <span class="ql-format-separator"></span>
@@ -86,45 +86,73 @@
 	</div>
 	<div class="panel panel__middle">
 	    <ul class="accordion edit__module__content" data-accordion>
-		{% for int_q in interactive_questions %}
+		{% for int_q in int_questions %}
 		    <li class="accordion-navigation">
-			<a href="#question_{{ int_q['INT_Q_ID'] }}">
+			<a href="#int_q_{{ int_q['INT_Q_ID'] }}">
 			    <span><i class="fi-plus"></i></span>{{ int_q['QUESTION'] }}</a>
-			<div id="question_{{ int_q['INT_Q_ID'] }}" class="content">
-			    {% for int_ans in interactive_answers %}
-				{% if int_ans['INT_Q_ID'] == int_q['INT_Q_ID'] %}
-				    <div class="edit" id="q{{ int_q['INT_Q_ID'] }}_a{{ int_a['INT_ANSWER_ID'] }}">{{ int_a['INT_ANSWER'] }}</div>
-				{% endif %}
-			    {% endfor %}
-			    <br>
-			    <div class="edit" id="int_q{{ question['INT_Q_ID'] }}_correct">{{ question['CORRECT_MESSAGE'] }}</div>
-			    <div class="edit" id="int_q{{ question['INT_Q_ID'] }}_wrong">{{ question['WRONG_MESSAGE'] }}</div>
+			<div id="int_q_{{ int_q['INT_Q_ID'] }}" class="content">
+			    <div class="row">
+				<div class="large-6 columns">
+				    <div class="image-preview" style="background: url('{{ int_q['MEDIA_LINK'] }}') 50% 50% no-repeat;">
+				    <label for="int_q_new_img_upload" class="image-label">Choose File</label>
+				    <input type="file" name="int_q_new_media" class="image-upload" id="int_q_new_img_upload" required/>
+				</div>
+				</div>
+				<div class="large-6 columns">
+				    <br>
+				    <div class="edit_area int_q" id="int_q{{ int_q['INT_Q_ID'] }}">{{ int_q['QUESTION'] }}</div>
+				    {% for int_a in int_answers %}
+					{% if int_a['INT_Q_ID'] == int_q['INT_Q_ID'] %}
+					    <div class="edit int_a" id="int_q_{{ int_q['INT_Q_ID'] }}_a{{ int_a['INT_ANSWER_ID'] }}">{{ int_a['INT_ANSWER'] }}</div>
+					{% endif %}
+				    {% endfor %}
+				</div>
+				<div class="large-12 columns">
+				    <br>
+				    <div class="edit_area int_q" id="int_q{{ int_q['INT_Q_ID'] }}"_correct_msg>{{ int_q['CORRECT_MESSAGE'] }}</div>
+				    <div class="edit_area int_q" id="int_q{{ int_q['INT_Q_ID'] }}"_incorrect_msg>{{ int_q['ERROR_MESSAGE'] }}</div>
+				</div>
+			    </div>
 			</div>
 		    </li>
 		{% endfor %}
 		<li class="accordion-navigation">
 		    <a href="#int_q_new"><span><i class="fi-pencil"></i></span>New Interactive Question</a>
-		    <div id="int_q_new" class="content">
+		    <div id="int_q_new" class="content active">
+			<form id="create_new_int_q" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="module_id" value="{{ module_id }}">
 			<div class="row">
-			    <div class="large-7 columns">
+			    <div class="large-6 columns">
 				<div class="image-preview">
-				    <label for="int_q_new_media" class="image-label">Choose File</label>
-				    <input type="file" name="image" class="image-upload" id="int_q_new_media"/>
+				    <label for="int_q_new_img_upload" class="image-label">Choose File</label>
+				    <input type="file" name="int_q_new_media" class="image-upload" id="int_q_new_img_upload" required/>
 				</div>
 			    </div>
-			    <div class="large-5 columns">
+			    <div class="large-6 columns">
 				<br>
-				<div class="edit" id="int_q_new_1">Answer 1</div>
-				<div class="edit" id="int_q_new_2">Answer 2</div>
-				<div class="edit" id="int_q_new_3">Answer 3</div>
+				<textarea name="int_q_new_desc" placeholder="Type out a description of the scenario here!" required/></textarea>
+				{% for i in range(1, 4) %}
+				    <div class="row">
+					<div class="large-1 column text-right">
+					    <input type="radio" name="int_q_new_correct" class="radio_line_up" value="{{ i }}" required>
+					</div>
+					<div class="large-11 columns end">
+					    <input type="text" name="int_q_new_a_{{ i }}" placeholder="Option {{ i }}" class="input_line_up" required/>
+					</div>
+				    </div>
+				{% endfor %}
 			    </div>
 			    <div class="large-12 columns">
 				<br>
-				<div class="edit_area" id="int_q_new_correct">Message to display when user answers correctly</div>
-				<div class="edit_area" id="int_q_new_wrong">Message to display when user answers incorrectly</div>
+				<textarea name="int_q_new_correct_msg" placeholder="Message to display when user answers correctly" required/></textarea>
+				<textarea name="int_q_new_incorrect_msg" placeholder="Message to display when user answers incorrectly" required/></textarea>
+			    </div>
+			    <div class="large-12 columns text-center">
+				<input type="submit" name="int_q_new_submit" class="button tiny radius purple button_line_up"/>
 			    </div>
 			</div>
 		    </div>
+		    </form>
 		</li>
 	    </ul>
 	</div>
@@ -151,11 +179,30 @@
 		{% endfor %}
 		<li class="accordion-navigation">
 		    <a href="#question_new"><span><i class="fi-pencil"></i></span>New Question</a>
-		    <div id="question_new" class="content">
-			<div class="edit" id="q_new_1">Answer 1</div>
-			<div class="edit" id="q_new_2">Answer 2</div>
-			<div class="edit" id="q_new_3">Answer 3</div>
-			<div class="edit" id="q_new_4">Answer 4</div>
+		    <div id="question_new" class="content active">
+			<form id="create_new_question" method="post">
+			    <input type="hidden" name="module_id" value="{{ module_id }}">
+			    <input type="text" name="q_new" placeholder="Type your question here!" required/>
+			    {% for i in range(1, 5) %}
+				<div class="row">
+				    <div class="large-1 column text-right">
+					<input type="radio" name="q_new_correct" class="radio_line_up" value="{{ i }}" required>
+				    </div>
+				    {% if i == 4 %}
+					<div class="large-8 columns">
+					    <input type="text" name="q_new_a_{{ i }}" placeholder="Option {{ i }}" class="input_line_up" required/>
+					</div>
+					<div class="large-3 columns text-right">
+					    <input type="submit" name="q_new_submit" class="button tiny radius purple button_line_up" required/>
+					</div>
+				    {% else %}
+					<div class="large-8 columns end">
+					    <input type="text" name="q_new_a_{{ i }}" placeholder="Option {{ i }}" class="input_line_up" required/>
+					</div>
+				    {% endif %}
+				</div>
+			    {% endfor %}
+			</form>
 		    </div>
 		</li>
 	    </ul>
@@ -167,46 +214,8 @@
 <script type=text/javascript>
     $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
-<script src="../static/js/admin_edit_content.js"></script>
 <script src="../static/js/quill.js"></script>
 <script src="../static/js/jquery.jeditable.js"></script>
-<script>
-    $(document).ready(function() {
-	var fullEditor = new Quill('.full-editor', {
-	    modules: {
-	    'toolbar': { container: '.full-toolbar' },
-	    'link-tooltip': true
-	    },
-	    theme: 'snow'
-	});
-    });
-</script>
-<script>
-    $(document).ready(function() {
-	$('.edit').editable($SCRIPT_ROOT + '/edit_question', {
-	    indicator : 'Saving...',
-	    tooltip   : 'Click to edit...',
-	});
-	$('.edit_area').editable($SCRIPT_ROOT + '/edit_question', {
-	    type      : 'textarea',
-	    cancel    : 'Cancel',
-	    submit    : 'OK',
-	    indicator : 'Saving...',
-	    tooltip   : 'Click to edit...'
-	});
-    });
-</script>
 <script src="../static/js/jquery.uploadPreview.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-	$.uploadPreview({
-	    input_field: ".image-upload",   // Default: .image-upload
-	    preview_box: ".image-preview",  // Default: .image-preview
-	    label_field: ".image-label",    // Default: .image-label
-	    label_default: "Choose File",   // Default: Choose File
-	    label_selected: "Change File",  // Default: Change File
-	    no_label: false                 // Default: false
-	});
-    });
-</script>
+<script src="../static/js/admin_edit_content.js"></script>
 {% endblock %}

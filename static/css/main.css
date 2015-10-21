@@ -134,3 +134,22 @@ div.edit.question {
     font-weight: bolder;
     font-size: 1.3em;
 }
+
+div.edit_area.question {
+    font-weight: bolder;
+    font-size: 1em;
+}
+
+input.radio_line_up {
+    vertical-align: bottom;
+    margin: 0;
+}
+
+input.input_line_up {
+    margin-bottom: 0;
+}
+
+.button.button_line_up {
+    vertical-align: bottom;
+    margin-top: 8px;
+}

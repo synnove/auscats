@@ -48,7 +48,7 @@
                                         {% for slide in last_viewed_slide %}
                                             {% if slide['MODULE_ID'] == module_id %}
                                                 <span class="meter blue" style="width:65%; height: 100%">
-                                                    <p class="percent">{{ slide['LAST_VIEWED'] / module['NUM_QUESTIONS'] * 100 }}</p>
+                                                    <p class="percent">{{ slide['LAST_VIEWED'] / module['NUM_QUIZ_QUESTIONS'] * 100 }}</p>
                                                 </span>
                                             {% endif %}
                                         {% endfor %}

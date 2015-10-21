@@ -1,13 +1,16 @@
 from flask import Flask
 from flask import render_template, request, redirect, send_file, url_for, g
-from flask import make_response, flash, jsonify
-import csv
-import io
-import json
+from flask import make_response, flash, jsonify, send_from_directory
+from werkzeug import secure_filename
+import csv, io, json, os
 import queries as db
+
+UPLOAD_FOLDER = os.getcwd() + '/static/img/user_img'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
 
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'supersupersecret'
 
 @app.before_request
@@ -291,6 +294,9 @@ def admin_edit_course_content(module_title):
     questions = db.get_quiz_questions_by_module(module_id);
     answers = db.get_quiz_answers();
     correct_answers = db.get_correct_answers();
+    int_questions = db.get_int_questions_by_module(module_id);
+    int_answers = db.get_int_answers();
+    int_correct_answers = db.get_int_correct_answers();
 
     if g.username in g.admins:
 	    modules = db.get_admin_module_info()
@@ -299,9 +305,17 @@ def admin_edit_course_content(module_title):
 		    subtitle = "Drawingboard: " + module_title, 
 		    name = g.user, questions = questions,
 		    answers = answers, correct_answers = correct_answers,
+		    int_questions = int_questions,
+		    int_answers = int_answers,
+		    int_correct_answers = int_correct_answers,
+		    module_id = module_id,
 		    is_admin = True)
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)
+
+@app.route('/resources/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route("/edit_question", methods=['GET', 'POST'])
 def admin_edit_question():
@@ -315,6 +329,47 @@ def admin_edit_question():
 	aid = info.split("_")[1][1:]
 	db.update_answer_value(aid, new_value)
     return new_value
+
+@app.route("/add_new_question", methods=['GET', 'POST'])
+def admin_add_new_question():
+    """ adds a new question for a module """
+    answers = []
+    question = request.args.get('q', -1, type=unicode)
+    answers.append(request.args.get('a1', -1, type=unicode))
+    answers.append(request.args.get('a2', -1, type=unicode))
+    answers.append(request.args.get('a3', -1, type=unicode))
+    answers.append(request.args.get('a4', -1, type=unicode))
+    module_id = request.args.get('module_id', -1, type=int)
+    correct_answer = request.args.get('correct', -1, type=int)
+    new_q_id = db.add_new_question(module_id, question)
+    for i, answer in enumerate(answers, 1):
+	new_ans_id = db.add_new_answer(new_q_id, answer)
+	if (i == correct_answer):
+	    db.add_new_correct_answer(new_q_id, new_ans_id)
+    return jsonify(result=answers)
+
+@app.route("/add_new_int_q", methods=['GET', 'POST'])
+def admin_add_new_int_q():
+    """ returns module info to be edited """
+    answers = []
+    data = request.form
+    media = request.files['int_q_new_media']
+    desc = data['int_q_new_desc']
+    answers.append(data['int_q_new_a_1'])
+    answers.append(data['int_q_new_a_2'])
+    answers.append(data['int_q_new_a_3'])
+    correct_msg = data['int_q_new_correct_msg']
+    incorrect_msg = data['int_q_new_incorrect_msg']
+    module_id = data['module_id']
+    correct_answer = data['int_q_new_correct']
+    img_link = upload_file(media)
+    new_q_id = db.add_new_int_question(module_id, desc, img_link, 
+	    correct_msg, incorrect_msg)
+    for i, answer in enumerate(answers, 1):
+        new_ans_id = db.add_new_int_answer(new_q_id, answer)
+        if (i == correct_answer):
+            db.add_new_correct_int_answer(new_q_id, new_ans_id)
+    return jsonify(result=img_link);
 
 @app.route("/download/<filters>", methods=['GET', 'POST'])
 def download_csv(filters):
@@ -349,6 +404,16 @@ def admin_mod(attrs):
     return redirect(url_for('admin_dashboard'))
 
 # MISCELLANEOUS HELPER FUNCTIONS
+
+def allowed_file(filename):
+    return '.' in filename and \
+	filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+def upload_file(img):
+    if img and allowed_file(img.filename):
+	filename = secure_filename(img.filename)
+	img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return '/resources/' + filename
 
 def parse_lecture_content(filename):
     """ reads a text file to get lecture content """
@@ -425,6 +490,5 @@ def add_administrator(admin_id, admin_perms):
 		return redirect(url_for('admin_dashboard'))
     return 0
 
-# DO NOT TOUCH THIS SECTION DO NOT DO IT I WILL KNOW AND I WILL SMACK YOU
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=True)

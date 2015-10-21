@@ -18,7 +18,7 @@ def get_module_info():
     modules = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT MODULE_ID, NAME, BLURB, NUM_QUESTIONS FROM MODULES WHERE status = 'ACTIVE'")
+    cur.execute("SELECT MODULE_ID, NAME, BLURB, NUM_QUIZ_QUESTIONS FROM MODULES WHERE status = 'ACTIVE'")
     rows = cur.fetchall()
     for row in rows:
 	modules.append(row)
@@ -199,7 +199,7 @@ def modules_completed_by_user(user_id):
     modules_completed = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT DISTINCT A.MODULE_ID FROM MODULES M,(SELECT MODULE_ID,COUNT(MODULE_ID) AS COUNT FROM vw_USER_QUIZ_ANSWERS WHERE USER_ID = %s GROUP BY MODULE_ID) AS A WHERE COUNT = M.NUM_QUESTIONS", [user_id])
+    cur.execute("SELECT DISTINCT A.MODULE_ID FROM MODULES M,(SELECT MODULE_ID,COUNT(MODULE_ID) AS COUNT FROM vw_USER_QUIZ_ANSWERS WHERE USER_ID = %s GROUP BY MODULE_ID) AS A WHERE COUNT = M.NUM_QUIZ_QUESTIONS", [user_id])
     rows = cur.fetchall()
     for row in rows:
 	modules_completed.append(row['MODULE_ID'])
@@ -312,10 +312,10 @@ def get_number_of_correct_answers(user_id, module_title):
 def get_total_number_of_questions(module_title):
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("Select MODULE_ID, NUM_QUESTIONS FROM MODULES WHERE STATUS = 'ACTIVE' AND NAME = %s", [module_title])
+    cur.execute("Select MODULE_ID, NUM_QUIZ_QUESTIONS FROM MODULES WHERE STATUS = 'ACTIVE' AND NAME = %s", [module_title])
     rows = cur.fetchall()
     for row in rows:
-	number_of_questions = row['NUM_QUESTIONS']
+	number_of_questions = row['NUM_QUIZ_QUESTIONS']
     conn.close()
     return number_of_questions
 
@@ -478,7 +478,13 @@ def update_answer_value(aid, new_value):
     return 0
 
 def update_max_q_num(mid):
-    pass
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("UPDATE MODULES SET NUM_QUIZ_QUESTIONS = NUM_QUIZ_QUESTIONS + 1 WHERE MODULE_ID = %s", 
+	    [mid])
+    conn.commit()
+    conn.close()
+    return 0
 
 def add_new_question(mid, new_question):
     conn = do_mysql_connect()
@@ -488,6 +494,7 @@ def add_new_question(mid, new_question):
     new_q_id = cur.lastrowid
     conn.commit()
     conn.close()
+    update_max_q_num(mid)
     return new_q_id
 
 def add_new_answer(qid, new_answer):
@@ -507,6 +514,15 @@ def add_new_correct_answer(qid, aid):
     cur.execute("INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (%s, %s)", 
 	    [qid, aid])
     new_ans_id = cur.lastrowid
+    conn.commit()
+    conn.close()
+    return 0
+
+def update_max_i_num(mid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("UPDATE MODULES SET NUM_INT_QUESTIONS = NUM_INT_QUESTIONS + 1 WHERE MODULE_ID = %s", 
+	    [mid])
     conn.commit()
     conn.close()
     return 0

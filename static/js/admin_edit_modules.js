@@ -19,7 +19,7 @@ $('.open__profile__modal').on("submit", function(e) {
     $('#profile__modal').foundation('reveal', 'open');
 });
 
-$('.status__mod').on("click", function(e) {
+$('a.status__mod').on("click", function(e) {
     e.preventDefault();
     var id = $(this).attr('href');
     $.getJSON($SCRIPT_ROOT + '/change_module_status', {

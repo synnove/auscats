@@ -94,7 +94,7 @@ $('.question').bind('submit', function(e) {
     if (!$("input[type='radio']:checked").val()) {
 	console.log("ANSWER THE THING");
     } else {
-	$.getJSON($SCRIPT_ROOT + '/check_answer', {
+	$.getJSON($SCRIPT_ROOT + '/check_quiz_answer', {
 	    aid: $("input[type='radio']:checked").val(),
 	    qid: $(this).closest(".question").attr("id"),
 	}, function(data) {
@@ -116,7 +116,7 @@ $('.question').bind('submit', function(e) {
 	    $(document).foundation();                                       
 	    $(document).foundation('alert', 'reflow');
 	    $(".quiz_submit").html(function() {                               
-		return "<input type='submit' class='tiny round green button next' value='Next'/>"
+		return "<input type='submit' class='tiny radius success button next' value='Next'/>"
 	    });                                                         
 	});
     }
@@ -127,7 +127,7 @@ $('.quiz_submit').on('click', '.next', function(e) {
     e.preventDefault();
     $(".q_err").empty();
     $(".quiz_submit").html(function() {                               
-        return "<input type='submit' class='tiny round button' value='Submit'>"
+        return "<input type='submit' class='tiny radius purple button' value='Submit'>"
     });                                                         
     Reveal.next();
 });
@@ -138,6 +138,5 @@ Reveal.addEventListener('slidechanged', function(e) {
 	slide: Reveal.getState().indexh,
 	name: $.trim($('p.title').text().split(":")[1]),
     }, function(data) {
-	console.log(data.result);
     });
 });

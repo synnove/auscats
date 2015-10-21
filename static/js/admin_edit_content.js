@@ -1,38 +1,44 @@
-$('#lecture').on("click", function(e) {
-    e.preventDefault();
-    $('#lecture').addClass('current');
-    $('#interactive').removeClass('current');
-    $('#quiz').removeClass('current');
-    if ($('.edit__lecture').hasClass('hidden')) {
-	$('.edit__lecture').toggleClass('hidden');
+$('#edit__lecture').on("click", function(e) {
+    $('#edit__lecture').addClass('current');
+    $('#edit__interactive').removeClass('current');
+    $('#edit__quiz').removeClass('current');
+    if ($('#lecture').hasClass('hidden')) {
+	$('#lecture').toggleClass('hidden');
     }
-    $('.edit__interactive').addClass('hidden');
-    $('.edit__quiz').addClass('hidden');
+    $('#interactive').addClass('hidden');
+    $('#quiz').addClass('hidden');
 });
 
-$('#interactive').on("click", function(e) {
-    e.preventDefault();
-    $('#interactive').addClass('current');
-    $('#lecture').removeClass('current');
-    $('#quiz').removeClass('current');
-    if ($('.edit__interactive').hasClass('hidden')) {
-	$('.edit__interactive').toggleClass('hidden');
+$('#edit__interactive').on("click", function(e) {
+    $('#edit__interactive').addClass('current');
+    $('#edit__lecture').removeClass('current');
+    $('#edit__quiz').removeClass('current');
+    if ($('#interactive').hasClass('hidden')) {
+	$('#interactive').toggleClass('hidden');
     }
-    $('.edit__lecture').addClass('hidden');
-    $('.edit__quiz').addClass('hidden');
+    $('#lecture').addClass('hidden');
+    $('#quiz').addClass('hidden');
 });
 
-$('#quiz').on("click", function(e) {
-    e.preventDefault();
-    $('#quiz').addClass('current');
-    $('#interactive').removeClass('current');
-    $('#lecture').removeClass('current');
-    if ($('.edit__quiz').hasClass('hidden')) {
-	$('.edit__quiz').toggleClass('hidden');
+$('#edit__quiz').on("click", function(e) {
+    $('#edit__quiz').addClass('current');
+    $('#edit__interactive').removeClass('current');
+    $('#edit__lecture').removeClass('current');
+    if ($('#quiz').hasClass('hidden')) {
+	$('#quiz').toggleClass('hidden');
     }
-    $('.edit__lecture').addClass('hidden');
-    $('.edit__interactive').addClass('hidden');
+    $('#lecture').addClass('hidden');
+    $('#interactive').addClass('hidden');
 });
+
+$div = window.location.hash;
+if ($div == "#lecture" || $div == "#interactive" || $div == "#quiz") {
+    $('#lecture').addClass('hidden');
+    $('#interactive').addClass('hidden');
+    $('#quiz').addClass('hidden');
+    $($div).removeClass('hidden');
+}
+
 
 $(document).foundation();
 $(document).foundation('reflow');

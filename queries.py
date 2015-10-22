@@ -175,7 +175,7 @@ def get_correct_answers():
     answers = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM CORRECT_ANSWERS")
+    cur.execute("SELECT * FROM QUIZ_CORRECT")
     rows = cur.fetchall()
     for row in rows:
 	answers.append(row['ANSWER_ID'])
@@ -297,7 +297,7 @@ def get_int_correct_answers():
 def get_number_of_correct_answers(user_id, module_title):
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT COUNT(QUESTION_ID) AS QUESTIONS_CORRECT FROM vw_USER_CORRECT_ANSWERS WHERE USER_ID = %s AND MODULE_ID IN (SELECT MODULE_ID FROM MODULES WHERE NAME = %s) GROUP BY USER_ID, MODULE_ID", [user_id, module_title])
+    cur.execute("SELECT COUNT(QUESTION_ID) AS QUESTIONS_CORRECT FROM vw_USER_QUIZ_CORRECT WHERE USER_ID = %s AND MODULE_ID IN (SELECT MODULE_ID FROM MODULES WHERE NAME = %s) GROUP BY USER_ID, MODULE_ID", [user_id, module_title])
     rows = cur.fetchall()
     
     if (rows):
@@ -352,7 +352,7 @@ def add_answer_to_gradebook(uid, orgunit, qid, aid, question_type):
 def check_quiz_answer_correct(aid):
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("Select * FROM CORRECT_ANSWERS WHERE ANSWER_ID = %s", [aid])
+    cur.execute("Select * FROM QUIZ_CORRECT WHERE ANSWER_ID = %s", [aid])
     if cur.rowcount == 1:
 	return True
     return False
@@ -366,6 +366,52 @@ def log_user_quiz_answer(uid, dn, qid, aid, question_type):
 		return 0
 	    return 1
     return -1
+
+def check_int_answer_exists(uid, qid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("Select * FROM GRADEBOOK WHERE USER_ID = %s AND QUESTION_ID = %s AND QUESTION_TYPE = %s",
+	    [uid, qid, "INTERACTIVE"])
+    if cur.rowcount == 1:
+	return True
+    return False
+
+def check_int_answer_correct(aid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("Select * FROM INTERACTIVE_CORRECT WHERE INT_ANS_ID = %s", [aid])
+    if cur.rowcount == 1:
+	return True
+    return False
+
+def get_correct_msg(qid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM INTERACTIVE_QUESTIONS WHERE INT_Q_ID = %s", [qid])
+    row = cur.fetchone()
+    conn.close()
+    return row['CORRECT_MESSAGE']
+    pass
+
+def get_incorrect_msg(qid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM INTERACTIVE_QUESTIONS WHERE INT_Q_ID = %s", [qid])
+    row = cur.fetchone()
+    conn.close()
+    return row['INCORRECT_MESSAGE']
+    pass
+
+def log_user_int_answer(uid, dn, qid, aid, question_type):
+    if not check_int_answer_exists(uid, qid):
+	orgunit = dn[0].split(",")[1][3:]
+	add_answer_to_gradebook(uid, orgunit, qid, aid, question_type)
+	correct = get_correct_msg(qid)
+	incorrect = get_incorrect_msg(qid)
+	if check_int_answer_correct(aid):
+	    return [0, correct]
+	return [1, incorrect]
+    return [-1, "You have already answered this question."]
 
 def check_module_started(username, mid):
     conn = do_mysql_connect()
@@ -511,7 +557,7 @@ def add_new_correct_answer(qid, aid):
     conn = do_mysql_connect()
     cur = conn.cursor()
     # put some checks in m8
-    cur.execute("INSERT INTO CORRECT_ANSWERS (QUESTION_ID, ANSWER_ID) VALUES (%s, %s)", 
+    cur.execute("INSERT INTO QUIZ_CORRECT (QUESTION_ID, ANSWER_ID) VALUES (%s, %s)", 
 	    [qid, aid])
     new_ans_id = cur.lastrowid
     conn.commit()
@@ -530,7 +576,7 @@ def update_max_i_num(mid):
 def add_new_int_question(mid, new_question, img_link, correct_msg, incorrect_msg):
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("INSERT INTO INTERACTIVE_QUESTIONS (MODULE_ID, QUESTION, MEDIA_LINK, MEDIA_TYPE, CORRECT_MESSAGE, ERROR_MESSAGE) VALUES (%s, %s, %s, %s, %s, %s)", 
+    cur.execute("INSERT INTO INTERACTIVE_QUESTIONS (MODULE_ID, QUESTION, MEDIA_LINK, MEDIA_TYPE, CORRECT_MESSAGE, INCORRECT_MESSAGE) VALUES (%s, %s, %s, %s, %s, %s)", 
 	    [mid, new_question, img_link, "IMG", correct_msg, incorrect_msg])
     new_q_id = cur.lastrowid
     conn.commit()
@@ -540,7 +586,7 @@ def add_new_int_question(mid, new_question, img_link, correct_msg, incorrect_msg
 def add_new_int_answer(qid, new_answer):
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("INSERT INTO INTERACTIVE_ANSWERS (INT_Q_ID, INT_ANSWER) VALUES (%s, %s)", 
+    cur.execute("INSERT INTO INTERACTIVE_ANSWERS (INT_Q_ID, ANSWER) VALUES (%s, %s)", 
 	    [qid, new_answer])
     new_ans_id = cur.lastrowid
     conn.commit()
@@ -551,7 +597,7 @@ def add_new_correct_int_answer(qid, aid):
     conn = do_mysql_connect()
     cur = conn.cursor()
     # put some checks in m8
-    cur.execute("INSERT INTO INTERACTIVE_CORRECT (INT_Q_ID, INT_ANSWER_ID) VALUES (%s, %s)", 
+    cur.execute("INSERT INTO INTERACTIVE_CORRECT (INT_Q_ID, INT_ANS_ID) VALUES (%s, %s)", 
 	    [qid, aid])
     new_ans_id = cur.lastrowid
     conn.commit()

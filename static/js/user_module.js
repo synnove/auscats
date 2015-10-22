@@ -48,6 +48,7 @@ Reveal.addEventListener('quiz', function() {
 // the NotificationFx in the Interactive Scenario section 
 // Following the code from Codrops by Tympanus
 // http://tympanus.net/codrops/2014/07/23/notification-styles-inspiration/
+/*
 $('.interact_select').click(function(e) {
     e.preventDefault();
     $aid = $(this).attr("id");
@@ -76,17 +77,12 @@ $('.interact_select').click(function(e) {
     notification.show();
     // after notification displays, create button with link to next slide
     $('#interact_answers').append('<div class="large-4 columns">\
-		<button class="button radius green interact_select" id="next">\
+		<button class="button radius success interact_select" id="next">\
 		    <span class="content">Continue!</span>\
 		</button>\
 	    </div>');
 });
-
-// Sends user to next page on clicking Continue button in interactive section
-$('#interact_answers').on('click', '#next', function(e) {
-    e.preventDefault();
-    Reveal.next();
-});
+*/
 
 // Sends answer to each quiz question off to another url to be checked
 $('.question').bind('submit', function(e) {
@@ -129,6 +125,40 @@ $('.quiz_submit').on('click', '.next', function(e) {
     $(".quiz_submit").html(function() {                               
         return "<input type='submit' class='tiny radius purple button' value='Submit'>"
     });                                                         
+    Reveal.next();
+});
+
+// Sends answer to each interactive question off to another url to be checked
+$('.interactive_question').bind('submit', function(e) {
+    e.preventDefault();
+    $btn = $(document.activeElement);
+    $btn.prop('disabled', true);
+    $curr = '.interact_answers.int_' + $(this).closest("form").attr("id");
+    $choice = $($btn.parent()).detach();
+    $($curr + ' form').empty().append($choice);
+    $($curr).append('<div class="large-4 large-offset-4 columns"><button class="button radius success interact_select" id="next"><span class="content">Continue!</span></button></div>');
+    $.getJSON($SCRIPT_ROOT + '/check_int_answer', {
+	aid: $btn.attr("id"),
+	qid: $(this).closest("form").attr("id"),
+    }, function(data) {
+	if (data.result[0] == 0) {
+	    $type = "success";
+	    $title = "Awesome!";
+	} else {
+	    $type = "warning";
+	    $title = "Whoops!";
+	}
+	$msg = data.result[1];
+	$('.interactive_feedback').html('<div id="feedback_modal" class="small reveal-modal text-center ' + $type + '" data-reveal aria-hidden="false" role="dialog"><h3>' + $title + '</h3><p>' + $msg + '</p></div>');
+	$('#feedback_modal').foundation('reveal', 'open');
+	$(document).foundation();                                       
+	$(document).foundation('alert', 'reflow');
+    });
+});
+
+// Sends user to next page on clicking Continue button in interactive section
+$('.interact_answers').on('click', '#next', function(e) {
+    e.preventDefault();
     Reveal.next();
 });
 

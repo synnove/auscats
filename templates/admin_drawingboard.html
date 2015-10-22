@@ -89,7 +89,7 @@
 		{% for int_q in int_questions %}
 		    <li class="accordion-navigation">
 			<a href="#int_q_{{ int_q['INT_Q_ID'] }}">
-			    <span><i class="fi-plus"></i></span>{{ int_q['QUESTION'] }}</a>
+			    <span><i class="fi-plus"></i></span>{{ " ".join(int_q['QUESTION'].split(" ")[:10]) }}...</a>
 			<div id="int_q_{{ int_q['INT_Q_ID'] }}" class="content">
 			    <div class="row">
 				<div class="large-6 columns">

@@ -537,13 +537,15 @@
 /* Buttons for Interactive Scenario (selection)*/
 
 .interact_select{
-	width: 260px;
+	width: 95%;
 	height: 180px;
 	line-height: 1.2;
-	font-size: 50%;
-	font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
+	font-size: 0.8em;
+	font-family: 'Ubuntu'; 
 
 }
 
-
-
+img.int_media {
+    height: 20rem;
+    width: auto;
+}

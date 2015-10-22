@@ -87,6 +87,8 @@ def user_module_slideshow(module_title):
     module_id = db.get_module_id_from_name(module_title)
     quizzes = db.get_quiz_questions_by_module(module_id)
     answers = db.get_quiz_answers()
+    interactive_questions = db.get_int_questions_by_module(module_id)
+    interactive_answers = db.get_int_answers()
     
     if g.username not in g.admins:
 	return render_template('user_module.html', 
@@ -96,6 +98,8 @@ def user_module_slideshow(module_title):
 		name = g.user,
 		module_title = module_title, slides = slides,
 		quizzes = quizzes, answers = answers, 
+		interactive_questions = interactive_questions,
+		interactive_answers = interactive_answers,
 		is_admin = False)
     return redirect(url_for('admin_dashboard'))
 
@@ -188,12 +192,21 @@ def user_grade_details(module_title):
     return redirect(url_for('admin_dashboard'))
 
 @app.route("/check_quiz_answer", methods=['GET', 'POST'])
-def check_answer():
-    """ checks the user's answer """
+def check_quiz_answer():
+    """ checks the user's answer to a quiz question """
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     qid = request.args.get('qid', -1, type=int)
     aid = request.args.get('aid', -1, type=int)
     result = db.log_user_quiz_answer(g.username, user_info['dn'], qid, aid, "QUIZ")
+    return jsonify(result=result)
+
+@app.route("/check_int_answer", methods=['GET', 'POST'])
+def check_int_answer():
+    """ checks the user's answer to an interactive question """
+    user_info = json.loads(request.headers.get('X-KVD-Payload'))
+    qid = request.args.get('qid', -1, type=int)
+    aid = request.args.get('aid', -1, type=int)
+    result = db.log_user_int_answer(g.username, user_info['dn'], qid, aid, "INTERACTIVE")
     return jsonify(result=result)
 
 @app.route("/update_user_progress", methods=['GET', 'POST'])
@@ -353,6 +366,7 @@ def admin_add_new_question():
     module_id = request.args.get('module_id', -1, type=int)
     correct_answer = request.args.get('correct', -1, type=int)
     new_q_id = db.add_new_question(module_id, question)
+    db.update_max_q_num(module_id)
     for i, answer in enumerate(answers, 1):
 	new_ans_id = db.add_new_answer(new_q_id, answer)
 	if (i == correct_answer):
@@ -376,11 +390,12 @@ def admin_add_new_int_q():
     img_link = upload_file(media)
     new_q_id = db.add_new_int_question(module_id, desc, img_link, 
 	    correct_msg, incorrect_msg)
+    db.update_max_i_num(module_id)
     for i, answer in enumerate(answers, 1):
         new_ans_id = db.add_new_int_answer(new_q_id, answer)
-        if (i == correct_answer):
+        if (i == int(correct_answer)):
             db.add_new_correct_int_answer(new_q_id, new_ans_id)
-    return jsonify(result=img_link);
+    return jsonify(result=correct_answer);
 
 @app.route("/download/<filters>", methods=['GET', 'POST'])
 def download_csv(filters):

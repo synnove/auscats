@@ -3,6 +3,7 @@
 {% block scripts %} 
 <link rel="stylesheet" href="../static/css/reveal.css">
 <link rel="stylesheet" href="../static/css/theme/uq.css" id="theme">
+<link rel="stylesheet" href="../static/css/user_module.css">
 <script src="../static/lib/js/head.min.js"></script>
 <script src="../static/js/reveal.js"></script>
 <script type=text/javascript>
@@ -38,38 +39,36 @@
 		<h1> READY FOR A CHALLENGE? </h1>
 	    </section>
 
-	    <section data-state="interactive" class="main clearfix">
-		<h3> Interactive Scenario </h3>
-		<div class="row" data-equalizer="interactive_q">
-		    <div class="large-3 columns large-offset-1 text-center" data-equalizer-watch="interactive_q">
-			<img src="http://internetmasteryblog.com/wp-content/uploads/2009/10/phishing1.jpg" class="interactive">
+	    <div class="interactive_feedback text-center"></div>
+            {% for int_q in interactive_questions %}                 
+	        <section data-state="interactive" class="main clearfix">
+		    <div class="row" data-equalizer="int_q">
+			<div class="large-6 columns text-center" data-equalizer-watch="int_q">
+			    <img src="{{ int_q['MEDIA_LINK'] }}" class="int_media">
+			</div>
+			<div class="large-6 columns text-justify" data-equalizer-watch="int_q">
+			    <br>
+			    {{ int_q['QUESTION'] }}
+			</div>
 		    </div>
-		    <div id="scenario" class="large-6 large-offset-1 end columns text-justify" data-equalizer-watch="interactive_q">
-			<p>Imagine you received an email written by a credible person asking you to share with him your UQ credentials. What would you do?</p>
+		    <div class="row">
+			<div class="interact_answers int_{{ int_q['INT_Q_ID'] }}">
+			<form id="{{ int_q['INT_Q_ID'] }}" class="interactive_question">
+			    {% for int_a in interactive_answers %}
+				{% if int_a['INT_Q_ID'] == int_q['INT_Q_ID'] %}
+				    <div class="large-4 columns">
+					<button type="submit" class="button radius interact_select purple" id="{{ int_a['INT_ANS_ID'] }}">
+					    <span class="content">{{ int_a['ANSWER'] }}</span>
+					    <span class="progress"></span>
+					</button>
+				    </div>
+				{% endif %}
+			    {% endfor %}
+			</form>
+			</div>
 		    </div>
-		</div>
-		<br>
-		<div class="row" id="interact_answers">
-		    <div class="large-4 columns">
-			<button class="button radius interact_select" id="1">
-			    <span class="content">I would mark it as spam and notify IT Security department</span>
-			    <span class="progress"></span>
-			</button>
-		    </div>
-		    <div class="large-4 columns">
-			<button class="button radius interact_select" id="2">
-			    <span class="content">I would read his email and follow his orders because I trust the person!</span>
-			    <span class="progress"></span>
-			</button>
-		    </div>
-		    <div class="large-4 columns">
-			<button class="button radius interact_select" id="3">
-			    <span class="content">I would give him my credit card details and my user ID</span>
-			    <span class="progress"></span>
-			</button>
-		    </div>
-		</div>
-	    </section>
+		</section>
+	    {% endfor %}
 
 	    <section class="text-center" data-state="filler">
 		<h1> QUIZ TIME!</h1>

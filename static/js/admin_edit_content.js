@@ -69,6 +69,7 @@ $('#create_new_int_q').on("submit", function(e) {
 	processData: false,  // tell jQuery not to process the data
 	contentType: false,   // tell jQuery not to set contentType
 	success: function(response) {
+	    console.log(response);
 	    location.reload();
 	},
     });

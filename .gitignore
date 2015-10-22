@@ -1,4 +1,7 @@
 *.swp
 *.passwd
 *.pyc
-OLD-*
+*.jpg
+*.jpeg
+*.png
+*.gif

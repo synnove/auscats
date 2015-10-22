@@ -18,7 +18,12 @@ def load_user():
     user_info = json.loads(request.headers.get('X-KVD-Payload'))
     g.username = user_info['user']
     g.user = user_info['name'].split(" ")[0]
-    g.admins = db.get_admin_user_list()
+    
+    admin = list()
+    for row in db.get_admin_user_list():
+	admin.append(row['user_id'])
+    
+    g.admins = admin
     g.appname = "AusCERT Security Training"
 
 # USER PAGES
@@ -224,12 +229,18 @@ def admin_dashboard():
 @app.route("/admin")
 def admin_manage_users():
     """ add, modify and remove admin users """
+    admin_info = db.get_admin_user_list()    
+    read_perms = db.get_all_read_perms()
+    write_perms = db.get_all_write_perms()
 
     if g.username in g.admins:
 	return render_template('admin_manage.html', 
 		pagetitle = g.appname + " - Manage Administrators",
 		subtitle = "Manage Administrators", 
-		name = g.user, 
+		name = g.user,
+		admin_info = admin_info, 
+		read_perms = read_perms,
+		write_perms = write_perms,
 		is_admin = True)
     return render_template('unauthorized.html', name=g.user,
 	    subtitle = "Not Authorized", is_admin = False)

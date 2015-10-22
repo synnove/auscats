@@ -402,9 +402,9 @@ def get_admin_user_list():
     admin = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT user_id FROM ADMIN")
+    cur.execute("SELECT user_id,name,unit_ID FROM ADMIN")
     for row in cur.fetchall():
-	admin.append(row['user_id'])
+	admin.append(row)
     conn.close()
     return admin
 
@@ -448,6 +448,34 @@ def check_admin_exists(admin_id):
     if cur.rowcount == 1:
 	return True
     return False
+
+def get_all_read_perms():
+    """ get all read admin permissions  """
+    read_perms = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT User_ID FROM ADMIN_PERM WHERE PERMISSION='read'")
+
+    for row in cur.fetchall():
+	read_perms.append(row['User_ID'])
+
+    conn.close()
+    return read_perms
+
+def get_all_write_perms():
+    """ get all write admin permissions  """
+    write_perms = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT User_ID FROM ADMIN_PERM WHERE PERMISSION = 'write'")
+
+    for row in cur.fetchall():
+        write_perms.append(row['User_ID'])
+
+    conn.close()
+    return write_perms
+
+
 
 def check_admin_perms(admin_id, permission_type):
     """ check that an administrator has the specified permission """

@@ -1,14 +1,14 @@
 // Initialise settings for Reveal.js
 Reveal.initialize({                                                             
-	width: 1000,                                                                
-        height: 600,                                                                
-        minScale: 0.5,                                                              
-        maxScale: 0.7,                                                              
-        controls: true,                                                             
-        progress: true,                                                             
-        history: true,                                                              
-        overview: false,                                                            
-        transition: 'convex',                                                       
+	width: 1100,
+        height: 600,
+        minScale: 0.5,
+        maxScale: 0.9,
+        controls: true,
+        progress: false,
+        history: true,
+        overview: false,
+        transition: 'convex',
 	showNotes: false,
         mouseWheel: false                                                           
 });

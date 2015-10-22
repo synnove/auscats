@@ -16,7 +16,7 @@ body {
 
 .reveal {
   font-family: 'Ubuntu', 'Source Sans Pro', Helvetica, sans-serif;
-  font-size: 2.5em;
+  font-size: 1.5em;
   font-weight: normal;
   color: #bbbbbb; }
 
@@ -48,10 +48,10 @@ body {
   font-size: 2.5em; }
 
 .reveal h2 {
-  font-size: 1.6em; }
+  font-size: 2em; }
 
 .reveal h3 {
-  font-size: 1.3em; }
+  font-size: 1.5em; }
 
 .reveal h4 {
   font-size: 0.75em;

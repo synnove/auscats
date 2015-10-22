@@ -334,13 +334,29 @@ def uploaded_file(filename):
 def admin_edit_question():
     """ modifies the contents of an answer or question """
     info = request.form['id']
-    new_value = request.form['value']
-    if (info.startswith("question")):
+    new_value = request.form['value'].strip()
+    if (info.startswith("int_q")):
+	qid = info.split("_")[1][1:]
+	db.update_int_question_value(qid, new_value)
 	pass
-    else:
-	qid = info.split("_")[0][1:]
+    elif (info.startswith("int_a")):
 	aid = info.split("_")[1][1:]
-	db.update_answer_value(aid, new_value)
+	db.update_int_answer_value(aid, new_value)
+	pass
+    elif (info.startswith("int_correct")):
+	qid = info.split("_")[2][1:]
+	db.update_int_correct_value(qid, new_value)
+	pass
+    elif (info.startswith("int_incorrect")):
+	qid = info.split("_")[2][1:]
+	db.update_int_incorrect_value(qid, new_value)
+	pass
+    elif (info.startswith("quiz_q")):
+	qid = info.split("_")[1][1:]
+	db.update_quiz_question_value(qid, new_value)
+    else:
+	aid = info.split("_")[1][1:]
+	db.update_quiz_answer_value(aid, new_value)
     return new_value
 
 @app.route("/add_new_question", methods=['GET', 'POST'])

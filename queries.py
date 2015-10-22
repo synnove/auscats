@@ -514,11 +514,56 @@ def check_orgunit_exists(orgunit):
 	return True
     return False
 
-def update_answer_value(aid, new_value):
+def update_quiz_answer_value(aid, new_value):
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE QUIZ_ANSWERS SET ANSWER = %s WHERE ANSWER_ID = %s", 
 	    [new_value, aid])
+    conn.commit()
+    conn.close()
+    return 0
+
+def update_quiz_question_value(qid, new_value):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("UPDATE QUIZ_QUESTIONS SET QUESTION = %s WHERE QUESTION_ID = %s", 
+	    [new_value, qid])
+    conn.commit()
+    conn.close()
+    return 0
+
+def update_int_question_value(qid, new_value):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("UPDATE INTERACTIVE_QUESTIONS SET QUESTION = %s WHERE INT_Q_ID = %s", 
+	    [new_value, qid])
+    conn.commit()
+    conn.close()
+    return 0
+
+def update_int_answer_value(aid, new_value):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("UPDATE INTERACTIVE_ANSWERS SET ANSWER = %s WHERE INT_ANS_ID = %s", 
+	    [new_value, aid])
+    conn.commit()
+    conn.close()
+    return 0
+
+def update_int_correct_value(qid, new_value):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("UPDATE INTERACTIVE_QUESTIONS SET CORRECT_MESSAGE = %s WHERE INT_Q_ID = %s", 
+	    [new_value, qid])
+    conn.commit()
+    conn.close()
+    return 0
+
+def update_int_incorrect_value(qid, new_value):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("UPDATE INTERACTIVE_QUESTIONS SET INCORRECT_MESSAGE = %s WHERE INT_Q_ID = %s", 
+	    [new_value, qid])
     conn.commit()
     conn.close()
     return 0

@@ -103,14 +103,14 @@
 				    <div class="edit_area int_q" id="int_q{{ int_q['INT_Q_ID'] }}">{{ int_q['QUESTION'] }}</div>
 				    {% for int_a in int_answers %}
 					{% if int_a['INT_Q_ID'] == int_q['INT_Q_ID'] %}
-					    <div class="edit int_a" id="int_q_{{ int_q['INT_Q_ID'] }}_a{{ int_a['INT_ANSWER_ID'] }}">{{ int_a['INT_ANSWER'] }}</div>
+					<div class="edit int_a" id="int_a{{ int_a['INT_ANS_ID'] }}_q{{ int_q['INT_Q_ID'] }}">{{ int_a['ANSWER'] }}</div>
 					{% endif %}
 				    {% endfor %}
 				</div>
 				<div class="large-12 columns">
 				    <br>
-				    <div class="edit_area int_q" id="int_q{{ int_q['INT_Q_ID'] }}"_correct_msg>{{ int_q['CORRECT_MESSAGE'] }}</div>
-				    <div class="edit_area int_q" id="int_q{{ int_q['INT_Q_ID'] }}"_incorrect_msg>{{ int_q['ERROR_MESSAGE'] }}</div>
+				    <div class="edit_area int_q" id="int_correct_q{{ int_q['INT_Q_ID'] }}">{{ int_q['CORRECT_MESSAGE'] }}</div>
+				    <div class="edit_area int_q" id="int_incorrect_q{{ int_q['INT_Q_ID'] }}">{{ int_q['INCORRECT_MESSAGE'] }}</div>
 				</div>
 			    </div>
 			</div>
@@ -168,10 +168,10 @@
 			<a href="#question_{{ question['QUESTION_ID'] }}">
 			    <span><i class="fi-plus"></i></span>{{ question['QUESTION'] }}</a>
 			<div id="question_{{ question['QUESTION_ID'] }}" class="content">
-			    <div class="edit question" id="q{{ question['QUESTION_ID'] }}">{{ question['QUESTION'] }}</div>
+			    <div class="edit question" id="quiz_q{{ question['QUESTION_ID'] }}">{{ question['QUESTION'] }}</div>
 			    {% for answer in answers %}
 				{% if answer['QUESTION_ID'] == question['QUESTION_ID'] %}
-				    <div class="edit" id="q{{ question['QUESTION_ID'] }}_a{{ answer['ANSWER_ID'] }}">{{ answer['ANSWER'] }}</div>
+				    <div class="edit" id="quiz_a{{ answer['ANSWER_ID'] }}_q{{ question['QUESTION_ID'] }}_">{{ answer['ANSWER'] }}</div>
 				{% endif %}
 			    {% endfor %}
 			</div>

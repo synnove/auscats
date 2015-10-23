@@ -170,6 +170,18 @@ def get_question_statistics():
     conn.close()
     return stats
 
+def get_questions_answered_by_user(uid):
+    """ get number of questions answered by user """
+    number_of_answers = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(QUESTION_ID) AS QUESTIONS_ANSWERED FROM GRADEBOOK WHERE USER_ID = %s AND QUESTION_TYPE = %s", [uid, "QUIZ"])
+    rows = cur.fetchall()
+    for row in rows:
+        number_of_answers.append(row['QUESTIONS_ANSWERED'])
+    conn.close()
+    return number_of_answers
+
 def get_correct_answers():
     """ get list of correct answers """
     answers = list()

@@ -41,7 +41,7 @@ def default_page():
 def user_module_list():
     """ Default user page: displays list of modules in progress,
 	completed, or scheduled. """
-
+    
     active_modules = db.get_module_info()
     modules_completed = db.modules_completed_by_user(g.username)
     modules_started = db.get_modules_started_by_user(g.username)
@@ -52,7 +52,8 @@ def user_module_list():
     num_started = len(modules_started)
     num_in_progress = len(modules_in_progress)
     num_scheduled = num_active_modules - num_complete - num_in_progress
-        
+    num_answered_questions = db.get_questions_answered_by_user(g.username)    
+    
     if g.username not in g.admins:
 	return render_template('user_module_list.html', 
 		pagetitle = g.appname + " - My Modules",
@@ -67,6 +68,7 @@ def user_module_list():
 		num_started = num_started,
 		num_in_progress = num_in_progress,
 		num_scheduled = num_scheduled,
+		num_answered = num_answered_questions,
 		last_viewed_slide = last_viewed_slide, is_admin = False)
     return redirect(url_for('admin_dashboard'))
 

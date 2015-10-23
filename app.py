@@ -321,6 +321,8 @@ def admin_edit_course_content(module_title):
     int_questions = db.get_int_questions_by_module(module_id);
     int_answers = db.get_int_answers();
     int_correct_answers = db.get_int_correct_answers();
+    slides = [{'TITLE' : "BLKAJSLFKJASAFAS", 'CONTENT': "<ol><li>alsjflaksjdlfa</li><li>alsjflaskjdla></li></ol>"}, 
+	    {'TITLE': "ASFKJALSDKJFLASKJDFLASD", 'CONTENT': "AKFJLASKDJFL LAKSJFL ASJL AKSJFL ASJFLJ SALKFJLASK JLASKJDFLASKJDFL ASJDFLAS"}]
 
     if g.username in g.admins:
 	    modules = db.get_admin_module_info()
@@ -329,10 +331,9 @@ def admin_edit_course_content(module_title):
 		    subtitle = "Drawingboard: " + module_title, 
 		    name = g.user, questions = questions,
 		    answers = answers, correct_answers = correct_answers,
-		    int_questions = int_questions,
-		    int_answers = int_answers,
+		    int_questions = int_questions, int_answers = int_answers,
 		    int_correct_answers = int_correct_answers,
-		    module_id = module_id,
+		    module_id = module_id, slides = list(enumerate(slides, 1)),
 		    is_admin = True)
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)

@@ -391,7 +391,6 @@ def get_correct_msg(qid):
     row = cur.fetchone()
     conn.close()
     return row['CORRECT_MESSAGE']
-    pass
 
 def get_incorrect_msg(qid):
     conn = do_mysql_connect()
@@ -400,7 +399,24 @@ def get_incorrect_msg(qid):
     row = cur.fetchone()
     conn.close()
     return row['INCORRECT_MESSAGE']
-    pass
+
+def delete_quiz_question(qid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM QUIZ_CORRECT WHERE QUESTION_ID = %s", [qid])
+    cur.execute("DELETE FROM QUIZ_ANSWERS WHERE QUESTION_ID = %s", [qid])
+    cur.execute("DELETE FROM QUIZ_QUESTIONS WHERE QUESTION_ID = %s", [qid])
+    conn.close()
+    return 0
+
+def delete_int_question(qid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM INTERACTIVE_CORRECT WHERE INT_Q_ID = %s", [qid])
+    cur.execute("DELETE FROM INTERACTIVE_ANSWERS WHERE INT_Q_ID = %s", [qid])
+    cur.execute("DELETE FROM INTERACTIVE_QUESTIONS WHERE INT_Q_ID = %s", [qid])
+    conn.close()
+    return 0
 
 def log_user_int_answer(uid, dn, qid, aid, question_type):
     if not check_int_answer_exists(uid, qid):

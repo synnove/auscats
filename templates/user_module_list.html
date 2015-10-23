@@ -38,26 +38,23 @@
 	    {% if num_in_progress >= 1 %}
 	    <h3 class="subheader">{{ num_in_progress }} Modules in Progress!</h3>
 		<div class="row"><div class="small-12 columns">
-		    {% for module_id in modules_in_progress %}
-			{% for module in active_modules %}
-			    {% if module_id == module['MODULE_ID'] and (module_id not in modules_completed) %}	
-			    <div class="medium-6 columns">
-                                <div class="profile-card">
-                                    <h4 class="subheader" data-equalizer-watch>{{ module['NAME'] }}</h4>
-				    <div class="progress">
-                                        {% for slide in last_viewed_slide %}
-                                            {% if slide['MODULE_ID'] == module_id and module['NUM_QUIZ_QUESTIONS'] != 0 %}
-                                                <span class="meter blue" style="width:65%; height: 100%">
-                                                    <p class="percent">{{ num_answered[0] / module['NUM_QUIZ_QUESTIONS'] * 100 }}</p>
-                                                </span>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>		    
-				     <p class="blue profile-text"><a href="/module/{{module['NAME']}}" >Continue</a></p> 
-				</div>
-                            </div>        
-			    {% endif %}
-			{% endfor %}
+		    {% for module in active_modules %}
+			{% if module['MODULE_ID'] in modules_in_progress %}	
+			<div class="medium-6 columns">
+			    <div class="profile-card">
+				<h4 class="subheader" data-equalizer-watch>{{ module['NAME'] }}</h4>
+				<div class="progress">
+				    {% for slide in last_viewed_slide %}
+					{% if slide['MODULE_ID'] == module_id %}
+					    <span class="meter blue" style="width:65%; height: 100%">
+					    </span>
+					{% endif %}
+				    {% endfor %}
+				</div>		    
+				 <p class="blue profile-text"><a href="/module/{{module['NAME']}}" >Continue</a></p> 
+			    </div>
+			</div>        
+			{% endif %}
 		    {% endfor %}
 		</div></div>
 	    {% else %}

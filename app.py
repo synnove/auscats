@@ -43,10 +43,13 @@ def user_module_list():
 	completed, or scheduled. """
     
     active_modules = db.get_module_info()
+    active_module_ids = [x['MODULE_ID'] for x in active_modules]
     modules_completed = db.modules_completed_by_user(g.username)
+    modules_completed = [x for x in modules_completed if x in active_module_ids]
     modules_started = db.get_modules_started_by_user(g.username)
+    modules_started = [x for x in modules_started if x in active_module_ids]
     last_viewed_slide = db.get_last_viewed_slide_by_user(g.username)
-    modules_in_progress = list(set(modules_started)-set(modules_completed))
+    modules_in_progress = [x for x in modules_started if x not in modules_completed]
     num_active_modules = len(active_modules)
     num_complete = len(modules_completed)
     num_started = len(modules_started)
@@ -323,6 +326,8 @@ def admin_edit_course_content(module_title):
     int_questions = db.get_int_questions_by_module(module_id);
     int_answers = db.get_int_answers();
     int_correct_answers = db.get_int_correct_answers();
+    slides = [{'TITLE' : "BLKAJSLFKJASAFAS", 'CONTENT': "<ol><li>alsjflaksjdlfa</li><li>alsjflaskjdla></li></ol>"}, 
+	    {'TITLE': "ASFKJALSDKJFLASKJDFLASD", 'CONTENT': "AKFJLASKDJFL LAKSJFL ASJL AKSJFL ASJFLJ SALKFJLASK JLASKJDFLASKJDFL ASJDFLAS"}]
 
     if g.username in g.admins:
 	    modules = db.get_admin_module_info()
@@ -331,10 +336,9 @@ def admin_edit_course_content(module_title):
 		    subtitle = "Drawingboard: " + module_title, 
 		    name = g.user, questions = questions,
 		    answers = answers, correct_answers = correct_answers,
-		    int_questions = int_questions,
-		    int_answers = int_answers,
+		    int_questions = int_questions, int_answers = int_answers,
 		    int_correct_answers = int_correct_answers,
-		    module_id = module_id,
+		    module_id = module_id, slides = list(enumerate(slides, 1)),
 		    is_admin = True)
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)

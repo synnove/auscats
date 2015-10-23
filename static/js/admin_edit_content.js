@@ -75,12 +75,26 @@ $('#create_new_int_q').on("submit", function(e) {
 });
 
 $(document).ready(function() {
-    var fullEditor = new Quill('.full-editor', {
-	modules: {
-	'toolbar': { container: '.full-toolbar' },
-	'link-tooltip': true
-	},
-	theme: 'snow'
+    $("div.quill-wrapper").each(function( index ) {
+	$id = $(this).attr("id").split("_")[1];
+	$editor = new Quill('#full-editor-' + $id, {
+	    modules: {
+	    'toolbar': { container: '#full-toolbar-' + $id},
+	    },
+	    theme: 'snow'
+	});
+	$insert = $('#ql-editor-' + $id).html();
+	$('#ql-editor-' + $id).empty()
+	$editor.setHTML($insert);
+    });
+    $("div.quill-wrapper").each(function( index ) {
+	$id = $(this).attr("id").split("_")[1];
+	new Quill('#full-editor-' + $id, {
+	    modules: {
+	    'toolbar': { container: '#full-toolbar-' + $id},
+	    },
+	    theme: 'snow'
+	});
     });
 });
 $(document).ready(function() {

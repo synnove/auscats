@@ -11,35 +11,64 @@
 
 {% block content %}
 <div class="main__page" data-equalizer>	
-    
-        <div class="large-10 large-offset-1 end columns">
-            <div class="row"><div class="large-12 columns"><div class="panel blue colourblock__top thin text-center">
-                Quick Add Administrator
-            </div></div></div>
+
+    <div class="row">
+    <div class="large-8 large-offset-2 columns end">
+        <div class="row" id="admin_err">
+        <!-- display error messages -->
+        {% with errors = get_flashed_messages(category_filter=["admin","search"]) %}
+	{% if errors %}
+	<div data-alert class="alert-box warning radius text-center">
+	    {% for message in errors %}
+	    <b>{{ message }}</b><br>
+	    {% endfor %}
+	    <a href="#" class="close">&times;</a>
+	</div>
+	{% endif %}
+        {% endwith %}
+        <!-- display success message-->
+        {% with messages = get_flashed_messages(category_filter=["admin_ok"]) %}
+	{% if messages %}
+	<div data-alert class="alert-box success green radius text-center">
+	    {% for message in messages %}
+	    <b>{{ message }}</b>
+	    {% endfor %}
+	    <a href="#" class="close">&times;</a>
+	</div>
+	{% endif %}
+        {% endwith %}
         </div>
-        <div class="large-10 large-offset-1 end columns">
-            <div class="row"><div class="large-12 columns"><div class="panel panel__middle text-center">
-                <form id="admins">
-                    <div class="row">
-                        <div class="large-6 large-offset-3 end columns">
-                            <input id="admin_id" type="text" placeholder="Enter UQ ID" />
-                            </label>
-                        </div>
-                        <div class="large-4 large-offset-3 columns text-left">
-                            <input id="write_access" type="checkbox">
-                            <label for="write_access">Write access to modules</label>
-                            <br>
-                            <input id="read_access" type="checkbox">
-                            <label for="read_access">Read access to data</label>
-                        </div>
-                        <div class="large-2 columns end">
-                            <br>
-                            <input type="submit" class="tiny radius blue button" value="Submit" />
-                        </div>
+    </div>
+    </div>
+
+    <div class="large-10 large-offset-1 end columns">
+        <div class="row"><div class="large-12 columns"><div class="panel blue colourblock__top thin text-center">
+            Quick Add Administrator
+        </div></div></div>
+    </div>
+    <div class="large-10 large-offset-1 end columns">
+        <div class="row"><div class="large-12 columns"><div class="panel panel__middle text-center">
+            <form id="admins">
+                <div class="row">
+                    <div class="large-6 large-offset-3 end columns">
+                        <input id="admin_id" type="text" placeholder="Enter UQ ID" />
+                        </label>
                     </div>
-                </form>
-            </div></div></div>
-        </div>
+                    <div class="large-4 large-offset-3 columns text-left">
+                        <input id="write_access" type="checkbox">
+                        <label for="write_access">Write access to modules</label>
+                        <br>
+                        <input id="read_access" type="checkbox">
+                        <label for="read_access">Read access to data</label>
+                    </div>
+                    <div class="large-2 columns end">
+                        <br>
+                        <input type="submit" class="tiny radius blue button" value="Submit" />
+                    </div>
+                </div>
+            </form>
+        </div></div></div>
+    </div>
 
 
     
@@ -104,5 +133,5 @@
 <script type=text/javascript>
     $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
-<script src="../static/js/admin_dashboard.js"></script>
+<script src="../static/js/admin_manage.js"></script>
 {% endblock %}

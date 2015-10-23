@@ -78,7 +78,7 @@ ul.side-navigation__content > li > a > i {
 .top__navigation {
     position: fixed;
     background-color: #7C7D92;
-    width: 100%;
+    width: 110%;
     padding: 0.5rem 0;
     border-bottom: 2px solid #444555;
     z-index: 5;
@@ -131,6 +131,11 @@ ul.side-navigation__content > li > a > i {
     display: none;
 }
 
+.image_cont{
+    padding-left: 2em;
+    margin-top:0px; 
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
     .side__navigation {
 	position: absolute;
@@ -177,4 +182,6 @@ ul.side-navigation__content > li > a > i {
 	padding: 0 4em;
     }
 }
+
+
 

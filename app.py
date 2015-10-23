@@ -43,10 +43,13 @@ def user_module_list():
 	completed, or scheduled. """
 
     active_modules = db.get_module_info()
+    active_module_ids = [x['MODULE_ID'] for x in active_modules]
     modules_completed = db.modules_completed_by_user(g.username)
+    modules_completed = [x for x in modules_completed if x in active_module_ids]
     modules_started = db.get_modules_started_by_user(g.username)
+    modules_started = [x for x in modules_started if x in active_module_ids]
     last_viewed_slide = db.get_last_viewed_slide_by_user(g.username)
-    modules_in_progress = list(set(modules_started)-set(modules_completed))
+    modules_in_progress = [x for x in modules_started if x not in modules_completed]
     num_active_modules = len(active_modules)
     num_complete = len(modules_completed)
     num_started = len(modules_started)

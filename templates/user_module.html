@@ -84,7 +84,7 @@
                     <ul class = "quiz">
                         {% for answer in answers %}
 		            {% if answer['QUESTION_ID'] == question ['QUESTION_ID'] %}
-			    <li><input type="radio" name="answer" value="{{ answer['ANSWER_IDc'] }}" />&emsp;{{ answer['ANSWER'] }}</li>
+			    <li><input type="radio" name="answer" value="{{ answer['ANSWER_ID'] }}" />&emsp;{{ answer['ANSWER'] }}</li>
 			    {% endif %}
                         {% endfor %}
                     </ul>

@@ -175,3 +175,13 @@ div.check-middle input[type="checkbox"]{
     padding: 0.5rem 0;
     margin-top: 0.5rem;
 }
+
+p.profile-text a {
+    color: #ffffff;
+    font-weight: bolder;
+}
+
+p.profile-text {
+    border-radius: 5px;
+    padding: 0.2rem;
+}

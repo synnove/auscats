@@ -460,6 +460,16 @@ def admin_mod(attrs):
     parse_admin_mod_directive(admin_perms)
     return redirect(url_for('admin_dashboard'))
 
+@app.route("/starter")
+def show_starter():
+    """ Shows starter guide to users within the system """
+        
+    return render_template('starter.html', 
+            pagetitle = g.appname + " - Quick Starter Guide",
+            subtitle = "Quick Starter Guide", 
+            user_id = g.username, name = g.user)
+
+
 # MISCELLANEOUS HELPER FUNCTIONS
 
 def allowed_file(filename):

@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+<link rel="stylesheet" href="../static/css/colourblock.css" />
+{% endblock %}
+
+{% block content %}
+<div class="main__page">
+    <div class="row" data-equalizer>
+
+	<div class="large-6 small-12 columns">
+	    <div class="row"><div class="large-12 columns"><div class="panel blue colourblock__top manage__administrators clickable">
+		<div class="row">
+		    <div class="large-8 columns">
+			<h4>Quick Starter Guide for Administrators</h4>
+		    </div>
+		    <div class="large-4 columns">
+			<div class="circle text-center text__blue"><i class="fi-first-aid"></i></div>
+		    </div>
+		</div>
+	    </div></div></div>
+	    <div class="row"><div class="large-12 columns"><div class="panel panel__middle">
+		<div class='panel_content text-justify' data-equalizer-watch>
+		    <p> New around? Download this useful guide for starters.
+		    <span data-tooltip aria-haspopup="true" class="has-tip" title="<b>Features</b> may change depending of your credentials.">Explore the amazing features you have access to when login as an Administrator. </span>
+		    Don't miss out!</p>
+		</div>	
+	    </div></div></div>
+	    <div class="row"><div class="large-12 columns"><div class="panel blue colourblock__bottom thin text-center admin__trigger clickable">
+		Download Quick Starter Guide for Administrators
+	    </div></div></div>
+	</div>	
+
+	<div class="large-6 small-12 columns">
+	    <div class="row"><div class="large-12 columns"><div class="panel purple colourblock__top view__statistics clickable">
+		<div class="row">
+		    <div class="large-8 columns">
+			<h4>Quick Starter Guide for Regular Users</h4>
+		    </div>
+		    <div class="large-4 columns">
+			<div class="circle text-center text__purple">
+			    <i class="fi-first-aid"></i>
+			</div>
+		    </div>
+		</div>
+	    </div></div></div>
+	    <div class="row"><div class="large-12 columns"><div class="panel panel__middle">
+		<div class='panel_content text-justify' data-equalizer-watch>
+		    <p> New around? Download this useful guide for starters. Discover how to get more out of this platform and optimize your training. We design the system to provide you the best training</p>
+		</div>
+	    </div></div></div>
+	    <div class="row"><div class="large-12 columns"><div class="panel purple colourblock__bottom thin text-center filter__trigger clickable">
+		Download Quick Starter Guide for Regular Users
+	    </div></div></div>
+	</div>
+    </div>
+
+</div>
+{% endblock %}
+{% block jscripts %}
+<script src="../static/js/admin_dashboard.js"></script>
+{% endblock %}

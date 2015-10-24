@@ -249,6 +249,7 @@ def admin_manage_users():
     admin_info = db.get_admin_user_list()    
     read_perms = db.get_all_read_perms()
     write_perms = db.get_all_write_perms()
+    org_units = db.get_org_unit_info()
 
     if g.username in g.admins:
 	return render_template('admin_manage.html', 
@@ -258,6 +259,7 @@ def admin_manage_users():
 		admin_info = admin_info, 
 		read_perms = read_perms,
 		write_perms = write_perms,
+		org_units = org_units,
 		is_admin = True)
     return render_template('unauthorized.html', name=g.user,
 	    subtitle = "Not Authorized", is_admin = False)

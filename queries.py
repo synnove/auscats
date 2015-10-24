@@ -1,7 +1,7 @@
 import MySQLdb.cursors
 import hashlib
 from random import randrange
-from datetime import datetime
+from datetime import datetime, timedelta
 
 unit_names = ["Cat Care Specialists", "IT Infrastructure Group",
 	"Grouper Group", "Tuna Group", "Salmon Group", "Stray Pig News",
@@ -94,12 +94,37 @@ def add_new_module_profile(name, blurb, username):
 	conn.rollback()
     conn.close()
 
-def add_new_module_content(mid, username):
+def add_new_revision(mid, revision, content, user):
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, EDITOR) VALUES (%s, %s, %s)", 
-	    [mid, 0, username])
+    cur.execute("INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, CONTENT, EDITOR) VALUES (%s, %s, %s, %s)", 
+	    [mid, revision + 1, content, user])
     conn.commit()
+
+def edit_last_revision(mid, revision, content, user):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("UPDATE MODULE_CONTENT SET CONTENT = %s, EDITOR = %s, TIME_CREATED = NOW() WHERE MODULE_ID = %s AND REVISION = %s", 
+	    [content, user, mid, revision])
+    conn.commit()
+
+def update_module_content(mid, content, user):
+    info = get_latest_revision(mid)
+    update_time = info['TIME_CREATED']
+    curr_time = datetime.now() 
+    if ((curr_time - update_time) < timedelta(minutes = 15)):
+	edit_last_revision(mid, info['REVISION'], content, user)
+    else:
+	add_new_revision(mid, info['REVISION'], content, user)
+
+def get_latest_revision(mid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT REVISION, TIME_CREATED FROM MODULE_CONTENT WHERE MODULE_ID = %s ORDER BY REVISION DESC", 
+	    [mid])
+    row = cur.fetchone()
+    conn.close()
+    return row
 
 def edit_module_profile(mid, name, blurb):
     conn = do_mysql_connect()
@@ -145,6 +170,14 @@ def get_last_updated_module():
     cur.execute("SELECT * FROM vw_ADMIN_MODULE_INFO ORDER BY LAST_UPDATED DESC LIMIT 1")
     module = cur.fetchone()
     return module
+
+def get_module_content(module_id):
+    """ gets latest revision of module content """
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT CONTENT FROM MODULE_CONTENT WHERE MODULE_ID = %s ORDER BY REVISION DESC", [module_id])
+    row = cur.fetchone()
+    return row['CONTENT']
 
 def get_quiz_questions_by_module(module_id):
     """ get list of questions per module """
@@ -241,7 +274,6 @@ def get_last_viewed_slide_by_user(user_id):
 	last_viewed_slides.append(row)
     conn.close()
     return last_viewed_slides
-
 
 def get_quiz_questions_by_module(module_id):
     """ get list of questions per module """

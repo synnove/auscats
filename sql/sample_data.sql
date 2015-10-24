@@ -17,19 +17,19 @@ INSERT INTO MODULES (NAME, STATUS, BLURB) VALUES ("Social Engineering", "ACTIVE"
 INSERT INTO MODULES (NAME, STATUS, BLURB) VALUES ("Choosing A Good Password", "ACTIVE",
     "Aliquam id odio laoreet, rutrum diam at, interdum quam. Donec quis laoreet metus. Suspendisse quis feugiat eros. Suspendisse potenti. Phasellus eget aliquet lectus. Nullam consequat, elit ac lacinia elementum, nulla turpis auctor nunc, sed lacinia leo enim id sem. Proin justo ex, dictum in urna ut, dignissim molestie ipsum.");
 
-INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, EDITOR) VALUES (1, 1, 'uqcchua1');
+INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, CONTENT, EDITOR) VALUES (1, 1, '[{"TITLE":"s1", "CONTENT":"stuff"},{"TITLE":"s2", "CONTENT":"stuff"}]', 'uqcchua1');
 DO SLEEP(30);
-INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, EDITOR) VALUES (1, 2, 'uqcchua1');
+INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, CONTENT, EDITOR) VALUES (1, 2, '[{"TITLE":"s1", "CONTENT":"stuff"},{"TITLE":"s2", "CONTENT":"stuff"}]', 'uqcchua1');
 DO SLEEP(30);
-INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, EDITOR) VALUES (2, 1, 'uqcchua1');
+INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, CONTENT, EDITOR) VALUES (2, 1, '[{"TITLE":"s1", "CONTENT":"stuff"},{"TITLE":"s2", "CONTENT":"stuff"}]', 'uqcchua1');
 DO SLEEP(30);
-INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, EDITOR) VALUES (2, 2, 'uqmcerva');
+INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, CONTENT, EDITOR) VALUES (2, 2, '[{"TITLE":"s1", "CONTENT":"stuff"},{"TITLE":"s2", "CONTENT":"stuff"}]', 'uqmcerva');
 DO SLEEP(30);
-INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, EDITOR) VALUES (2, 3, 'uqcchua1');
+INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, CONTENT, EDITOR) VALUES (2, 3, '[{"TITLE":"s1", "CONTENT":"stuff"},{"TITLE":"s2", "CONTENT":"stuff"}]', 'uqcchua1');
 DO SLEEP(30);
-INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, EDITOR) VALUES (3, 1, 'uqmcerva');
+INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, CONTENT, EDITOR) VALUES (3, 1, '[{"TITLE":"s1", "CONTENT":"stuff"},{"TITLE":"s2", "CONTENT":"stuff"}]', 'uqmcerva');
 DO SLEEP(30);
-INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, EDITOR) VALUES (3, 2, 'uqmcerva');
+INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, CONTENT, EDITOR) VALUES (3, 2, '[{"TITLE":"s1", "CONTENT":"stuff"},{"TITLE":"s2", "CONTENT":"stuff"}]', 'uqmcerva');
 
 INSERT INTO ORG_UNITS (UNIT_ID, UNIT_NAME) VALUES (292, "Information Technology Services");
 INSERT INTO ORG_UNITS (UNIT_ID, UNIT_NAME) VALUES (123, "UQ Library");
@@ -37,9 +37,11 @@ INSERT INTO ORG_UNITS (UNIT_ID, UNIT_NAME) VALUES (456, "Coffee Provisioners");
 
 INSERT INTO ADMIN (USER_ID, NAME, UNIT_ID) VALUES ("uqcchua1", "Crystal", 292);
 INSERT INTO ADMIN (USER_ID, NAME, UNIT_ID) VALUES ("uqmcerva", "Maria", 456);
+INSERT INTO ADMIN (USER_ID, NAME, UNIT_ID) VALUES ("s4143179", "Daniel", 123);
 
 INSERT INTO ADMIN_PERM (USER_ID, PERMISSION) VALUES ("uqcchua1", "read");
 INSERT INTO ADMIN_PERM (USER_ID, PERMISSION) VALUES ("uqcchua1", "write");
+INSERT INTO ADMIN_PERM (USER_ID, PERMISSION) VALUES ("uqmcerva", "write");
 
 INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (2, "What are the two main types of social engineering?");
 UPDATE MODULES SET NUM_QUIZ_QUESTIONS = NUM_QUIZ_QUESTIONS + 1 WHERE MODULE_ID = 2;

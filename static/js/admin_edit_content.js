@@ -74,6 +74,72 @@ $('#create_new_int_q').on("submit", function(e) {
     });
 });
 
+$('.lecture-save-slide').on("click", function(e) {
+    e.preventDefault();
+    info = [];
+    $url = document.URL.replace(/#.*$/, "").split("/");
+    $url = $url[$url.length - 1];
+    info.push({"TITLE": $url});
+    $("div.quill-wrapper").each(function( index ) {
+	if ($(this).attr("id") != "slide_new") {
+	    info.push({TITLE: $(this).children(".slide-title").html(),
+	    CONTENT: $(this).children().children(".ql-editor").html()});
+	}
+    });
+    $.ajax({
+	url: '/edit_module_content',
+	type: "POST",
+	data: JSON.stringify(info),
+	contentType: 'application/json;charset=UTF-8',
+	success: function(response) {
+	},
+    });
+});
+
+$('.lecture-delete-slide').on("click", function(e) {
+    e.preventDefault();
+    $('div#lecture li.accordion-navigation.active').remove();
+    info = [];
+    $url = document.URL.replace(/#.*$/, "").split("/");
+    $url = $url[$url.length - 1];
+    info.push({"TITLE": $url});
+    $("div.quill-wrapper").each(function( index ) {
+	if ($(this).attr("id") != "slide_new") {
+	    info.push({TITLE: $(this).children(".slide-title").html(),
+	    CONTENT: $(this).children().children(".ql-editor").html()});
+	}
+    });
+    $.ajax({
+	url: '/edit_module_content',
+	type: "POST",
+	data: JSON.stringify(info),
+	contentType: 'application/json;charset=UTF-8',
+	success: function(response) {
+	},
+    });
+});
+
+$('#lecture-add-new').on("click", function(e) {
+    e.preventDefault();
+    info = [];
+    $url = document.URL.replace(/#.*$/, "").split("/");
+    $url = $url[$url.length - 1];
+    info.push({"TITLE": $url});
+    $("div.quill-wrapper").each(function( index ) {
+	info.push({TITLE: $(this).children(".slide-title").html(),
+	CONTENT: $(this).children().children(".ql-editor").html()});
+    });
+    $.ajax({
+	url: '/edit_module_content',
+	type: "POST",
+	data: JSON.stringify(info),
+	contentType: 'application/json;charset=UTF-8',
+	success: function(response) {
+	    location.reload();
+	},
+    });
+});
+
 $(document).ready(function() {
     $("div.quill-wrapper").each(function( index ) {
 	$id = $(this).attr("id").split("_")[1];
@@ -97,6 +163,7 @@ $(document).ready(function() {
 	});
     });
 });
+
 $(document).ready(function() {
     $('.edit').editable($SCRIPT_ROOT + '/edit_question', {
 	indicator : 'Saving...',

@@ -185,3 +185,8 @@ p.profile-text {
     border-radius: 5px;
     padding: 0.2rem;
 }
+
+.slide-title {
+    font-size: 1.2em;
+    font-weight: bold;
+}

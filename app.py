@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template, request, redirect, send_file, url_for, g
 from flask import make_response, flash, jsonify, send_from_directory
 from werkzeug import secure_filename
+from urllib2 import unquote
 import csv, io, json, os
 import queries as db
 
@@ -41,7 +42,7 @@ def default_page():
 def user_module_list():
     """ Default user page: displays list of modules in progress,
 	completed, or scheduled. """
-    
+
     active_modules = db.get_module_info()
     active_module_ids = [x['MODULE_ID'] for x in active_modules]
     modules_completed = db.modules_completed_by_user(g.username)
@@ -55,8 +56,7 @@ def user_module_list():
     num_started = len(modules_started)
     num_in_progress = len(modules_in_progress)
     num_scheduled = num_active_modules - num_complete - num_in_progress
-    num_answered_questions = db.get_questions_answered_by_user(g.username)    
-    
+        
     if g.username not in g.admins:
 	return render_template('user_module_list.html', 
 		pagetitle = g.appname + " - My Modules",
@@ -71,7 +71,6 @@ def user_module_list():
 		num_started = num_started,
 		num_in_progress = num_in_progress,
 		num_scheduled = num_scheduled,
-		num_answered = num_answered_questions,
 		last_viewed_slide = last_viewed_slide, is_admin = False)
     return redirect(url_for('admin_dashboard'))
 
@@ -320,14 +319,14 @@ def admin_edit_course_content(module_title):
 	return redirect(url_for('admin_list_courses'))
 
     module_id = db.get_module_id_from_name(module_title);
+    module_content = db.get_module_content(module_id);
+    slides = json.loads(module_content)
     questions = db.get_quiz_questions_by_module(module_id);
     answers = db.get_quiz_answers();
     correct_answers = db.get_correct_answers();
     int_questions = db.get_int_questions_by_module(module_id);
     int_answers = db.get_int_answers();
     int_correct_answers = db.get_int_correct_answers();
-    slides = [{'TITLE' : "BLKAJSLFKJASAFAS", 'CONTENT': "<ol><li>alsjflaksjdlfa</li><li>alsjflaskjdla></li></ol>"}, 
-	    {'TITLE': "ASFKJALSDKJFLASKJDFLASD", 'CONTENT': "AKFJLASKDJFL LAKSJFL ASJL AKSJFL ASJFLJ SALKFJLASK JLASKJDFLASKJDFL ASJDFLAS"}]
 
     if g.username in g.admins:
 	    modules = db.get_admin_module_info()
@@ -375,6 +374,16 @@ def admin_edit_question():
 	aid = info.split("_")[1][1:]
 	db.update_quiz_answer_value(aid, new_value)
     return new_value
+
+@app.route("/edit_module_content", methods=['GET', 'POST'])
+def admin_edit_module_content():
+    """ modifies the contents of an answer or question """
+    info = request.json
+    module_title = unquote(info.pop(0)['TITLE'])
+    module_id = db.get_module_id_from_name(module_title)
+    content = json.dumps(info)
+    db.update_module_content(module_id, content, g.username);
+    return jsonify(result=content)
 
 @app.route("/add_new_question", methods=['GET', 'POST'])
 def admin_add_new_question():

@@ -28,6 +28,7 @@
 		    <li class="accordion-navigation">
 			<a href="#slide_{{ slide[0] }}"><span><i class="fi-plus"></i></span>{{ slide[1]['TITLE'] }}</a>
 			<div class="quill-wrapper content" id="slide_{{ slide[0] }}">
+			    <div id="slide-{{ slide[0] }}-title" class="text-center slide-title">{{ slide[1]['TITLE'] }}</div>
 			    <div id="full-toolbar-{{ slide[0] }}" class="toolbar">
 				<span class="ql-format-group">
 				    <span title="Bold" class="ql-format-button ql-bold"></span>
@@ -59,10 +60,10 @@
 			    </div>
 			    <div class="row lecture-edit-buttons">
 				<div class="large-3 large-offset-3 columns">
-				    <button class="wide button radius teal" id="delete-{{ slide[0] }}">Delete Slide</button>
+				    <button class="wide button radius teal lecture-delete-slide" id="delete-{{ slide[0] }}">Delete Slide</button>
 				</div>
 				<div class="large-3 columns end">
-				    <button class="wide button radius teal" id="save-{{ slide[0] }}">Save Slide</button>
+				    <button class="wide button radius teal lecture-save-slide" id="save-{{ slide[0] }}">Save Slide</button>
 				</div>
 			    </div>
 			</div>
@@ -101,7 +102,7 @@
 			</div>
 			<div class="row lecture-edit-buttons">
 			    <div class="large-4 large-offset-4 columns">
-				<button class="wide button radius teal" id="add-new">Add Slide</button>
+				<button class="wide button radius teal" id="lecture-add-new">Add Slide</button>
 			    </div>
 			</div>
 		    </div>

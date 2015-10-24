@@ -283,8 +283,9 @@ def admin_add_new_module():
     """ returns module info to be edited """
     name = request.args.get('name', -1, type=unicode)
     blurb = request.args.get('blurb', -1, type=unicode)
-    new_module_id = db.add_new_module_profile(name, blurb, g.username)
-    db.add_new_revision(new_module_id, 0, "", g.username)
+    new_module_id = db.add_new_module_profile(name, blurb)
+    default_content = [{"CONTENT": "Add a new slide!"}]
+    db.add_new_revision(new_module_id, 0, json.dumps(default_content), g.username)
     return jsonify(result=0)
 
 @app.route("/change_module_status", methods=['GET', 'POST'])

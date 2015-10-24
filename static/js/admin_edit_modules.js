@@ -42,6 +42,7 @@ $('a.status__mod').on("click", function(e) {
 });
 
 $("#new__module__form").on("submit", function(e){
+    $btn = $(document.activeElement); 
     e.preventDefault();
     $.getJSON($SCRIPT_ROOT + '/add_module_profile', {
 	name: $("#new__module__form input[type='text']").val(),
@@ -55,12 +56,16 @@ $("#new__module__form").on("submit", function(e){
 	    $msg = "Could not create new module";
 	    $type = "warning"
 	}
-	$(".module_err").html(function() {
-	    return "<div data-alert class='alert-box quiz-feedback large-6 large-offset-3 columns " +
-	    $type + " radius text-center'>" + "<b>" + $msg + "</b>" +
-	    "<a href='#' class='close'>&times;</a>" + "</div>";
-	});
-	refresh();
+	if ($btn.val() == "Save") {
+	    $(".module_err").html(function() {
+		return "<div data-alert class='alert-box quiz-feedback large-6 large-offset-3 columns " +
+		$type + " radius text-center'>" + "<b>" + $msg + "</b>" +
+		"<a href='#' class='close'>&times;</a>" + "</div>";
+	    });
+	    refresh();
+	} else {
+	    window.location.replace("/drawingboard/" + $("#new__module__form input[type='text']").val());
+	}
     });
 });
 

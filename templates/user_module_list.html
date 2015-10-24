@@ -50,8 +50,12 @@
 					    </span>
 					{% endif %}
 				    {% endfor %}
-				</div>		    
-				 <p class="blue profile-text"><a href="/module/{{module['NAME']}}" >Continue</a></p> 
+				</div>
+				 {% for slide in last_viewed_slide %}   		 
+				    {% if slide['MODULE_ID'] == module['MODULE_ID'] %}   
+					<p class="blue profile-text"><a href="/module/{{module['NAME']}}#/{{slide['LAST_VIEWED']}} " >Continue</a></p>
+				    {% endif %}
+				 {% endfor %}
 			    </div>
 			</div>        
 			{% endif %}

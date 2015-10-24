@@ -92,8 +92,8 @@ def user_module_slideshow(module_title):
     quizzes = db.get_quiz_questions_by_module(module_id)
     answers = db.get_quiz_answers()
     interactive_questions = db.get_int_questions_by_module(module_id)
-    interactive_answers = db.get_int_answers()
-    
+    interactive_answers = db.get_int_answers() 
+ 
     if g.username not in g.admins:
 	return render_template('user_module.html', 
 		module_id = module_id,

@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    console.log("wtf");
     $('.edit').editable($SCRIPT_ROOT + '/edit_question', {
 	indicator : 'Saving...',
 	tooltip   : 'Click to edit...',
@@ -91,16 +90,22 @@ $('#create_new_int_q').on("submit", function(e) {
 
 $('.lecture-save-slide').on("click", function(e) {
     e.preventDefault();
+    $slide_id = $(this).attr("id").split("-")[1];
+    $new_title = "";
     info = [];
     $url = document.URL.replace(/#.*$/, "").split("/");
     $url = $url[$url.length - 1];
     info.push({"TITLE": $url});
     $("div.quill-wrapper").each(function( index ) {
 	if ($(this).attr("id") != "slide_new") {
-	    info.push({TITLE: $(this).children(".slide-title").html(),
-	    CONTENT: $(this).children().children(".ql-editor").html()});
+	    info.push({TITLE: $(this).find(".slide-title").val(),
+	    CONTENT: $(this).find(".ql-editor").html()});
+	    if ($(this).attr("id") == "slide_" + $slide_id) {
+		$new_title = $(this).find(".slide-title").val();
+	    }
 	}
     });
+    $("span.slide-" + $slide_id + "-title").text($new_title);
     $.ajax({
 	url: '/edit_module_content',
 	type: "POST",
@@ -120,8 +125,8 @@ $('.lecture-delete-slide').on("click", function(e) {
     info.push({"TITLE": $url});
     $("div.quill-wrapper").each(function( index ) {
 	if ($(this).attr("id") != "slide_new") {
-	    info.push({TITLE: $(this).children(".slide-title").html(),
-	    CONTENT: $(this).children().children(".ql-editor").html()});
+	    info.push({TITLE: $(this).find(".slide-title").val(),
+	    CONTENT: $(this).find(".ql-editor").html()});
 	}
     });
     $.ajax({
@@ -141,8 +146,8 @@ $('#lecture-add-new').on("click", function(e) {
     $url = $url[$url.length - 1];
     info.push({"TITLE": $url});
     $("div.quill-wrapper").each(function( index ) {
-	info.push({TITLE: $(this).children(".slide-title").html(),
-	CONTENT: $(this).children().children(".ql-editor").html()});
+	info.push({TITLE: $(this).find(".slide-title").val(),
+	CONTENT: $(this).find(".ql-editor").html()});
     });
     $.ajax({
 	url: '/edit_module_content',

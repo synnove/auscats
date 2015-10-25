@@ -26,9 +26,18 @@
 	    <ul class="accordion edit__module__content" data-accordion>
 		{% for slide in slides %}
 		    <li class="accordion-navigation">
-			<a href="#slide_{{ slide[0] }}"><span><i class="fi-plus"></i></span>{{ slide[1]['TITLE'] }}</a>
+			<a href="#slide_{{ slide[0] }}"><span><i class="fi-plus"></i></span>
+			    <span class="slide-{{ slide[0] }}-title">{{ slide[1]['TITLE'] }}</span>
+			</a>
 			<div class="quill-wrapper content" id="slide_{{ slide[0] }}">
-			    <div id="slide-{{ slide[0] }}-title" class="text-center slide-title">{{ slide[1]['TITLE'] }}</div>
+			    <div class="row">
+				<div class="large-1 columns">
+				    <label for="slide-{{ slide[0] }}-title" class="right inline slide-title-label">Title:</label>
+				</div>
+				<div class="large-11 columns">
+				    <input type="text" id="slide-{{ slide[0] }}-title" class="slide-title" value="{{ slide[1]['TITLE'] }}">
+				</div>
+			    </div>
 			    <div id="full-toolbar-{{ slide[0] }}" class="toolbar">
 				<span class="ql-format-group">
 				    <span title="Bold" class="ql-format-button ql-bold"></span>
@@ -72,6 +81,14 @@
 		<li class="accordion-navigation">
 		    <a href="#slide_new"><span><i class="fi-plus"></i></span>Add a new slide</a>
 		    <div class="quill-wrapper content active" id="slide_new">
+			<div class="row">
+			    <div class="large-1 columns">
+				<label for="slide-new-title" class="right inline slide-title-label">Title:</label>
+			    </div>
+			    <div class="large-11 columns">
+				<input type="text" id="slide-new-title" class="slide-title" value="">
+			    </div>
+			</div>
 			<div id="full-toolbar-new" class="toolbar">
 			    <span class="ql-format-group">
 				<span title="Bold" class="ql-format-button ql-bold"></span>

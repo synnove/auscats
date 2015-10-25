@@ -186,7 +186,12 @@ p.profile-text {
     padding: 0.2rem;
 }
 
-.slide-title {
-    font-size: 1.2em;
-    font-weight: bold;
+input.slide-title {
+    margin: 0;
+}
+
+label.slide-title-label {
+    padding-top: 0.2rem;
+    font-size: 1.1em;
+    margin-bottom: 0.5rem;
 }

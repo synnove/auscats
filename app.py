@@ -5,6 +5,9 @@ from werkzeug import secure_filename
 from urllib2 import unquote
 import csv, io, json, os
 import queries as db
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 UPLOAD_FOLDER = os.getcwd() + '/static/img/user_img'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])

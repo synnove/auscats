@@ -1,3 +1,18 @@
+$(document).ready(function() {
+    console.log("wtf");
+    $('.edit').editable($SCRIPT_ROOT + '/edit_question', {
+	indicator : 'Saving...',
+	tooltip   : 'Click to edit...',
+    });
+    $('.edit_area').editable($SCRIPT_ROOT + '/edit_question', {
+	type      : 'textarea',
+	cancel    : 'Cancel',
+	submit    : 'OK',
+	indicator : 'Saving...',
+	tooltip   : 'Click to edit...'
+    });
+});
+
 $('#edit__lecture').on("click", function(e) {
     $('#edit__lecture').addClass('current');
     $('#edit__interactive').removeClass('current');
@@ -164,19 +179,6 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function() {
-    $('.edit').editable($SCRIPT_ROOT + '/edit_question', {
-	indicator : 'Saving...',
-	tooltip   : 'Click to edit...',
-    });
-    $('.edit_area').editable($SCRIPT_ROOT + '/edit_question', {
-	type      : 'textarea',
-	cancel    : 'Cancel',
-	submit    : 'OK',
-	indicator : 'Saving...',
-	tooltip   : 'Click to edit...'
-    });
-});
 $(document).ready(function() {
     $.uploadPreview({
 	input_field: ".image-upload",

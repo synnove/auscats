@@ -42,7 +42,9 @@
 			{% if module['MODULE_ID'] in modules_in_progress %}	
 			<div class="medium-6 columns">
 			    <div class="profile-card">
-				<h4 class="subheader" data-equalizer-watch>{{ module['NAME'] }}</h4>
+	                        <span data-tooltip aria-haspopup="true" class="has-tip" title="{{ module['BLURB'] }}">
+				    <h4 class="subheader" data-equalizer-watch> {{ module['NAME'] }}</h4>
+                                </span>
 				<div class="progress">
 				    {% for slide in last_viewed_slide %}
 					{% if slide['MODULE_ID'] == module_id %}
@@ -76,7 +78,9 @@
 			{% if (module['MODULE_ID'] not in (modules_completed)) and (module['MODULE_ID'] not in (modules_in_progress)) %}
 			    <div class="medium-6 columns">
 				<div class="profile-card">
-				    <h4 class="subheader" data-equalizer-watch>{{ module['NAME'] }}</h4>
+				    <span data-tooltip aria-haspopup="true" class="has-tip" title="{{ module['BLURB'] }}">
+					<h4 class="subheader" data-equalizer-watch> {{ module['NAME'] }}</h4> 
+				    </span>
 				    <a href="/module/{{module['NAME']}}" class="blue profile-text">Start</a>
 				</div>
 			    </div>
@@ -98,8 +102,10 @@
 		    {% if module['MODULE_ID'] in modules_completed %}
 			<div class="medium-6 columns">
 			    <div class="profile-card">
-				<h4 class="subheader" data-equalizer-watch="title">{{ module['NAME'] }}</h4>
-				<a href="/review/{{module['NAME']}}" class="purple profile-text">Review</a>
+		                <span data-tooltip aria-haspopup="true" class="has-tip" title="{{ module['BLURB'] }}">
+				    <h4 class="subheader" data-equalizer-watch> {{ module['NAME'] }}</h4>
+                                </span>
+			    	<a href="/review/{{module['NAME']}}" class="purple profile-text">Review</a>
 				<a href="/grades/{{module['NAME']}}" class="purple profile-text">Grades</a>
 			    </div>
 			</div>   

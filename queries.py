@@ -81,6 +81,7 @@ def get_module_edit_info(id):
     return info
 
 def add_new_module_profile(name, blurb):
+    """ add the new module name and blurb created by the administrator to the database"""
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("INSERT INTO MODULES (NAME, BLURB) VALUES (%s, %s)", 
@@ -91,6 +92,7 @@ def add_new_module_profile(name, blurb):
     return new_module_id
 
 def add_new_revision(mid, revision, content, user):
+    """ add a new revision of a newly modified module to the database """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("INSERT INTO MODULE_CONTENT (MODULE_ID, REVISION, CONTENT, EDITOR) VALUES (%s, %s, %s, %s)", 
@@ -98,6 +100,7 @@ def add_new_revision(mid, revision, content, user):
     conn.commit()
 
 def edit_last_revision(mid, revision, content, user):
+    """ edit the last revision of a modified module in the database """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE MODULE_CONTENT SET CONTENT = %s, EDITOR = %s, TIME_CREATED = NOW() WHERE MODULE_ID = %s AND REVISION = %s", 
@@ -105,6 +108,7 @@ def edit_last_revision(mid, revision, content, user):
     conn.commit()
 
 def update_module_content(mid, content, user):
+    """ update the slide content of a module in the database """
     info = get_latest_revision(mid)
     update_time = info['TIME_CREATED']
     curr_time = datetime.now() 
@@ -114,6 +118,7 @@ def update_module_content(mid, content, user):
 	add_new_revision(mid, info['REVISION'], content, user)
 
 def get_latest_revision(mid):
+    """ get the latest revised version of a module from the database """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("SELECT REVISION, TIME_CREATED FROM MODULE_CONTENT WHERE MODULE_ID = %s ORDER BY REVISION DESC", 
@@ -123,6 +128,7 @@ def get_latest_revision(mid):
     return row
 
 def edit_module_profile(mid, name, blurb):
+    """ update the name and blurb of a module in the database """
     conn = do_mysql_connect()
     cur = conn.cursor()
     try:
@@ -136,6 +142,7 @@ def edit_module_profile(mid, name, blurb):
     conn.close()
 
 def get_module_status(mid):
+    """ get the status of a module from the database; i.e active or inactive """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("SELECT STATUS FROM MODULES WHERE MODULE_ID = %s", [mid])
@@ -144,6 +151,7 @@ def get_module_status(mid):
     return row['STATUS']
 
 def toggle_module_status(mid):
+    """ update the status of a module in the database """
     conn = do_mysql_connect()
     cur = conn.cursor()
     status = get_module_status(mid)
@@ -160,7 +168,7 @@ def toggle_module_status(mid):
     conn.close()
 
 def get_last_updated_module():
-    """ get module information for administrators """
+    """ get last updated module information for administrators """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("SELECT * FROM vw_ADMIN_MODULE_INFO ORDER BY LAST_UPDATED DESC LIMIT 1")
@@ -224,7 +232,7 @@ def get_correct_answers():
     return answers
 
 def get_quiz_answers_by_user(uid):
-    """ get list of correct answers """
+    """ get list of answers by user id """
     answers = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
@@ -260,7 +268,7 @@ def get_modules_started_by_user(user_id):
     return modules_started
 
 def get_last_viewed_slide_by_user(user_id):
-    """ get list of last viewed slide for modules in progress by user """
+    """ get the last viewed slide for modules in progress by user """
     last_viewed_slides = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
@@ -335,6 +343,7 @@ def get_int_correct_answers():
     return correct_answers
 
 def get_number_of_correct_answers(user_id, module_title):
+    """ get number of correct answer by module for each user """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("SELECT COUNT(QUESTION_ID) AS QUESTIONS_CORRECT FROM vw_USER_QUIZ_CORRECT WHERE USER_ID = %s AND MODULE_ID IN (SELECT MODULE_ID FROM MODULES WHERE NAME = %s) GROUP BY USER_ID, MODULE_ID", [user_id, module_title])
@@ -350,6 +359,7 @@ def get_number_of_correct_answers(user_id, module_title):
     return correct_answers
 
 def get_total_number_of_questions(module_title):
+    """ get the total number of questions per module """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("Select MODULE_ID, NUM_QUIZ_QUESTIONS FROM MODULES WHERE STATUS = 'ACTIVE' AND NAME = %s", [module_title])
@@ -360,6 +370,7 @@ def get_total_number_of_questions(module_title):
     return number_of_questions
 
 def check_quiz_answer_exists(uid, qid):
+    """ validate that the user has answered a questions """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("Select * FROM GRADEBOOK WHERE USER_ID = %s AND QUESTION_ID = %s AND QUESTION_TYPE = %s",
@@ -369,6 +380,7 @@ def check_quiz_answer_exists(uid, qid):
     return False
 
 def check_quiz_answer_valid(qid, aid):
+    """ check that the answer to a question exists in the database """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("Select * FROM QUIZ_ANSWERS WHERE QUESTION_ID = %s AND ANSWER_ID = %s",
@@ -378,6 +390,7 @@ def check_quiz_answer_valid(qid, aid):
     return False
 
 def add_answer_to_gradebook(uid, orgunit, qid, aid, question_type):
+    """ log the users answer to a quiz question in the database """
     conn = do_mysql_connect()
     cur = conn.cursor()
     try:
@@ -390,6 +403,7 @@ def add_answer_to_gradebook(uid, orgunit, qid, aid, question_type):
     conn.close()
 
 def check_quiz_answer_correct(aid):
+    """ check if a specific quiz answer is the correct answer to a question """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("Select * FROM QUIZ_CORRECT WHERE ANSWER_ID = %s", [aid])
@@ -398,6 +412,7 @@ def check_quiz_answer_correct(aid):
     return False
 
 def log_user_quiz_answer(uid, dn, qid, aid, question_type):
+    """ validate the user's answers before adding to the gradebook """
     if not check_quiz_answer_exists(uid, qid):
 	if check_quiz_answer_valid(qid, aid):
 	    orgunit = dn[0].split(",")[1][3:]
@@ -408,6 +423,7 @@ def log_user_quiz_answer(uid, dn, qid, aid, question_type):
     return -1
 
 def check_int_answer_exists(uid, qid):
+    """ check that the interactive section answer exists in the database """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("Select * FROM GRADEBOOK WHERE USER_ID = %s AND QUESTION_ID = %s AND QUESTION_TYPE = %s",
@@ -417,6 +433,7 @@ def check_int_answer_exists(uid, qid):
     return False
 
 def check_int_answer_correct(aid):
+    """ check that the interactive section answer is correct """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("Select * FROM INTERACTIVE_CORRECT WHERE INT_ANS_ID = %s", [aid])
@@ -425,6 +442,7 @@ def check_int_answer_correct(aid):
     return False
 
 def get_correct_msg(qid):
+    """ get the message to display when the interactive section answer is correct """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("SELECT * FROM INTERACTIVE_QUESTIONS WHERE INT_Q_ID = %s", [qid])
@@ -433,6 +451,7 @@ def get_correct_msg(qid):
     return row['CORRECT_MESSAGE']
 
 def get_incorrect_msg(qid):
+    """ get the message to display when the interactive section answer is incorrect """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("SELECT * FROM INTERACTIVE_QUESTIONS WHERE INT_Q_ID = %s", [qid])
@@ -441,6 +460,7 @@ def get_incorrect_msg(qid):
     return row['INCORRECT_MESSAGE']
 
 def delete_quiz_question(qid):
+    """ delete a quiz question and all its answers from the database """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("DELETE FROM QUIZ_CORRECT WHERE QUESTION_ID = %s", [qid])
@@ -450,6 +470,7 @@ def delete_quiz_question(qid):
     return 0
 
 def delete_int_question(qid):
+    """delete an interactive section question and all its answers """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("DELETE FROM INTERACTIVE_CORRECT WHERE INT_Q_ID = %s", [qid])
@@ -459,6 +480,7 @@ def delete_int_question(qid):
     return 0
 
 def log_user_int_answer(uid, dn, qid, aid, question_type):
+    """ validate the user's answers to an interactive section before adding to the gradebook """
     if not check_int_answer_exists(uid, qid):
 	orgunit = dn[0].split(",")[1][3:]
 	add_answer_to_gradebook(uid, orgunit, qid, aid, question_type)
@@ -470,6 +492,7 @@ def log_user_int_answer(uid, dn, qid, aid, question_type):
     return [-1, "You have already answered this question."]
 
 def check_module_started(username, mid):
+    """ check whether a module was started by a user or not """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("Select * FROM USER_PROGRESS WHERE USER_ID = %s AND MODULE_ID = %s", [username, mid])
@@ -478,6 +501,7 @@ def check_module_started(username, mid):
     return False
 
 def get_last_viewed_slide(username, mid):
+    """ get the number of the last viewed slide for a module """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("SELECT LAST_VIEWED FROM USER_PROGRESS WHERE USER_ID = %s AND MODULE_ID = %s", [username, mid])
@@ -487,6 +511,7 @@ def get_last_viewed_slide(username, mid):
     pass
 
 def log_user_progress(username, mid, slide):
+    """ log the progress of a user through the slides of a course """
     conn = do_mysql_connect()
     cur = conn.cursor()
     if check_module_started(username, mid):
@@ -596,7 +621,8 @@ def check_orgunit_exists(orgunit):
 	return True
     return False
 
-def update_quiz_answer_value(aid, new_value):
+def update_quiz_answer_value(aid, new_value)
+    """ update an already existing answer to a quiz question """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE QUIZ_ANSWERS SET ANSWER = %s WHERE ANSWER_ID = %s", 
@@ -606,6 +632,7 @@ def update_quiz_answer_value(aid, new_value):
     return 0
 
 def update_quiz_question_value(qid, new_value):
+    """ update an already existing question to of a quiz """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE QUIZ_QUESTIONS SET QUESTION = %s WHERE QUESTION_ID = %s", 
@@ -615,6 +642,7 @@ def update_quiz_question_value(qid, new_value):
     return 0
 
 def update_int_question_value(qid, new_value):
+    """ update an already existing interactive section question """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE INTERACTIVE_QUESTIONS SET QUESTION = %s WHERE INT_Q_ID = %s", 
@@ -624,6 +652,7 @@ def update_int_question_value(qid, new_value):
     return 0
 
 def update_int_answer_value(aid, new_value):
+    """ update an already existing interactive section answer to a question """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE INTERACTIVE_ANSWERS SET ANSWER = %s WHERE INT_ANS_ID = %s", 
@@ -633,6 +662,7 @@ def update_int_answer_value(aid, new_value):
     return 0
 
 def update_int_q_correct(qid, aid):
+    """ set a new correct answert to an interactive section question """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE INTERACTIVE_CORRECT SET INT_ANS_ID = %s WHERE INT_Q_ID = %s", 
@@ -642,6 +672,7 @@ def update_int_q_correct(qid, aid):
     return 0
 
 def update_q_correct(qid, aid):
+    """ set a new correct answer to quiz question """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE QUIZ_CORRECT SET ANSWER_ID = %s WHERE QUESTION_ID = %s", 
@@ -651,6 +682,8 @@ def update_q_correct(qid, aid):
     return 0
 
 def update_int_correct_value(qid, new_value):
+    """ update the message to be displayed in case the user answer to an
+        interactive section question is incorrect """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE INTERACTIVE_QUESTIONS SET CORRECT_MESSAGE = %s WHERE INT_Q_ID = %s", 
@@ -660,6 +693,8 @@ def update_int_correct_value(qid, new_value):
     return 0
 
 def update_int_incorrect_value(qid, new_value):
+    """ update the message to be displayed in case the user answer to an
+	interactive section question is incorrect """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE INTERACTIVE_QUESTIONS SET INCORRECT_MESSAGE = %s WHERE INT_Q_ID = %s", 
@@ -669,6 +704,7 @@ def update_int_incorrect_value(qid, new_value):
     return 0
 
 def update_max_q_num(mid):
+    """ update the maximum number of quiz questions """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE MODULES SET NUM_QUIZ_QUESTIONS = NUM_QUIZ_QUESTIONS + 1 WHERE MODULE_ID = %s", 
@@ -678,6 +714,7 @@ def update_max_q_num(mid):
     return 0
 
 def add_new_question(mid, new_question):
+    """ add a new question to a module quiz """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("INSERT INTO QUIZ_QUESTIONS (MODULE_ID, QUESTION) VALUES (%s, %s)", 
@@ -689,6 +726,7 @@ def add_new_question(mid, new_question):
     return new_q_id
 
 def add_new_answer(qid, new_answer):
+    """ add a new answer to a quiz questions """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("INSERT INTO QUIZ_ANSWERS (QUESTION_ID, ANSWER) VALUES (%s, %s)", 
@@ -699,6 +737,7 @@ def add_new_answer(qid, new_answer):
     return new_ans_id
 
 def add_new_correct_answer(qid, aid):
+    """ add a new correct answer to a quiz question """
     conn = do_mysql_connect()
     cur = conn.cursor()
     # put some checks in m8
@@ -710,6 +749,7 @@ def add_new_correct_answer(qid, aid):
     return 0
 
 def update_max_i_num(mid):
+    """ update the maximum number of interactive section questions """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE MODULES SET NUM_INT_QUESTIONS = NUM_INT_QUESTIONS + 1 WHERE MODULE_ID = %s", 
@@ -719,6 +759,7 @@ def update_max_i_num(mid):
     return 0
 
 def add_new_int_question(mid, new_question, img_link, correct_msg, incorrect_msg):
+    """ add a new question to an interactive section """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("INSERT INTO INTERACTIVE_QUESTIONS (MODULE_ID, QUESTION, MEDIA_LINK, MEDIA_TYPE, CORRECT_MESSAGE, INCORRECT_MESSAGE) VALUES (%s, %s, %s, %s, %s, %s)", 
@@ -729,6 +770,7 @@ def add_new_int_question(mid, new_question, img_link, correct_msg, incorrect_msg
     return new_q_id
 
 def add_new_int_answer(qid, new_answer):
+    """ add new answers to an interactive section """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("INSERT INTO INTERACTIVE_ANSWERS (INT_Q_ID, ANSWER) VALUES (%s, %s)", 
@@ -739,6 +781,7 @@ def add_new_int_answer(qid, new_answer):
     return new_ans_id
 
 def add_new_correct_int_answer(qid, aid):
+    """ add a new correct answer to an interactive section  """
     conn = do_mysql_connect()
     cur = conn.cursor()
     # put some checks in m8

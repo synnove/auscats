@@ -79,8 +79,7 @@ def user_module_list():
 
 @app.route("/module/<module_title>", methods=['GET', 'POST'])
 def user_module_slideshow(module_title):
-    """ Displays a module to the user. Currently content is stored in .txt
-	files and parsed, will eventually shift to using database. """
+    """ Displays a module to the user from the database."""
     modules_list = db.get_module_names()
 
     # check url is valid
@@ -115,8 +114,7 @@ def user_module_slideshow(module_title):
 
 @app.route("/review/<module_title>", methods=['GET', 'POST'])
 def user_module_review(module_title):
-    """ Displays a module to the user. Currently content is stored in .txt
-	files and parsed, will eventually shift to using database. """
+    """ Displays a module to review for the user from the database. """
     modules_list = db.get_module_names()
 
     # check url is valid
@@ -137,7 +135,7 @@ def user_module_review(module_title):
 
 @app.route("/gradebook", methods=['GET', 'POST'])
 def user_grade_list():
-    """ displays grades to the user by the requested module. """
+    """ displays grades to the user for all the modules they have completed. """
 
     modules = db.get_module_info()
     grades = completed_module_ids = db.modules_completed_by_user(g.username)
@@ -221,7 +219,7 @@ def check_int_answer():
 
 @app.route("/update_user_progress", methods=['GET', 'POST'])
 def update_progress():
-    """ checks the user's answer """
+    """ Log the user's last viewed slide for a module """
     name = request.args.get('name', -1, type=unicode)
     slide = request.args.get('slide', -1, type=int)
     mid = db.get_module_id_from_name(name)    
@@ -279,7 +277,7 @@ def module_edit_info():
 
 @app.route("/edit_module_profile", methods=['GET', 'POST'])
 def admin_edit_module_profile():
-    """ returns module info to be edited """
+    """ returns module profile to be edited """
     mid = request.args.get('mid', -1, type=int)
     name = request.args.get('name', -1, type=unicode)
     blurb = request.args.get('blurb', -1, type=unicode)
@@ -288,7 +286,7 @@ def admin_edit_module_profile():
 
 @app.route("/add_module_profile", methods=['GET', 'POST'])
 def admin_add_new_module():
-    """ returns module info to be edited """
+    """ returns module info to be added """
     name = request.args.get('name', -1, type=unicode)
     blurb = request.args.get('blurb', -1, type=unicode)
     new_module_id = db.add_new_module_profile(name, blurb)
@@ -297,7 +295,7 @@ def admin_add_new_module():
 
 @app.route("/change_module_status", methods=['GET', 'POST'])
 def admin_change_module_status():
-    """ returns module info to be edited """
+    """ toggles the status of a module between Active and Inactive """
     mid = request.args.get('mid', -1, type=int)
     result = db.toggle_module_status(mid)
     return jsonify(result=result)
@@ -319,7 +317,7 @@ def admin_list_courses(act=None, module_title=None):
 
 @app.route('/drawingboard/<module_title>')
 def admin_edit_course_content(module_title):
-    """ lists modules that administrators can edit """
+    """ return information about the content of the course to be edited"""
 
     # check url is valid
     modules_list = db.get_all_module_names()
@@ -356,6 +354,7 @@ def admin_edit_course_content(module_title):
 
 @app.route('/resources/<filename>')
 def uploaded_file(filename):
+    """ returns the uploaded file in the interactive section of a module """
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route("/edit_question", methods=['GET', 'POST'])
@@ -397,7 +396,7 @@ def admin_update_correct_answer():
 
 @app.route("/edit_module_content", methods=['GET', 'POST'])
 def admin_edit_module_content():
-    """ modifies the contents of an answer or question """
+    """ modifies the contents of a module """
     info = request.json
     module_title = unquote(info.pop(0)['TITLE'])
     module_id = db.get_module_id_from_name(module_title)
@@ -426,7 +425,7 @@ def admin_add_new_question():
 
 @app.route("/add_new_int_q", methods=['GET', 'POST'])
 def admin_add_new_int_q():
-    """ returns module info to be edited """
+    """ adds a new interactive question """
     answers = []
     data = request.form
     media = request.files['int_q_new_media']

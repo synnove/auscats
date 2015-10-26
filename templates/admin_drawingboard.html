@@ -149,15 +149,33 @@
 				    <br>
 				    <div class="edit_area int_q" id="int_q{{ int_q['INT_Q_ID'] }}">{{ int_q['QUESTION'] }}</div>
 				    {% for int_a in int_answers %}
+				    <div class="row">
 					{% if int_a['INT_Q_ID'] == int_q['INT_Q_ID'] %}
-					<div class="edit int_a" id="int_a{{ int_a['INT_ANS_ID'] }}_q{{ int_q['INT_Q_ID'] }}">{{ int_a['ANSWER'] }}</div>
+					<div class="large-1 column">
+					{% if int_a['INT_ANS_ID'] in int_correct_answers %}
+					<input type="radio" class="correct-answer" name="intq_{{ int_q['INT_Q_ID'] }}" value="{{ int_a['INT_ANS_ID'] }}" checked>
+					{% else %}
+					<input type="radio" class="correct-answer" name="intq_{{ int_q['INT_Q_ID'] }}" value="{{ int_a['INT_ANS_ID'] }}">
 					{% endif %}
+					</div>
+					<div class="large-11 columns">
+					<div class="edit int_a" id="int_a{{ int_a['INT_ANS_ID'] }}_q{{ int_q['INT_Q_ID'] }}">{{ int_a['ANSWER'] }}</div>
+					</div>
+					{% endif %}
+				    </div>
 				    {% endfor %}
 				</div>
 				<div class="large-12 columns">
 				    <br>
-				    <div class="edit_area int_q" id="int_correct_q{{ int_q['INT_Q_ID'] }}">{{ int_q['CORRECT_MESSAGE'] }}</div>
-				    <div class="edit_area int_q" id="int_incorrect_q{{ int_q['INT_Q_ID'] }}">{{ int_q['INCORRECT_MESSAGE'] }}</div>
+				    <div class="row">
+					<div class="large-1 column text-center"><i class="fi-check"></i></div>
+					<div class="large-11 columns">
+					    <div class="edit_area int_q" id="int_correct_q{{ int_q['INT_Q_ID'] }}">{{ int_q['CORRECT_MESSAGE'] }}</div>
+					</div>
+					<div class="large-1 column text-center"><i class="fi-x"></i></div>
+					<div class="large-11 columns">
+					    <div class="edit_area int_q" id="int_incorrect_q{{ int_q['INT_Q_ID'] }}">{{ int_q['INCORRECT_MESSAGE'] }}</div>
+					</div>
 				</div>
 			    </div>
 			</div>
@@ -217,9 +235,20 @@
 			<div id="question_{{ question['QUESTION_ID'] }}" class="content">
 			    <div class="edit question" id="quiz_q{{ question['QUESTION_ID'] }}">{{ question['QUESTION'] }}</div>
 			    {% for answer in answers %}
+				<div class="row">
 				{% if answer['QUESTION_ID'] == question['QUESTION_ID'] %}
-				    <div class="edit" id="quiz_a{{ answer['ANSWER_ID'] }}_q{{ question['QUESTION_ID'] }}_">{{ answer['ANSWER'] }}</div>
+				    <div class="large-1 column">
+					{% if answer['ANSWER_ID'] in correct_answers %}
+					<input type="radio" class="correct-answer" name="q_{{ question['QUESTION_ID'] }}" value="{{ answer['ANSWER_ID'] }}" checked>
+					{% else %}
+					<input type="radio" class="correct-answer" name="q_{{ question['QUESTION_ID'] }}" value="{{ answer['ANSWER_ID'] }}">
+					{% endif %}
+				    </div>
+				    <div class="large-11 columns">
+					<div class="edit" id="quiz_a{{ answer['ANSWER_ID'] }}_q{{ question['QUESTION_ID'] }}_">{{ answer['ANSWER'] }}</div>
+				    </div>
 				{% endif %}
+				</div>
 			    {% endfor %}
 			</div>
 		    </li>

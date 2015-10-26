@@ -88,6 +88,17 @@ $('#create_new_int_q').on("submit", function(e) {
     });
 });
 
+$('.correct-answer').on("click", function(e) {
+    if(this.checked) {
+	console.log("updating");
+	$.getJSON($SCRIPT_ROOT + '/update_correct_answer', {
+	    qid: $(this).attr("name"),
+	    aid: $(this).val(),
+	}, function(data) {
+	});
+    }
+});
+
 $('.lecture-save-slide').on("click", function(e) {
     e.preventDefault();
     $slide_id = $(this).attr("id").split("-")[1];

@@ -363,19 +363,15 @@ def admin_edit_question():
     if (info.startswith("int_q")):
 	qid = info.split("_")[1][1:]
 	db.update_int_question_value(qid, new_value)
-	pass
     elif (info.startswith("int_a")):
 	aid = info.split("_")[1][1:]
 	db.update_int_answer_value(aid, new_value)
-	pass
     elif (info.startswith("int_correct")):
 	qid = info.split("_")[2][1:]
 	db.update_int_correct_value(qid, new_value)
-	pass
     elif (info.startswith("int_incorrect")):
 	qid = info.split("_")[2][1:]
 	db.update_int_incorrect_value(qid, new_value)
-	pass
     elif (info.startswith("quiz_q")):
 	qid = info.split("_")[1][1:]
 	db.update_quiz_question_value(qid, new_value)
@@ -383,6 +379,18 @@ def admin_edit_question():
 	aid = info.split("_")[1][1:]
 	db.update_quiz_answer_value(aid, new_value)
     return new_value
+
+@app.route("/update_correct_answer", methods=['GET', 'POST'])
+def admin_update_correct_answer():
+    """ sets a new correct answer for the specified question """
+    question = request.args.get('qid', -1, type=unicode)
+    answer = request.args.get('aid', -1, type=unicode)
+    qtype = question.split("_")[0]
+    if (qtype == "q"):
+	db.update_q_correct(question.split("_")[1], answer);
+    else:
+	db.update_int_q_correct(question.split("_")[1], answer);
+    return jsonify(result=0)
 
 @app.route("/edit_module_content", methods=['GET', 'POST'])
 def admin_edit_module_content():

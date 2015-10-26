@@ -621,7 +621,7 @@ def check_orgunit_exists(orgunit):
 	return True
     return False
 
-def update_quiz_answer_value(aid, new_value)
+def update_quiz_answer_value(aid, new_value):
     """ update an already existing answer to a quiz question """
     conn = do_mysql_connect()
     cur = conn.cursor()

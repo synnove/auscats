@@ -89,9 +89,12 @@ def user_module_slideshow(module_title):
 	return redirect(url_for('user_module_list'))
 
     # get module content
-    lecture_file = module_title.lower().replace(" ", "_") + ".txt"
-    slides = parse_lecture_content(lecture_file)
     module_id = db.get_module_id_from_name(module_title)
+    module_content = db.get_module_content(module_id)
+    if (module_content != ""):
+	slides = json.loads(module_content)
+    else:
+	slides = []
     quizzes = db.get_quiz_questions_by_module(module_id)
     answers = db.get_quiz_answers()
     interactive_questions = db.get_int_questions_by_module(module_id)
@@ -498,28 +501,6 @@ def upload_file(img):
 	filename = secure_filename(img.filename)
 	img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return '/resources/' + filename
-
-def parse_lecture_content(filename):
-    """ reads a text file to get lecture content """
-    lecture_file = open(filename,"r")
-    contents = []
-    slide = {}
-    content_type = ""
-    for line in lecture_file:
-	if not line.strip():
-	    contents.append(slide)
-	    slide = {}
-	elif line.strip()[0] == "[":
-	    parts = line.strip().split("]")
-	    content_type = parts[0][1:]
-	    if content_type == "contents":
-		slide[content_type] = []
-		slide[content_type].append(parts[1].strip())
-	    else:
-		slide[content_type] = parts[1].strip()
-	else:
-	    slide[content_type].append(line.strip())
-    return contents
 
 def make_csv(data, headers):
     """ creates a .csv file from data """

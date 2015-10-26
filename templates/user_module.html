@@ -18,20 +18,8 @@
 	    {% for slide in slides %}
 		<section data-state="lecture">
 		<!-- handling different types of content -->
-		{% if 'title' in slide %}
-		    <h3>{{ slide['title'] }}</h3>
-		{% endif %}
-		{% if 'quote' in slide %}
-		    <blockquote>
-			{{ slide['quote'] }}
-			<cite>{{ slide['cite'] }}</cite>
-		    </blockquote>
-		{% endif %}
-		{% if 'contents' in slide %}
-		    {% for line in slide['contents'] %}
-			<li>{{ line }}</li>
-		    {% endfor %}
-		{% endif %}
+		<h3>{{ slide['TITLE'] }}</h3>
+		{{ slide['CONTENT'] | safe}}
 		</section>
 	    {% endfor %}
 

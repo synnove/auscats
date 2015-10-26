@@ -19,6 +19,14 @@ $('.open__profile__modal').on("submit", function(e) {
     $('#profile__modal').foundation('reveal', 'open');
 });
 
+$('#show-activated').on("click", function(e) {
+    $('.ACTIVE').toggleClass('hidden');
+})
+
+$('#show-deactivated').on("click", function(e) {
+    $('.INACTIVE').toggleClass('hidden');
+})
+
 $('a.status__mod').on("click", function(e) {
     e.preventDefault();
     var id = $(this).attr('href');

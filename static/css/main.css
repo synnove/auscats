@@ -195,3 +195,12 @@ label.slide-title-label {
     font-size: 1.1em;
     margin-bottom: 0.5rem;
 }
+
+.show-module-opts {
+    vertical-align: bottom;
+    margin-top: 1rem;
+}
+
+.show-module-opts input {
+    margin-bottom: 0;
+}

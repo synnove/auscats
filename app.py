@@ -89,9 +89,12 @@ def user_module_slideshow(module_title):
 	return redirect(url_for('user_module_list'))
 
     # get module content
-    lecture_file = module_title.lower().replace(" ", "_") + ".txt"
-    slides = parse_lecture_content(lecture_file)
     module_id = db.get_module_id_from_name(module_title)
+    module_content = db.get_module_content(module_id)
+    if (module_content != ""):
+	slides = json.loads(module_content)
+    else:
+	slides = []
     quizzes = db.get_quiz_questions_by_module(module_id)
     answers = db.get_quiz_answers()
     interactive_questions = db.get_int_questions_by_module(module_id)
@@ -363,19 +366,15 @@ def admin_edit_question():
     if (info.startswith("int_q")):
 	qid = info.split("_")[1][1:]
 	db.update_int_question_value(qid, new_value)
-	pass
     elif (info.startswith("int_a")):
 	aid = info.split("_")[1][1:]
 	db.update_int_answer_value(aid, new_value)
-	pass
     elif (info.startswith("int_correct")):
 	qid = info.split("_")[2][1:]
 	db.update_int_correct_value(qid, new_value)
-	pass
     elif (info.startswith("int_incorrect")):
 	qid = info.split("_")[2][1:]
 	db.update_int_incorrect_value(qid, new_value)
-	pass
     elif (info.startswith("quiz_q")):
 	qid = info.split("_")[1][1:]
 	db.update_quiz_question_value(qid, new_value)
@@ -383,6 +382,18 @@ def admin_edit_question():
 	aid = info.split("_")[1][1:]
 	db.update_quiz_answer_value(aid, new_value)
     return new_value
+
+@app.route("/update_correct_answer", methods=['GET', 'POST'])
+def admin_update_correct_answer():
+    """ sets a new correct answer for the specified question """
+    question = request.args.get('qid', -1, type=unicode)
+    answer = request.args.get('aid', -1, type=unicode)
+    qtype = question.split("_")[0]
+    if (qtype == "q"):
+	db.update_q_correct(question.split("_")[1], answer);
+    else:
+	db.update_int_q_correct(question.split("_")[1], answer);
+    return jsonify(result=0)
 
 @app.route("/edit_module_content", methods=['GET', 'POST'])
 def admin_edit_module_content():
@@ -490,28 +501,6 @@ def upload_file(img):
 	filename = secure_filename(img.filename)
 	img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return '/resources/' + filename
-
-def parse_lecture_content(filename):
-    """ reads a text file to get lecture content """
-    lecture_file = open(filename,"r")
-    contents = []
-    slide = {}
-    content_type = ""
-    for line in lecture_file:
-	if not line.strip():
-	    contents.append(slide)
-	    slide = {}
-	elif line.strip()[0] == "[":
-	    parts = line.strip().split("]")
-	    content_type = parts[0][1:]
-	    if content_type == "contents":
-		slide[content_type] = []
-		slide[content_type].append(parts[1].strip())
-	    else:
-		slide[content_type] = parts[1].strip()
-	else:
-	    slide[content_type].append(line.strip())
-    return contents
 
 def make_csv(data, headers):
     """ creates a .csv file from data """

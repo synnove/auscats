@@ -34,19 +34,10 @@
 	</div>
     </div>
     <div class="row">
-	<div class="large-12 columns">
-	    <div class="row collapse postfix-radius">
-		<div class="small-3 small-offset-2 columns">
-		    <input type="text" placeholder="Value">
-		</div>
-		<div class="small-1 columns">
-		    <a href="#" class="button teal postfix">Go</a>
-		</div>
-		<div class="small-4 columns end text-center check-middle">
-		    <input id="checkbox1" type="checkbox"><label for="checkbox1">Activated</label>
-		    <input id="checkbox2" type="checkbox"><label for="checkbox2">Deactivated</label>
-		</div>
-	    </div>
+	<div class="large-12 columns text-center show-module-opts">
+	    <span>Show:</span>
+	    <input id="show-activated" type="checkbox" checked><label for="checkbox1">Activated</label>
+	    <input id="show-deactivated" type="checkbox" checked><label for="checkbox2">Deactivated</label>
 	</div>
     </div>
     <div class="row text-center">
@@ -68,7 +59,7 @@
 	    </div>
 	</div>
 	{% for module in modules %}
-	<div class="large-12 columns" data-equalizer>
+	<div class="large-12 columns {{module['STATUS'] }} " data-equalizer>
 	    <div class="large-4 columns panel listing text-left" data-equalizer-watch>
 		{{ module['NAME'] }}
 	    </div>

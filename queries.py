@@ -330,7 +330,7 @@ def get_int_correct_answers():
     cur.execute("SELECT * FROM INTERACTIVE_CORRECT")
     rows = cur.fetchall()
     for row in rows:
-	correct_answers.append(row)
+	correct_answers.append(row['INT_ANS_ID'])
     conn.close()
     return correct_answers
 
@@ -577,8 +577,6 @@ def get_all_write_perms():
     conn.close()
     return write_perms
 
-
-
 def check_admin_perms(admin_id, permission_type):
     """ check that an administrator has the specified permission """
     conn = do_mysql_connect()
@@ -630,6 +628,24 @@ def update_int_answer_value(aid, new_value):
     cur = conn.cursor()
     cur.execute("UPDATE INTERACTIVE_ANSWERS SET ANSWER = %s WHERE INT_ANS_ID = %s", 
 	    [new_value, aid])
+    conn.commit()
+    conn.close()
+    return 0
+
+def update_int_q_correct(qid, aid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("UPDATE INTERACTIVE_CORRECT SET INT_ANS_ID = %s WHERE INT_Q_ID = %s", 
+	    [qid, aid])
+    conn.commit()
+    conn.close()
+    return 0
+
+def update_q_correct(qid, aid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("UPDATE QUIZ_CORRECT SET ANSWER_ID = %s WHERE QUESTION_ID = %s", 
+	    [qid, aid])
     conn.commit()
     conn.close()
     return 0

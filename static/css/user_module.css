@@ -549,3 +549,11 @@ img.int_media {
     height: 20rem;
     width: auto;
 }
+
+
+/*Few extra adjustments in the User's Module*/
+
+.backTo a{
+	color: #CFA4DE;
+	font-size: 1.2em;
+}

@@ -551,11 +551,16 @@ def admin_mod(attrs):
 @app.route("/starter")
 def show_starter():
     """ Shows starter guide to users within the system """
-        
-    return render_template('starter.html', 
+    
+    if g.username not in g.admins:
+        return render_template('starter.html', 
             pagetitle = g.appname + " - Quick Starter Guide",
             subtitle = "Quick Starter Guide", 
-            user_id = g.username, name = g.user)
+            user_id = g.username, name = g.user,
+            is_admin = False)
+    else:
+        return render_template('starter.html', name=g.user, 
+            subtitle = "Quick Starter Guide", is_admin = True)
 
 
 # MISCELLANEOUS HELPER FUNCTIONS

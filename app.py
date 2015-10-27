@@ -562,7 +562,6 @@ def show_starter():
         return render_template('starter.html', name=g.user, 
             subtitle = "Quick Starter Guide", is_admin = True)
 
-
 # MISCELLANEOUS HELPER FUNCTIONS
 
 def allowed_file(filename):

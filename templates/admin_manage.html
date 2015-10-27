@@ -91,42 +91,44 @@
 	    </div>
 	</div>
 
-	{% for admin in admin_info %}
-	<div class="large-12 columns" data-equalizer>
+	<form id="admins2">
+	    {% for admin in admin_info %}
+	    <div class="large-12 columns" data-equalizer>
 
-	    <div class="large-2 columns panel listing text-left" data-equalizer-watch>
-		 <span data-tooltip aria-haspopup="true" class="has-tip" title="User ID: {{ admin['user_id'] }}">{{ admin['name'] }}</span>
+		<div class="large-2 columns panel listing text-left" data-equalizer-watch>
+		     <span data-tooltip aria-haspopup="true" class="has-tip" title="{{ admin['user_id'] }}">{{ admin['name'] }}</span>
+		</div>
+
+		<div class="large-2 end columns panel listing" data-equalizer-watch>
+		    <input id="read_access2" type="checkbox">
+		</div>
+
+		<div class="large-2 end columns panel listing" data-equalizer-watch>
+		    <input id="write_access2" type="checkbox">
+		</div>
+
+		<div class="large-4 end columns panel listing" data-equalizer-watch>
+		    {% for unit in org_units %}
+			{% if unit['UNIT_ID'] == admin['unit_ID'] %}
+			    {{ unit['UNIT_NAME'] }}
+			{% endif %}
+		    {% endfor %}
+		</div>
+
+		<div class="large-2 end columns panel listing" data-equalizer-watch>
+		    <form class="open__profile__modal" id="">
+			<a href="" class="teeny radius secondary button status__mod">Delete Administrator</a>
+		    </form>
+		</div>
+
 	    </div>
+	    {% endfor %}
 
-	    <div class="large-2 end columns panel listing" data-equalizer-watch>
-	         <input id="read_access" type="checkbox">
-	    </div>
-
-            <div class="large-2 end columns panel listing" data-equalizer-watch>
-		 <input id="write_access" type="checkbox">
-            </div>
-
-	    <div class="large-4 end columns panel listing" data-equalizer-watch>
-		{% for unit in org_units %}
-		    {% if unit['UNIT_ID'] == admin['unit_ID'] %}
-			{{ unit['UNIT_NAME'] }}
-		    {% endif %}
-		{% endfor %}
-	    </div>
-
-	    <div class="large-2 end columns panel listing" data-equalizer-watch>
-		<form class="open__profile__modal" id="">
-		    <a href="" class="teeny radius secondary button status__mod">Delete Administrator</a>
-		</form>
-	    </div>
-
-	</div>
-	{% endfor %}
-
-	<div class="large-2 columns end">
+	    <div class="large-2 columns end">
             <br>
-            <input type="submit" class="tiny radius blue button" value="Submit" />
-        </div>
+		<input type="submit" class="tiny radius blue button" value="Submit" />
+	    </div>
+	</form>
     </div>
 </div>
 {% endblock %}

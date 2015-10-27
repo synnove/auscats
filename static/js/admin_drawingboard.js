@@ -97,9 +97,6 @@ $('#create_new_int_q').on("submit", function(e) {
 
 $('.correct-answer').on("click", function(e) {
     if(this.checked) {
-	console.log("updating");
-	console.log($(this).attr("name"));
-	console.log($(this).val());
 	$.getJSON($SCRIPT_ROOT + '/update_correct_answer', {
 	    qid: $(this).attr("name"),
 	    aid: $(this).val(),

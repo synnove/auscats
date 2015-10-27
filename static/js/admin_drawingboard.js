@@ -12,6 +12,13 @@ $(document).ready(function() {
     });
 });
 
+$('#preview').on('click', function(e) {
+    e.preventDefault();
+    $url = document.URL.replace(/#.*$/, "").split("/");
+    $url = $url[$url.length - 1];
+    window.location = '/preview/' + $url;
+});
+
 $('#edit__lecture').on("click", function(e) {
     $('#edit__lecture').addClass('current');
     $('#edit__interactive').removeClass('current');

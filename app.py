@@ -219,6 +219,30 @@ def check_int_answer():
     result = db.log_user_int_answer(g.username, user_info['dn'], qid, aid, "INTERACTIVE")
     return jsonify(result=result)
 
+@app.route("/review_check_quiz_answer", methods=['GET', 'POST'])
+def review_check_quiz_answer():
+    """ checks the user's answer to a quiz question """
+    user_info = json.loads(request.headers.get('X-KVD-Payload'))
+    qid = request.args.get('qid', -1, type=int)
+    aid = request.args.get('aid', -1, type=int)
+    if (db.check_quiz_answer_valid):
+	if (db.check_quiz_answer_correct):
+	    return jsonify(result=1)
+	return jsonify(result=0)
+    return jsonify(result=-1)
+
+@app.route("/review_check_int_answer", methods=['GET', 'POST'])
+def review_check_int_answer():
+    """ checks the user's answer to an interactive question """
+    user_info = json.loads(request.headers.get('X-KVD-Payload'))
+    qid = request.args.get('qid', -1, type=int)
+    aid = request.args.get('aid', -1, type=int)
+    if (db.check_int_answer_valid):
+	if (db.check_int_answer_correct):
+	    return jsonify(result=1)
+	return jsonify(result=0)
+    return jsonify(result=-1)
+
 @app.route("/update_user_progress", methods=['GET', 'POST'])
 def update_progress():
     """ checks the user's answer """
@@ -300,7 +324,13 @@ def admin_change_module_status():
     """ returns module info to be edited """
     mid = request.args.get('mid', -1, type=int)
     result = db.toggle_module_status(mid)
-    return jsonify(result=result)
+    if (result == 1):
+	msg = "Successfully deactivated module"
+    elif (result == 0):
+	msg = "Successfully activated module"
+    else:
+	msg = "Could not activate module: not enough questions"
+    return jsonify(result=[result,msg])
 
 @app.route('/module-manager')
 def admin_list_courses(act=None, module_title=None):
@@ -353,6 +383,42 @@ def admin_edit_course_content(module_title):
 		    is_admin = True)
     return render_template('unauthorized.html', name=g.user, 
 	    subtitle = "Not Authorized", is_admin = False)
+
+@app.route("/preview/<module_title>", methods=['GET', 'POST'])
+def admin_preview_module(module_title):
+    """ Displays a module to the user. Currently content is stored in .txt
+	files and parsed, will eventually shift to using database. """
+    modules_list = db.get_module_names()
+
+    # check url is valid
+    if module_title.lower() not in modules_list:
+	flash("Invalid module title.", "invalid")
+	return redirect(url_for('admin_dashboard'))
+
+    # get module content
+    module_id = db.get_module_id_from_name(module_title)
+    module_content = db.get_module_content(module_id)
+    if (module_content != ""):
+	slides = json.loads(module_content)
+    else:
+	slides = []
+    quizzes = db.get_quiz_questions_by_module(module_id)
+    answers = db.get_quiz_answers()
+    interactive_questions = db.get_int_questions_by_module(module_id)
+    interactive_answers = db.get_int_answers() 
+ 
+    if g.username in g.admins:
+	return render_template('admin_preview.html', 
+		module_id = module_id,
+		pagetitle = g.appname + " - " + module_title,
+		subtitle = "Module: " + module_title, 
+		name = g.user,
+		module_title = module_title, slides = slides,
+		quizzes = quizzes, answers = answers, 
+		interactive_questions = interactive_questions,
+		interactive_answers = interactive_answers,
+		is_admin = False)
+    return redirect(url_for('admin_dashboard'))
 
 @app.route('/resources/<filename>')
 def uploaded_file(filename):

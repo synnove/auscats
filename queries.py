@@ -80,6 +80,13 @@ def get_module_edit_info(id):
     info = cur.fetchone()
     return info
 
+def get_num_q(id):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("SELECT NUM_QUIZ_QUESTIONS, NUM_INT_QUESTIONS FROM MODULES WHERE MODULE_ID = %s", [id]);
+    info = cur.fetchone()
+    return [info['NUM_QUIZ_QUESTIONS'], info['NUM_INT_QUESTIONS']]
+
 def add_new_module_profile(name, blurb):
     conn = do_mysql_connect()
     cur = conn.cursor()
@@ -147,16 +154,18 @@ def toggle_module_status(mid):
     conn = do_mysql_connect()
     cur = conn.cursor()
     status = get_module_status(mid)
-    try:
-	if status == 'ACTIVE':
-	    cur.execute("UPDATE MODULES SET STATUS = %s WHERE MODULE_ID = %s", ["INACTIVE", mid])
-	else:
-	    cur.execute("UPDATE MODULES SET STATUS = %s WHERE MODULE_ID = %s", ["ACTIVE", mid])
+    q_num = get_num_q(mid)
+    if status == 'ACTIVE':
+	cur.execute("UPDATE MODULES SET STATUS = %s WHERE MODULE_ID = %s", ["INACTIVE", mid])
 	conn.commit()
-	return 0
-    except MySQLdb.Error as e:
-	conn.rollback()
-    return e
+	return 1
+    else:
+	if (q_num[0] >= 1 and q_num[1] >= 1):
+	    cur.execute("UPDATE MODULES SET STATUS = %s WHERE MODULE_ID = %s", ["ACTIVE", mid])
+	    conn.commit()
+	    return 0
+	else:
+	    return -1
     conn.close()
 
 def get_last_updated_module():

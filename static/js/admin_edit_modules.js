@@ -33,15 +33,15 @@ $('a.status__mod').on("click", function(e) {
     $.getJSON($SCRIPT_ROOT + '/change_module_status', {
 	mid: id,
     }, function(data) {
-	if (data.result == 0) {
-	    $msg = "Module status changed";
+	$code = data.result[0]
+	$msg = data.result[1];
+	if ($code == 0 || $code == 1) {
 	    $type = "teal"
 	} else {
-	    $msg = data.result;
 	    $type = "warning"
 	}
 	$(".module_err").html(function() {
-	    return "<div data-alert class='alert-box quiz-feedback large-6 large-offset-3 columns " +
+	    return "<div data-alert class='alert-box quiz-feedback large-12 columns " +
 	    $type + " radius text-center'>" + "<b>" + $msg + "</b>" +
 	    "<a href='#' class='close'>&times;</a>" + "</div>";
 	});
@@ -93,7 +93,7 @@ $("#module__profile__form").on("submit", function(e){
 	    $type = "warning"
 	}
 	$(".module_err").html(function() {
-	    return "<div data-alert class='alert-box quiz-feedback large-6 large-offset-3 columns " +
+	    return "<div data-alert class='alert-box quiz-feedback large-12 columns " +
 	    $type + " radius text-center'>" + "<b>" + $msg + "</b>" +
 	    "<a href='#' class='close'>&times;</a>" + "</div>";
 	});
@@ -104,5 +104,5 @@ $("#module__profile__form").on("submit", function(e){
 function refresh() {
     $(document).foundation();
     $(document).foundation('reflow');
-    setTimeout(function(){window.location.reload(true);}, 500);
+    setTimeout(function(){window.location.reload(true);}, 10000);
 }

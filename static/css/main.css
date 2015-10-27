@@ -204,3 +204,24 @@ label.slide-title-label {
 .show-module-opts input {
     margin-bottom: 0;
 }
+
+div.return {
+    background-color: rgba(255,255,255,0.5);
+    position: absolute;
+    margin: 5rem;
+    padding: 0.5rem 1rem;
+    z-index: 20;
+    font-family: 'Ubuntu';
+    border: 1px solid #ffffff;
+}
+
+div.return a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+div.return a:hover {
+    color: #ffffff;
+    text-decoration: none;
+}

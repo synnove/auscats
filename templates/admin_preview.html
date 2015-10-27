@@ -1,0 +1,100 @@
+{% extends "layout.html" %}  
+
+{% block scripts %}
+<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'> 
+<link rel="stylesheet" href="../static/css/reveal.css">
+<link rel="stylesheet" href="../static/css/theme/uq.css" id="theme">
+<link rel="stylesheet" href="../static/css/user_module.css">
+<script src="../static/lib/js/head.min.js"></script>
+<script src="../static/js/reveal.js"></script>
+<script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+{% endblock %}
+
+{% block content %}
+    <div class="return"><a id="back">Back to drawingboard</a></div>
+    <div class="reveal">
+	<div class="slides">
+	    <!-- LECTURE SEGMENT -->
+	    {% for slide in slides %}
+		<section data-state="lecture">
+		<!-- handling different types of content -->
+		<h3>{{ slide['TITLE'] }}</h3>
+		{{ slide['CONTENT'] | safe}}
+		</section>
+	    {% endfor %}
+
+	    <section class="text-center" data-state="filler">
+		<h1> READY FOR A CHALLENGE? </h1>
+	    </section>
+
+	    <div class="interactive_feedback text-center"></div>
+            {% for int_q in interactive_questions %}                 
+	        <section data-state="interactive" class="main clearfix">
+		    <div class="row" data-equalizer="int_q">
+			<div class="large-6 columns text-center" data-equalizer-watch="int_q">
+			    <img src="{{ int_q['MEDIA_LINK'] }}" class="int_media">
+			</div>
+			<div class="large-6 columns text-justify" data-equalizer-watch="int_q">
+			    <br>
+			    {{ int_q['QUESTION'] }}
+			</div>
+		    </div>
+		    <div class="row">
+			<div class="interact_answers int_{{ int_q['INT_Q_ID'] }}">
+			<form id="{{ int_q['INT_Q_ID'] }}" class="interactive_question">
+			    {% for int_a in interactive_answers %}
+				{% if int_a['INT_Q_ID'] == int_q['INT_Q_ID'] %}
+				    <div class="large-4 columns">
+					<button type="submit" class="button radius interact_select purple" id="{{ int_a['INT_ANS_ID'] }}">
+					    <span class="content">{{ int_a['ANSWER'] }}</span>
+					    <span class="progress"></span>
+					</button>
+				    </div>
+				{% endif %}
+			    {% endfor %}
+			</form>
+			</div>
+		    </div>
+		</section>
+	    {% endfor %}
+
+	    <section class="text-center" data-state="filler">
+		<h1> QUIZ TIME!</h1>
+	    </section>
+
+	    <!-- QUIZ SEGMENT -->
+            {% for question in quizzes %}                 
+	        <section data-state="quiz">
+		    <h3>{{ question['QUESTION'] }}</h3>
+		    <div class="q_err">
+		    </div>
+		    <form id = "{{ question['QUESTION_ID'] }}" class="question">
+                    <ul class = "quiz">
+                        {% for answer in answers %}
+		            {% if answer['QUESTION_ID'] == question ['QUESTION_ID'] %}
+			    <li><input type="radio" name="answer" value="{{ answer['ANSWER_ID'] }}" />&emsp;{{ answer['ANSWER'] }}</li>
+			    {% endif %}
+                        {% endfor %}
+                    </ul>
+		    <div class="row text-center quiz_submit">
+			<input type="submit" class="tiny purple radius button" value="Submit" />
+		    </div>
+                    </form>
+		</section>
+	    {% endfor %}
+
+	    <section class="text-center">
+		<h1> THE END !</h1>
+		<div class="backTo">
+		<a href="/"><u>Back to Module List</u></a>
+		</div>
+	    </section>
+	</div>
+    </div>
+</div>
+{% endblock %}
+{% block jscripts %}
+<script src="../static/js/admin_preview.js"></script>
+{% endblock %}

@@ -44,46 +44,6 @@ Reveal.addEventListener('quiz', function() {
       });
 }, false );
 
-// The following script is the one we used to trigger
-// the NotificationFx in the Interactive Scenario section 
-// Following the code from Codrops by Tympanus
-// http://tympanus.net/codrops/2014/07/23/notification-styles-inspiration/
-/*
-$('.interact_select').click(function(e) {
-    e.preventDefault();
-    $aid = $(this).attr("id");
-    // get selected option and delete the others
-    var choice = $($(this).parent()).detach();
-    $('#interact_answers').empty().append(choice);
-    // currently doing manual check, will eventually check against database
-    if ($aid == 1) {
-	var notification = new NotificationFx({
-	    wrapper : document.body,
-	    message : 'Correct! Good Work!',
-	    layout : 'other',
-	    effect : 'boxspinner',
-	    type : 'notice',
-	});
-    } else {
-	var notification = new NotificationFx({
-	    wrapper : document.body,
-	    message : 'Wrong! You can\'t trust Mr Sugar Rush Cat.',
-	    layout : 'other',
-	    effect : 'boxspinner2',
-	    type : 'error',
-	});
-    }
-
-    notification.show();
-    // after notification displays, create button with link to next slide
-    $('#interact_answers').append('<div class="large-4 columns">\
-		<button class="button radius success interact_select" id="next">\
-		    <span class="content">Continue!</span>\
-		</button>\
-	    </div>');
-});
-*/
-
 // Sends answer to each quiz question off to another url to be checked
 $('.question').bind('submit', function(e) {
     e.preventDefault();

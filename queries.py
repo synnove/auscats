@@ -91,8 +91,8 @@ def add_new_module_profile(name, blurb):
     """ add the new module name and blurb created by the administrator to the database"""
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("INSERT INTO MODULES (NAME, BLURB) VALUES (%s, %s)", 
-	    [name, blurb])
+    cur.execute("INSERT INTO MODULES (NAME, STATUS, BLURB) VALUES (%s, %s, %s)", 
+	    [name, 'INACTIVE', blurb])
     conn.commit()
     new_module_id = cur.lastrowid
     conn.close()
@@ -675,7 +675,7 @@ def update_int_q_correct(qid, aid):
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE INTERACTIVE_CORRECT SET INT_ANS_ID = %s WHERE INT_Q_ID = %s", 
-	    [qid, aid])
+	    [aid, qid])
     conn.commit()
     conn.close()
     return 0
@@ -685,7 +685,7 @@ def update_q_correct(qid, aid):
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE QUIZ_CORRECT SET ANSWER_ID = %s WHERE QUESTION_ID = %s", 
-	    [qid, aid])
+	    [aid, qid])
     conn.commit()
     conn.close()
     return 0

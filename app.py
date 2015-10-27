@@ -123,9 +123,12 @@ def user_module_review(module_title):
 	return redirect(url_for('user_module_list'))
 
     # get module content
-    lecture_file = module_title.lower().replace(" ", "_") + ".txt"
-    slides = parse_lecture_content(lecture_file)
     module_id = db.get_module_id_from_name(module_title)
+    module_content = db.get_module_content(module_id)
+    if (module_content != ""):
+	slides = json.loads(module_content)
+    else:
+	slides = []
     
     if g.username not in g.admins:
 	return render_template('user_module_review.html', name = g.user, 

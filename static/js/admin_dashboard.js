@@ -62,7 +62,7 @@ $('#search').bind('submit', function(e) {
     window.location = $url;
 });
 
-$('.filter__trigger').on("click", function(e) {
+$('.view__statistics').on("click", function(e) {
     if (!$('.quick__add').hasClass('hidden')) {
 	$('.quick__add').toggleClass('hidden');
     }
@@ -82,10 +82,6 @@ $('.manage__modules').on("click", function(e) {
 
 $('.manage__administrators').on("click", function(e) {
     window.location = "/admin";
-});
-
-$('.view__statistics').on("click", function(e) {
-    window.location = "/stats";
 });
 
 $(document).on('close.fndtn.alert', function(event) {

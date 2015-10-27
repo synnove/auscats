@@ -108,6 +108,7 @@ ul.side-navigation__content > li > a > i {
 .main__page {
     padding-left: 15rem;
     padding-top: 6rem;
+    padding-bottom: 3rem;
     min-height: 90%;
     -webkit-transition: padding-left 500ms ease;
     -moz-transition: padding-left 500ms ease;

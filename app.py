@@ -59,7 +59,8 @@ def user_module_list():
     num_started = len(modules_started)
     num_in_progress = len(modules_in_progress)
     num_scheduled = num_active_modules - num_complete - num_in_progress
-        
+    total_slides = db.get_total_number_of_slides()    
+    
     if g.username not in g.admins:
 	return render_template('user_module_list.html', 
 		pagetitle = g.appname + " - My Modules",
@@ -69,6 +70,7 @@ def user_module_list():
 		modules_completed = modules_completed,
 		modules_started = modules_started,
 		modules_in_progress = modules_in_progress,
+		total_slides = total_slides, 
 		num_active_modules = num_active_modules,
                 num_complete = num_complete,
 		num_started = num_started,

@@ -378,6 +378,18 @@ def get_total_number_of_questions(module_title):
     conn.close()
     return number_of_questions
 
+def get_total_number_of_slides():
+    """ get the total number of slides per module """
+    total_slides = list()
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("Select MODULE_ID, NUM_SLIDES FROM MODULES WHERE STATUS = 'ACTIVE'" )
+    rows = cur.fetchall()
+    for row in rows:
+        total_slides.append(row)
+    conn.close()
+    return total_slides
+
 def check_quiz_answer_exists(uid, qid):
     """ validate that the user has answered a questions """
     conn = do_mysql_connect()

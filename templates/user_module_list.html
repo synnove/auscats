@@ -48,8 +48,11 @@
 				<div class="progress">
 				    {% for slide in last_viewed_slide %}
 					{% if slide['MODULE_ID'] == module_id %}
-					    <span class="meter blue" style="width:65%; height: 100%">
-					    </span>
+					    {% for total in total_slides %}
+						{% if total['MODULE_ID'] == module_id %}
+						<span class="meter blue" style="width:{{ slide['LAST_VIEWED']/total['NUM_SLIDES']*100 }}%; height: 100%"></span>
+						{% endif %}
+					    {% endfor %}
 					{% endif %}
 				    {% endfor %}
 				</div>

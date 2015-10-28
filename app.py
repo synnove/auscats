@@ -286,8 +286,7 @@ def admin_manage_users():
 	return render_template('admin_manage.html', 
 		pagetitle = g.appname + " - Manage Administrators",
 		subtitle = "Manage Administrators", 
-		name = g.user,
-		admin_info = admin_info, 
+		name = g.user, admin_info = admin_info, 
 		read_perms = read_perms,
 		write_perms = write_perms,
 		org_units = org_units,
@@ -550,6 +549,37 @@ def admin_mod(attrs):
     parse_admin_mod_directive(admin_perms)
     return redirect(url_for('admin_dashboard'))
 
+@app.route("/admin_mod_new/<attrs>", methods=['GET', 'POST'])
+def admin_mod_new(attrs):
+    """ calls function that modifies admin permissions """
+    admin_perms = {}
+    attrs = attrs.split("&")
+    for item in attrs:
+	info = item.split("=")
+	admin_perms[info[0]] = info[1]
+    parse_admin_mod_directive(admin_perms)
+    return redirect(url_for('admin_manage_users'))
+
+@app.route("/admin_update_perms", methods=['GET', 'POST'])
+def admin_update_perms():
+    """ adds a new question for a module """
+    answers = []
+    uid = request.args.get('uid', -1, type=unicode)
+    perm_type = request.args.get('perm', -1, type=unicode)
+    act = request.args.get('act', -1, type=unicode)
+    if (act == "add"):
+	db.add_perm(uid, perm_type)
+    else:
+	db.remove_perm(uid, perm_type)
+    return jsonify(result=perm_type)
+
+@app.route("/delete_admin", methods=['GET', 'POST'])
+def admin_delete():
+    """ adds a new question for a module """
+    uid = request.args.get('uid', -1, type=unicode)
+    db.delete_admin(uid)
+    return jsonify(result=0)
+
 @app.route("/starter")
 def show_starter():
     """ Shows starter guide to users within the system """
@@ -627,6 +657,21 @@ def add_administrator(admin_id, admin_perms):
 			" already exists for administrator " + 
 			admin_id + ".", "admin")
 		return redirect(url_for('admin_dashboard'))
+    return 0
+
+def add_administrator_new(admin_id, admin_perms):
+    """ adds an administrator with the specified permissions """
+    status = db.do_admin_add(admin_id)
+    if status == -1:
+	return -1
+    for perm_type in admin_perms:
+	if admin_perms[perm_type] == "true":
+	    perm_err = db.do_admin_add_perms(admin_id, perm_type)
+	    if perm_err == -1:
+		flash("Permission " + perm_type + 
+			" already exists for administrator " + 
+			admin_id + ".", "admin")
+		return redirect(url_for('admin_manage_users'))
     return 0
 
 if __name__ == "__main__":

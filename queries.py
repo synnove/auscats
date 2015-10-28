@@ -681,11 +681,37 @@ def update_int_q_correct(qid, aid):
     return 0
 
 def update_num_slides(module_id, num_slides):
-    """ set a new correct answert to an interactive section question """
     conn = do_mysql_connect()
     cur = conn.cursor()
     cur.execute("UPDATE MODULES SET NUM_SLIDES = %s WHERE MODULE_ID = %s", 
 	    [num_slides, module_id])
+    conn.commit()
+    conn.close()
+    return 0
+
+def add_perm(uid, perm_type):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("INSERT INTO ADMIN_PERM (USER_ID, PERMISSION) VALUES (%s, %s)", 
+	    [uid, perm_type])
+    conn.commit()
+    conn.close()
+    return 0
+
+def remove_perm(uid, perm_type):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM ADMIN_PERM WHERE USER_ID = %s AND PERMISSION = %s", 
+	    [uid, perm_type])
+    conn.commit()
+    conn.close()
+    return 0
+
+def delete_admin(uid):
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM ADMIN_PERM WHERE USER_ID = %s", [uid])
+    cur.execute("DELETE FROM ADMIN WHERE USER_ID = %s", [uid])
     conn.commit()
     conn.close()
     return 0

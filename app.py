@@ -11,10 +11,12 @@ sys.setdefaultencoding("utf-8")
 
 UPLOAD_FOLDER = os.getcwd() + '/static/img/user_img'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+PDF_FOLDER = os.getcwd() + '/static/pdf'
 
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['PDF_FOLDER'] = PDF_FOLDER
 app.secret_key = 'supersupersecret'
 
 @app.before_request
@@ -62,42 +64,6 @@ def user_module_list():
     
     if g.username not in g.admins:
 	return render_template('user_module_list.html', 
-		pagetitle = g.appname + " - My Modules",
-		subtitle = "My Modules", 
-		user_id = g.username, name = g.user,
-		active_modules = active_modules, 
-		modules_completed = modules_completed,
-		modules_started = modules_started,
-		modules_in_progress = modules_in_progress,
-		num_active_modules = num_active_modules,
-                num_complete = num_complete,
-		num_started = num_started,
-		num_in_progress = num_in_progress,
-		num_scheduled = num_scheduled,
-		last_viewed_slide = last_viewed_slide, is_admin = False)
-    return redirect(url_for('admin_dashboard'))
-
-@app.route("/modules-test")
-def user_module_list_test():
-    """ Default user page: displays list of modules in progress,
-	completed, or scheduled. """
-
-    active_modules = db.get_module_info()
-    active_module_ids = [x['MODULE_ID'] for x in active_modules]
-    modules_completed = db.modules_completed_by_user(g.username)
-    modules_completed = [x for x in modules_completed if x in active_module_ids]
-    modules_started = db.get_modules_started_by_user(g.username)
-    modules_started = [x for x in modules_started if x in active_module_ids]
-    last_viewed_slide = db.get_last_viewed_slide_by_user(g.username)
-    modules_in_progress = [x for x in modules_started if x not in modules_completed]
-    num_active_modules = len(active_modules)
-    num_complete = len(modules_completed)
-    num_started = len(modules_started)
-    num_in_progress = len(modules_in_progress)
-    num_scheduled = num_active_modules - num_complete - num_in_progress
-    
-    if g.username not in g.admins:
-	return render_template('user_module_list-copy.html', 
 		pagetitle = g.appname + " - My Modules",
 		subtitle = "My Modules", 
 		user_id = g.username, name = g.user,
@@ -460,6 +426,11 @@ def admin_preview_module(module_title):
 def uploaded_file(filename):
     """ returns the uploaded file in the interactive section of a module """
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/quickstart-pdf/<filename>')
+def quickstart_pdf(filename):
+    """ returns the uploaded file in the interactive section of a module """
+    return send_from_directory(app.config['PDF_FOLDER'], filename)
 
 @app.route("/edit_question", methods=['GET', 'POST'])
 def admin_edit_question():

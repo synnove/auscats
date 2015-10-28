@@ -692,6 +692,16 @@ def update_int_q_correct(qid, aid):
     conn.close()
     return 0
 
+def update_num_slides(module_id, num_slides):
+    """ set a new correct answert to an interactive section question """
+    conn = do_mysql_connect()
+    cur = conn.cursor()
+    cur.execute("UPDATE MODULES SET NUM_SLIDES = %s WHERE MODULE_ID = %s", 
+	    [num_slides, module_id])
+    conn.commit()
+    conn.close()
+    return 0
+
 def update_q_correct(qid, aid):
     """ set a new correct answer to quiz question """
     conn = do_mysql_connect()

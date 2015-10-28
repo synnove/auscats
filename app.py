@@ -470,10 +470,12 @@ def admin_edit_module_content():
     """ modifies the contents of a module """
     info = request.json
     module_title = unquote(info.pop(0)['TITLE'])
+    num_slides = info.pop()
     module_id = db.get_module_id_from_name(module_title)
     content = json.dumps(info)
+    db.update_num_slides(module_id, num_slides)
     db.update_module_content(module_id, content, g.username);
-    return jsonify(result=content)
+    return jsonify(result=num_slides)
 
 @app.route("/add_new_question", methods=['GET', 'POST'])
 def admin_add_new_question():

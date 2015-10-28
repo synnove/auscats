@@ -113,8 +113,10 @@ $('.lecture-save-slide').on("click", function(e) {
     $url = document.URL.replace(/#.*$/, "").split("/");
     $url = $url[$url.length - 1];
     info.push({"TITLE": $url});
+    $slide_count = 0;
     $("div.quill-wrapper").each(function( index ) {
 	if ($(this).attr("id") != "slide_new") {
+	    $slide_count++;
 	    info.push({TITLE: $(this).find(".slide-title").val(),
 	    CONTENT: $(this).find(".ql-editor").html()});
 	    if ($(this).attr("id") == "slide_" + $slide_id) {
@@ -123,6 +125,7 @@ $('.lecture-save-slide').on("click", function(e) {
 	}
     });
     $("span.slide-" + $slide_id + "-title").text($new_title);
+    info.push($slide_count);
     $.ajax({
 	url: '/edit_module_content',
 	type: "POST",
@@ -140,12 +143,15 @@ $('.lecture-delete-slide').on("click", function(e) {
     $url = document.URL.replace(/#.*$/, "").split("/");
     $url = $url[$url.length - 1];
     info.push({"TITLE": $url});
+    $slide_count = 0;
     $("div.quill-wrapper").each(function( index ) {
 	if ($(this).attr("id") != "slide_new") {
+	    $slide_count++;
 	    info.push({TITLE: $(this).find(".slide-title").val(),
 	    CONTENT: $(this).find(".ql-editor").html()});
 	}
     });
+    info.push($slide_count);
     $.ajax({
 	url: '/edit_module_content',
 	type: "POST",
@@ -162,10 +168,13 @@ $('#lecture-add-new').on("click", function(e) {
     $url = document.URL.replace(/#.*$/, "").split("/");
     $url = $url[$url.length - 1];
     info.push({"TITLE": $url});
+    $slide_count = 0;
     $("div.quill-wrapper").each(function( index ) {
+	$slide_count++;
 	info.push({TITLE: $(this).find(".slide-title").val(),
 	CONTENT: $(this).find(".ql-editor").html()});
     });
+    info.push($slide_count);
     $.ajax({
 	url: '/edit_module_content',
 	type: "POST",

@@ -390,7 +390,7 @@ def admin_edit_course_content(module_title):
 def admin_preview_module(module_title):
     """ Displays a module to the user. Currently content is stored in .txt
 	files and parsed, will eventually shift to using database. """
-    modules_list = db.get_module_names()
+    modules_list = db.get_all_module_names()
 
     # check url is valid
     if module_title.lower() not in modules_list:

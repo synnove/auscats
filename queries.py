@@ -18,7 +18,7 @@ def get_module_info():
     modules = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("SELECT MODULE_ID, NAME, BLURB, NUM_QUIZ_QUESTIONS FROM MODULES WHERE status = 'ACTIVE'")
+    cur.execute("SELECT MODULE_ID, NAME, BLURB, NUM_SLIDES + NUM_QUIZ_QUESTIONS + NUM_INT_QUESTIONS AS TOTAL_SLIDES FROM MODULES WHERE status = 'ACTIVE'")
     rows = cur.fetchall()
     for row in rows:
 	modules.append(row)
@@ -383,7 +383,7 @@ def get_total_number_of_slides():
     total_slides = list()
     conn = do_mysql_connect()
     cur = conn.cursor()
-    cur.execute("Select MODULE_ID, NUM_SLIDES FROM MODULES WHERE STATUS = 'ACTIVE'" )
+    cur.execute("Select MODULE_ID, NUM_SLIDES + NUM_QUIZ_QUESTIONS + NUM_INT_QUESTIONS AS TOTAL_SLIDES FROM MODULES WHERE STATUS = 'ACTIVE'" )
     rows = cur.fetchall()
     for row in rows:
         total_slides.append(row)

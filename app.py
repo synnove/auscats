@@ -419,8 +419,9 @@ def admin_preview_module(module_title):
 		quizzes = quizzes, answers = answers, 
 		interactive_questions = interactive_questions,
 		interactive_answers = interactive_answers,
-		is_admin = False)
-    return redirect(url_for('admin_dashboard'))
+		is_admin = True)
+    return render_template('unauthorized.html', name=g.user, 
+	    subtitle = "Not Authorized", is_admin = False)
 
 @app.route('/resources/<filename>')
 def uploaded_file(filename):

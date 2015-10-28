@@ -20,6 +20,10 @@
     font-weight: bolder;
 }
 
+.panel.colourblock__bottom.empty {
+    height: 2.5rem;
+}
+
 .panel.colourblock__bottom.user__percent {
     padding: 0.2rem 0.5rem;
     font-size: 0.8em;

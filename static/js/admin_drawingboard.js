@@ -14,9 +14,11 @@ $(document).ready(function() {
 
 $('#preview').on('click', function(e) {
     e.preventDefault();
+    console.log("hi");
     $url = document.URL.replace(/#.*$/, "").split("/");
     $url = $url[$url.length - 1];
     window.location = '/preview/' + $url;
+    console.log('/preview' + $url);
 });
 
 $('#edit__lecture').on("click", function(e) {

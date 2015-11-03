@@ -104,5 +104,5 @@ $("#module__profile__form").on("submit", function(e){
 function refresh() {
     $(document).foundation();
     $(document).foundation('reflow');
-    setTimeout(function(){window.location.reload(true);}, 10000);
+    setTimeout(function(){window.location.reload(true);}, 1000);
 }

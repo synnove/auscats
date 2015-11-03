@@ -921,6 +921,6 @@ def read_mysql_password():
 def do_mysql_connect():
     """ connect to the database """
     conn = MySQLdb.connect(db='auscats', host='localhost', port=3306, 
-	    user='root', passwd=read_mysql_password(), 
+	    user='flask', passwd=read_mysql_password(), 
 	    cursorclass=MySQLdb.cursors.DictCursor)
     return conn

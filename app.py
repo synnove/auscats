@@ -13,7 +13,7 @@ UPLOAD_FOLDER = os.getcwd() + '/static/img/user_img'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 PDF_FOLDER = os.getcwd() + '/static/pdf'
 
-app = Flask(__name__)
+auscats = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['PDF_FOLDER'] = PDF_FOLDER
@@ -21,16 +21,36 @@ app.secret_key = 'supersupersecret'
 
 @app.before_request
 def load_user():
-    user_info = json.loads(request.headers.get('X-KVD-Payload'))
-    g.username = user_info['user']
-    g.user = user_info['name'].split(" ")[0]
-    
-    admin = list()
-    for row in db.get_admin_user_list():
-	admin.append(row['user_id'])
-    
-    g.admins = admin
     g.appname = "AusCERT Security Training"
+    if (request.headers.get('X-KVD-Payload')):
+	user_info = json.loads(request.headers.get('X-KVD-Payload'))
+	g.username = user_info['user']
+	g.user = user_info['name'].split(" ")[0]
+	
+	admin = list()
+	for row in db.get_admin_user_list():
+	    admin.append(row['user_id'])
+	
+	g.admins = admin
+    else:
+	g.username = "Guest"
+	g.user = "Guest"
+	g.admins = []
+	return redirect(url_for('sso_err'))
+
+@app.route("/sso-err")
+def sso_err():
+    """ Error page for no Single Sign On """
+
+    return render_template('err_msg.html',
+	    msg = "No Single Sign On detected. Please build on a uqcloud zone")
+
+@app.route("/mysql-err")
+def mysql_err():
+    """ Error page for no mysql.passwd file """
+
+    return render_template('err_msg.html',
+	    msg = "Please create mysql.passwd file")
 
 # USER PAGES
 @app.route("/")

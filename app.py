@@ -13,7 +13,7 @@ UPLOAD_FOLDER = os.getcwd() + '/static/img/user_img'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 PDF_FOLDER = os.getcwd() + '/static/pdf'
 
-auscats = Flask(__name__)
+app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['PDF_FOLDER'] = PDF_FOLDER

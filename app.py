@@ -22,7 +22,8 @@ app.secret_key = 'supersupersecret'
 @app.before_request
 def load_user():
     g.appname = "AusCERT Security Training"
-    if (request.headers.get('X-KVD-Payload')):
+    g.headers = None
+    if g.headers is not None:
 	user_info = json.loads(request.headers.get('X-KVD-Payload'))
 	g.username = user_info['user']
 	g.user = user_info['name'].split(" ")[0]
@@ -30,14 +31,11 @@ def load_user():
 	admin = list()
 	for row in db.get_admin_user_list():
 	    admin.append(row['user_id'])
-	
 	g.admins = admin
     else:
 	g.username = "Guest"
 	g.user = "Guest"
-	g.admins = ["Guest"]
-	return render_template('err_msg.html',
-		msg = "No Single Sign On detected. Please build on a uqcloud zone")
+	g.admins = []
 
 # USER PAGES
 @app.route("/")
@@ -46,9 +44,14 @@ def default_page():
 	Admin users redirect to administrator dashboard.
 	Regular users redirect to list of modules."""
 
-    if g.username in g.admins:
-	return redirect(url_for('admin_dashboard'))
-    return redirect(url_for('user_module_list'))
+    if g.headers is None:
+	return render_template('err_msg.html',
+		name = g.user,
+		msg = "No Single Sign On detected. Please build on a uqcloud zone")
+    else: 
+	if g.username in g.admins:
+	    return redirect(url_for('admin_dashboard'))
+	return redirect(url_for('user_module_list'))
 
 @app.route("/modules")
 def user_module_list():

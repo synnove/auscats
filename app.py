@@ -46,8 +46,8 @@ def default_page():
 
     if g.headers is None:
 	return render_template('err_msg.html',
-		name = g.user,
-		msg = "No Single Sign On detected. Please build on a uqcloud zone")
+		name = g.user, subtitle = "Setup Error",
+		msg = "No Single Sign On detected. Some aspects of the application may not work correctly.")
     else: 
 	if g.username in g.admins:
 	    return redirect(url_for('admin_dashboard'))

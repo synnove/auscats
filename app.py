@@ -35,22 +35,9 @@ def load_user():
     else:
 	g.username = "Guest"
 	g.user = "Guest"
-	g.admins = []
-	return redirect(url_for('sso_err'))
-
-@app.route("/sso-err")
-def sso_err():
-    """ Error page for no Single Sign On """
-
-    return render_template('err_msg.html',
-	    msg = "No Single Sign On detected. Please build on a uqcloud zone")
-
-@app.route("/mysql-err")
-def mysql_err():
-    """ Error page for no mysql.passwd file """
-
-    return render_template('err_msg.html',
-	    msg = "Please create mysql.passwd file")
+	g.admins = ["Guest"]
+	return render_template('err_msg.html',
+		msg = "No Single Sign On detected. Please build on a uqcloud zone")
 
 # USER PAGES
 @app.route("/")
@@ -703,4 +690,4 @@ def add_administrator_new(admin_id, admin_perms):
     return 0
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run()
